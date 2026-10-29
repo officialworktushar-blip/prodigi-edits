@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: Inter, system-ui, sans-serif;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f8fafc;
+    --color-text: #0f1222;
+    --color-text-muted: #64748b;
+    --color-border: #e2e8f0;
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-accent-1: #8b5cf6;
+    --color-accent-2: #ec4899;
+    --color-accent-3: #3b82f6;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-900;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Focus visible ring */
+@layer components {
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  }
+}
