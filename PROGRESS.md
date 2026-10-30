@@ -170,3 +170,46 @@ Rewrote:
 All icon-bearing shared components accept icon name strings and map them to `lucide-react` components internally, so no icon components are passed across a client boundary. No external images or new packages used.
 
 Nothing left undone. No commands run.
+
+## Task C: Marketing layout, navbar, and footer
+Existing files found: `app/(marketing)/contact/page.tsx` only. No marketing layout, navbar, or footer existed.
+
+Created:
+- app/(marketing)/layout.tsx — wraps public pages with `Navbar` and `Footer`, adds a skip-to-content link, and keeps the page body in a flex column.
+- components/marketing/navbar.tsx — client sticky translucent header with click-to-open Services, Use Cases, and Resources dropdowns; a Pricing link; Log in and Get started actions; Escape/outside-click handling; route-change closing; and an animated mobile slide-in menu with scroll lock, focus restore, grouped links, and CTAs.
+- components/marketing/footer.tsx — brand panel with `BRAND_TAGLINE` and `SUPPORT_EMAIL`, plus Services, Use cases, Company, and Account link columns and a dynamic copyright using `BRAND_NAME`.
+
+All required targets are present: the three service pages, seven use-case pages, pricing, examples, case studies, about, platform, contact, login, and signup. Brand copy comes from `lib/config.ts`; the navbar and footer use existing `lucide-react` icons only.
+
+Nothing left undone. No commands run. Packages needed: none.
+
+## Task D: Marketing homepage
+Created:
+- app/(marketing)/page.tsx — composes the homepage and adds metadata using `BRAND_NAME` from `lib/config.ts`.
+- components/marketing/home/hero.tsx — gradient-mesh hero with the required headline and highlighted phrase, two pill CTAs to `/signup` and `/pricing`, a five-star rating strip, and a `MediaPlaceholder` visual with floating delivery-status cards.
+- components/marketing/home/trusted-by.tsx — text-only trust strip with five original team names.
+- components/marketing/home/stats.tsx — four responsive stat cards using the shared `StatCard` icon-name API.
+- components/marketing/home/how-it-works.tsx — client four-step tab/stepper with keyboard navigation and a changing mock UI preview for brief, upload, review, and delivery.
+- components/marketing/home/get-started-cards.tsx — three cards for ordering one video, buying a package, and channel management with original copy, feature lists, and CTAs.
+
+Homepage order: hero, trusted-by, stats, how-it-works, get-started cards. No external images, `<img>`, `next/image`, or external URLs were used; the hero and review preview use `MediaPlaceholder`.
+
+Nothing left undone. No commands run. Packages needed: none.
+
+## Task E: Homepage sections and Supabase data wiring
+Created in `components/marketing/home`:
+- `features-grid.tsx` — six original benefit cards using the shared section heading and fade-in animation.
+- `services-tabs.tsx` — accessible long-form, short-form, and channel-management tabs with keyboard navigation, animated panel transitions, preview placeholders, and a `ChannelManagementCard` export.
+- `case-studies-carousel.tsx` — client-side scroll-snap carousel with reduced-motion-aware controls, placeholder previews, case-study links, and an empty state.
+- `testimonials.tsx` — responsive quote cards with five-star marks, avatar initials, and an empty state.
+- `pricing-teaser.tsx` — up to three active package cards with dollar pricing, discount badges, inclusion notes, and an empty state.
+- `faq.tsx` — accessible accordion with animated panels, the first answer open by default, and an empty state.
+- `final-cta.tsx` — gradient closing call-to-action with signup/contact links and delivery assurances.
+
+Changed:
+- `app/(marketing)/page.tsx` — now an async server component. It fetches published testimonials, published case studies, published FAQ items ordered by `sort_order`, and active packages through `createClient()` from `lib/supabase/server.ts` in a `Promise.all`; every failed query or missing environment configuration falls back to empty arrays. Featured packages prefer one package per kind before filling to three.
+- `components/marketing/features-grid.tsx` and `components/marketing/faq.tsx` — replaced duplicate implementations with re-exports from `components/marketing/home` so there is only one implementation of each.
+
+Homepage now renders: hero, trusted-by, stats, how-it-works, get-started cards, features grid, services tabs, case studies, testimonials, pricing teaser, FAQ, and final CTA.
+
+Nothing left undone. No commands run. Packages needed: none.
