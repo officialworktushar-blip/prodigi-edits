@@ -93,3 +93,20 @@ Created:
 No next-auth imports, SessionProvider, useSession, signIn, or signOut usage remained in the codebase. The old auth page files did not exist, so these paths were created once with no duplicates.
 
 Nothing left undone.
+
+## Task 6: Migrate the public site from Prisma to Supabase
+Changed:
+- app/api/contact/route.ts — replaced the legacy database import and notification/audit writes with zod validation and a `contact_messages` insert through `lib/supabase/server.ts`; returns explicit success, validation-error, and server-error JSON.
+- lib/data/marketing.ts — created server-side public data helpers for active packages, active add-ons, published testimonials, published case studies, a case study by slug, and published FAQ items. All helpers use `lib/supabase/server.ts`, `types/db.ts`, snake_case columns, and return `[]` (or `null` for a single case study) on Supabase errors.
+- components/marketing/faq.tsx — switched to the `FaqItem` type from `types/db.ts`, removed the invalid trailing export, and kept FAQ rendering compatible with snake_case rows.
+- components/marketing/features-grid.tsx — removed unused/legacy case-study typing, replaced undefined icon references, and repaired the services tabs.
+- app/contact/page.tsx — rewrote the public contact form to use the new API response shape, show field/server errors, and avoid missing shared components.
+- app/robots.ts — repaired the malformed metadata route.
+- tsconfig.json — added `baseUrl`, the `@/*` path alias required by existing app imports, and switched module resolution to `Bundler` for the Next.js App Router setup.
+- AGENTS.md — reworded legacy-backend references; no policy change.
+
+Final search for `prisma`, `next-auth`, `bcrypt`, `lib/db`, `getServerSession`, and `useSession` found matches only in `PROGRESS.md` and `.gitignore`, as allowed.
+
+No `app/(marketing)` files existed, and no files under `components/marketing` imported the legacy backend. The new public data helpers are ready for future marketing pages; none of those pages exist yet.
+
+Packages needed: none.

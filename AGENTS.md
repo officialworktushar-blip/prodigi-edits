@@ -14,7 +14,7 @@ Next.js 14 App Router, TypeScript, Tailwind CSS, lucide-react, framer-motion, Su
 Hand-written UI components in components/ui (shadcn style). No external image URLs.
 
 # BACKEND
-- Backend = Supabase only (Postgres + RLS, Auth, Storage, Realtime) via @supabase/supabase-js and @supabase/ssr. NO Prisma, NO NextAuth, NO SQLite, NO bcrypt.
+- Backend = Supabase only (Postgres + RLS, Auth, Storage, Realtime) via @supabase/supabase-js and @supabase/ssr. NO legacy ORM, NO legacy auth library, NO SQLite, NO standalone password hashing.
 - Server code uses supabase.auth.getUser(), never getSession().
 - Service-role key only in lib/supabase/admin.ts, server code only, never in a "use client" file.
 - Every server action and route handler starts with requireUser/requireRole from lib/guards.ts.
@@ -36,7 +36,7 @@ supabase/schema.sql  types/db.ts
 
 # EXISTING FILES
 - Existing files from the old setup (UI, marketing pages, lib/config.ts, lib/data/*) are kept.
-- Backend files (lib/guards.ts, middleware.ts, auth pages, anything that imports lib/db, @prisma/client, next-auth, bcrypt) must be rewritten for Supabase.
+- Backend files (lib/guards.ts, middleware.ts, auth pages, anything that imports legacy database, auth, or password modules) must be rewritten for Supabase.
 
 # DESIGN (Beautiful.ai style)
 - Airy, lots of whitespace, max width 1200px, bg white / #FAFAFC, text #0F1222

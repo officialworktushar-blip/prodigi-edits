@@ -1,49 +1,84 @@
 import { z } from 'zod';
-import { SUPPORT_EMAIL } from '@/lib/config';
-import prisma from '@/lib/db';
-import { BRAND_NAME } from '@/lib/config';
+import { createClient } from '../../../lib/supabase/server';
+import { SUPPORT_EMAIL } from '../../../lib/config';
 
 const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  name: z.string().trim().min(2, 'Name must be at least 2 characters.'),
+  email: z.string().trim().email('Please enter a valid email address.'),
+  message: z.string().trim().min(10, 'Message must be at least 10 characters.'),
 });
 
 export async function POST(req: Request) {
+  let body: unknown;
+
   try {
-    const body = await req.json();
-    const validated = contactSchema.parse(body);
+    body = await req.json();
+  } catch {
+    return Response.json(
+      { ok: false, error: 'Please send a valid JSON request body.' },
+      { status: 400 }
+    );
+  }
 
-    const result = await prisma.notification.create({
-      data: {
-        userId: '00000000-0000-0000-0000-000000000000', // sentinel — system notification
-        title: `New message from ${validated.name}`,
-        body: `${validated.email}\n\n${validated.message}`,
-        href: '/contact',
-        readAt: null,
-      },
-    });
+  const parsed = contactSchema.safeParse(body);
 
-    // Also create an AuditLog entry
-    await prisma.auditLog.create({
-      data: {
-        actorId: null,
-        action: 'contact_submitted',
-        entity: 'Contact',
-        entityId: result.id,
-        meta: JSON.stringify({ email: validated.email, name: validated.name }),
-      },
-    });
+  if (!parsed.success) {
+    const fieldErrors: Record<string, string> = {};
 
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify({ error: error.errors[0].message }), { status: 400 });
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0];
+
+      if (typeof field === 'string' && !fieldErrors[field]) {
+        fieldErrors[field] = issue.message;
+      }
     }
+
+    return Response.json(
+      {
+        ok: false,
+        error: 'Please check the highlighted fields and try again.',
+        fieldErrors,
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const supabase = createClient();
+    const { error } = await supabase.from('contact_messages').insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      message: parsed.data.message,
+    });
+
+    if (error) {
+      console.error('Contact message insert failed:', error.message);
+
+      return Response.json(
+        {
+          ok: false,
+          error: `We could not send your message. Please email ${SUPPORT_EMAIL}.`,
+        },
+        { status: 500 }
+      );
+    }
+
+    return Response.json(
+      {
+        ok: true,
+        message: 'Your message was sent. We will reply within one business day.',
+      },
+      { status: 201 }
+    );
+  } catch (error) {
     console.error('Contact API error:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+
+    return Response.json(
+      {
+        ok: false,
+        error: `We could not send your message. Please email ${SUPPORT_EMAIL}.`,
+      },
+      { status: 500 }
+    );
   }
 }

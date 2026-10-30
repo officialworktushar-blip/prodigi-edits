@@ -1,87 +1,157 @@
 'use client';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { Logo } from '@/components/shared/logo';
-import { EmptyState } from '@/components/shared/empty-state';
-import type { CaseStudy } from '@/lib/config';
 
-const FEATURES = [
-  { icon: UsersIcon, title: 'Dedicated team', desc: 'Every order ships to a small, accountable crew — no shared editors you can\'t find contact for.' },
-  { icon: ZapIcon, title: 'Multiple editors', desc: 'From VFX compositing to color grading, two editors work independently so reviews stay fast.' },
-  { icon: SyncIcon, title: 'Real-time updates', desc: 'Upload once, track progress live. Status syncs automatically across every platform.' },
-  { icon: Undo2Icon, title: 'Unlimited revisions', desc: 'A few rounds cover everything. We\'ll always explain the trade-offs before we ask for more.' },
-  { icon: ClockIcon, title: '24–48 hour turnaround', desc: 'Fastest packages ship within a day; long-form builds up to three days. Turnaround starts when you do.' },
-  { icon: DashboardIcon, title: 'Order dashboard', desc: 'Central control panel: status, drafts, comments, and downloads — all in one place.' },
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  ClipboardList,
+  Clock,
+  FolderOpen,
+  Megaphone,
+  Radio,
+  RefreshCw,
+  SquarePlay,
+  Undo2,
+  Users,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react';
+
+interface Feature {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+const FEATURES: Feature[] = [
+  {
+    icon: Users,
+    title: 'Dedicated team',
+    desc: 'Every order ships to a small, accountable crew — no shared editors you cannot find contact for.',
+  },
+  {
+    icon: Zap,
+    title: 'Multiple editors',
+    desc: 'From VFX compositing to color grading, two editors work independently so reviews stay fast.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Real-time updates',
+    desc: 'Upload once, track progress live. Status syncs automatically across every platform.',
+  },
+  {
+    icon: Undo2,
+    title: 'Unlimited revisions',
+    desc: 'A few rounds cover everything. We will always explain the trade-offs before we ask for more.',
+  },
+  {
+    icon: Clock,
+    title: '24–48 hour turnaround',
+    desc: 'Fastest packages ship within a day; long-form builds up to three days. Turnaround starts when you do.',
+  },
+  {
+    icon: FolderOpen,
+    title: 'Order dashboard',
+    desc: 'Central control panel: status, drafts, comments, and downloads — all in one place.',
+  },
 ];
 
-function FeaturesGrid() {
+export function FeaturesGrid() {
   return (
-    <div className="mx-auto max-w-screen-1200px px-6 pb-12">
-      <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">How the magic happens</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {FEATURES.map((f, i) => (
-          <motion.div
-            key={f.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft hover:shadow-soft-lg transition-shadow"
-          >
-            <div className="bg-primary-muted flex h-12 w-12 items-center justify-center rounded-full">
-              <f.icon size={20} className="text-primary-500" />
-            </div>
-            <h3 className="mt-3 text-base font-semibold text-slate-900">{f.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">{f.desc}</p>
-          </motion.div>
-        ))}
+    <section className="mx-auto max-w-screen-1200 px-6 pb-12">
+      <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">
+        How the magic happens
+      </h2>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {FEATURES.map((feature, index) => {
+          const Icon = feature.icon;
+
+          return (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft transition-shadow hover:shadow-soft-lg"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50">
+                <Icon size={20} className="text-primary-500" />
+              </div>
+              <h3 className="mt-3 text-base font-semibold text-slate-900">
+                {feature.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                {feature.desc}
+              </p>
+            </motion.div>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 }
 
-// ── Services tabs ───────────────────────────────────────────────
 const SERVICE_TABS = [
-  { href: '/services/long-form', label: 'Long-Form Editing', icon: ClipboardText },
-  { href: '/services/short-form', label: 'Short-Form Editing', icon: SquareVideo },
-  { href: '/services/channel-management', label: 'Channel Management', icon: Channel },
+  {
+    href: '/services/long-form',
+    label: 'Long-Form Editing',
+    icon: ClipboardList,
+  },
+  {
+    href: '/services/short-form',
+    label: 'Short-Form Editing',
+    icon: SquarePlay,
+  },
+  {
+    href: '/services/channel-management',
+    label: 'Channel Management',
+    icon: Radio,
+  },
 ] as const;
 
-function ServicesTabs({ serviceKey = 'long-form' }: { serviceKey?: typeof SERVICE_TABS[number]['href'] }) {
+export function ServicesTabs({ serviceKey = '/services/long-form' }: {
+  serviceKey?: string;
+}) {
   return (
-    <div className="mx-auto max-w-screen-1200px px-6 pt-10">
-      <h2 className="text-center mb-8 text-3xl font-bold text-slate-900">Services you need</h2>
+    <section className="mx-auto max-w-screen-1200 px-6 pt-10">
+      <h2 className="mb-8 text-center text-3xl font-bold text-slate-900">
+        Services you need
+      </h2>
       <div className="mx-auto max-w-md space-y-3" role="tablist">
-        {SERVICE_TABS.map((tab) => (
-          <button
-            key={tab.href}
-            role="tabbutton"
-            aria-selected={serviceKey === tab.href}
-            onClick={() => (window.location.href = tab.href)}
-            className={`flex items-center gap-3 rounded-full border transition-all ${
-              serviceKey === tab.href ? 'bg-primary-gradient border-primary-600 text-white' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
-            }`}
-          >
-            <span className="text-xl">{tab.icon(20)}</span>
-            <span className="font-semibold">{tab.label}</span>
-          </button>
-        ))}
+        {SERVICE_TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = serviceKey === tab.href;
+
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              role="tab"
+              aria-selected={isActive}
+              className={`flex items-center gap-3 rounded-full border px-5 py-3 transition-all ${
+                isActive
+                  ? 'border-primary-600 bg-primary-600 text-white'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+              }`}
+            >
+              <Icon size={20} />
+              <span className="font-semibold">{tab.label}</span>
+            </Link>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 }
 
-// Icons wrapped as display functions so components stay readable
-const UsersIcon = () => <Users size={20} />;
-const ZapIcon = () => <Zap size={20} />;
-const SyncIcon = () => <Sync size={20} />;
-const Undo2Icon = () => <Undo2 size={20} />;
-const ClockIcon = () => <Clock size={20} />;
-const DashboardIcon = () => <FolderLines size={20} />;
-const ClipboardText = () => <ClipboardList size={20} />;
-const SquareVideo = () => <SquareVideoIcon size={20} />;
-const Channel = () => <ChannelSize={20} />;
-
-// Re-export empty brand for reuse where needed
-export { FeaturesGrid, ServicesTabs };
+export function ChannelManagementCard() {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+      <Megaphone size={20} className="text-primary-500" />
+      <p className="text-sm text-slate-600">
+        Let our team handle publishing, titles, and thumbnails while you focus on
+        the next upload.
+      </p>
+    </div>
+  );
+}
