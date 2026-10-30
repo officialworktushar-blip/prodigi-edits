@@ -115,7 +115,7 @@ export function ChatWorkspace({
   const activeKeyRef = useRef(activeKey);
   activeKeyRef.current = activeKey;
   const unreadLoadedRef = useRef(false);
-  const storageKey = `cutcrew:chat-read:${workspaceId}:${userId}`;
+  const storageKey = `prodigiedits:chat-read:${workspaceId}:${userId}`;
 
   const handleIncoming = useCallback(
     (message: Message) => {

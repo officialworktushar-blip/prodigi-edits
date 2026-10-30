@@ -1,5 +1,5 @@
 -- =============================================================================
--- CutCrew Supabase schema
+-- ProdigiEdits Supabase schema
 -- Idempotent: safe to run multiple times in the Supabase SQL Editor.
 -- Contains: extensions, enums, tables, indexes, functions, triggers, RLS.
 -- =============================================================================
@@ -523,7 +523,7 @@ begin
   insert into public.notifications (user_id, title, body, href)
   values (
     new.id,
-    'Welcome to CutCrew',
+    'Welcome to ProdigiEdits',
     'Your workspace is ready. Start by creating your first order.',
     '/app'
   );

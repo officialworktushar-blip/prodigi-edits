@@ -1,5 +1,5 @@
 # PROJECT
-Productized video-editing service platform ("CutCrew", brand name stored only in lib/config.ts).
+Productized video-editing service platform ("ProdigiEdits", brand name stored only in lib/config.ts).
 3 surfaces: (1) public marketing site, (2) customer panel at /app, (3) admin panel at /admin.
 
 # ABSOLUTE RULES (never break)

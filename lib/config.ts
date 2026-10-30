@@ -1,13 +1,13 @@
 /**
  * Project configuration constants.
  *
- * The brand name "CutCrew" is defined here and nowhere else in the codebase.
+ * The brand name "ProdigiEdits" is defined here and nowhere else in the codebase.
  */
 
 // Brand identity
-export const BRAND_NAME = 'CutCrew';
+export const BRAND_NAME = 'ProdigiEdits';
 export const BRAND_TAGLINE = 'Professional video editing, simplified';
-export const SUPPORT_EMAIL = 'support@cutcrew.com';
+export const SUPPORT_EMAIL = 'support@prodigiedits.com';
 
 // Currency
 export const CURRENCY = 'USD' as const;

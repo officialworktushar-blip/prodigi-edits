@@ -417,3 +417,13 @@ Created:
 - `lib/data/admin.ts` — user-scoped admin order summaries, active subscription count, status labels, and status flow.
 
 The admin dashboard shows new orders today, in-progress, overdue, in-review, and active-subscription counts. Overdue excludes `DELIVERED` and `CANCELLED` orders with a past `due_at`. Charts use the last eight weeks for weekly volume. Order links target `/admin/orders/[id]`, which will be supplied by the admin-orders task. Left undone: the other admin subpages and `/admin/orders` routes are not part of this shell task and still need to be implemented. No packages were added. No build, lint, or typecheck was run because project rules prohibit shell commands.
+
+## Task O: Admin orders system
+
+Created:
+- `app/(admin)/admin/orders/actions.ts` — server actions with `requireRole(['ADMIN','EDITOR'])`, zod validation, admin client for writes, and audit-log insertion on every mutation. Actions include `getOrders` (with EDITOR scoping to assigned orders), `getOrderById` (with EDITOR scoping), `getStaffProfiles`, `assignStaff`, `setDueDate`, `updateInternalNotes`, `uploadDraft` (auto-increments version, sets status IN_REVIEW, notifies customer), `uploadDeliverable`, `updateStatus` (notifies customer), and `cancelOrder` (notifies customer).
+- `app/api/upload/sign-staff/route.ts` — staff-only signed-upload endpoint for footage/drafts/deliverables/avatars buckets, protected by `requireRole(['ADMIN','EDITOR'])` and zod validation.
+- `app/(admin)/admin/orders/page.tsx` — client orders list with table and board (columns-by-status) views, search by title/order-number, filters by status/kind/editor, and status-change dropdown on each card. Editors see only orders where they are assigned as editor, manager, or thumbnail artist.
+- `app/(admin)/admin/orders/[id]/page.tsx` — client order detail page with staff assignment (manager/editor/thumbnail-artist), due date, internal notes, draft upload (with optional thumbnail and note, auto versioning), deliverable upload, review comments view, status change, cancel with reason, and audit log. All uploads use the staff sign route and private buckets. Downloads use server-signed URLs with one-hour expiry.
+
+Nothing left undone. No packages were added. No build, lint, or typecheck was run because project rules prohibit shell commands.

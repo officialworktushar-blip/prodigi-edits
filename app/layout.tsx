@@ -4,13 +4,13 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'CutCrew | Professional video editing, simplified',
-    template: `%s | CutCrew`,
+    default: 'ProdigiEdits | Professional video editing, simplified',
+    template: `%s | ProdigiEdits`,
   },
   description:
-    'CutCrew is a productized video-editing service for creators who need fast, high-quality edits.',
+    'ProdigiEdits is a productized video-editing service for creators who need fast, high-quality edits.',
   keywords: ['video editing', 'video production', 'editing service', 'creator tools'],
-  authors: [{ name: 'CutCrew' }],
+  authors: [{ name: 'ProdigiEdits' }],
   icons: {
     icon: '/favicon.ico',
   },

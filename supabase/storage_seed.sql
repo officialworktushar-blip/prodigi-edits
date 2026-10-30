@@ -1,5 +1,5 @@
 -- =============================================================================
--- CutCrew storage, realtime, and seed data
+-- ProdigiEdits storage, realtime, and seed data
 -- Run AFTER supabase/schema.sql.
 -- Idempotent: safe to run multiple times in the Supabase SQL Editor.
 -- =============================================================================
