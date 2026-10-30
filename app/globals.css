@@ -4,8 +4,16 @@
 
 @layer base {
   :root {
+    --brand-indigo: #4f46e5;
+    --brand-indigo-hover: #4338ca;
+    --brand-blue: #3b82f6;
+    --brand-blue-hover: #2563eb;
+    --brand-ink: #0f1222;
+    --brand-muted: #64748b;
+    --brand-surface: #fafafc;
+    --brand-border: #e2e8f0;
     --color-bg: #ffffff;
-    --color-bg-alt: #f8fafc;
+    --color-bg-alt: #fafafc;
     --color-text: #0f1222;
     --color-text-muted: #64748b;
     --color-border: #e2e8f0;
@@ -14,6 +22,10 @@
     --color-accent-1: #8b5cf6;
     --color-accent-2: #ec4899;
     --color-accent-3: #3b82f6;
+    --radius-card: 1.25rem;
+    --radius-pill: 9999px;
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.03),
+      0 2px 4px -2px rgba(0, 0, 0, 0.04);
   }
 
   html {
@@ -38,22 +50,27 @@
   }
 }
 
-/* Focus visible ring */
 @layer components {
   .focus-ring {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary;
-  }
-
-  .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-indigo;
   }
 }
 
-/* Hero mesh background — soft blurred blue/pink/lavender gradient */
-.bg-hero-mesh {
-  background-image: radial-ellipse at 50% 50%,
-    rgba(168, 85, 247, 0.15) 0%,
-    rgba(244, 114, 169, 0.15) 50%,
-    rgba(146, 208, 255, 0.15) 100%;
+@layer utilities {
+  .text-gradient,
+  .gradient-text {
+    background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-hero-mesh {
+    background-color: #fbfcff;
+    background-image:
+      radial-gradient(at 8% 10%, rgba(79, 70, 229, 0.2) 0px, transparent 46%),
+      radial-gradient(at 82% 8%, rgba(236, 72, 153, 0.14) 0px, transparent 42%),
+      radial-gradient(at 48% 78%, rgba(167, 139, 250, 0.22) 0px, transparent 48%),
+      radial-gradient(at 92% 72%, rgba(59, 130, 246, 0.18) 0px, transparent 44%);
+  }
 }

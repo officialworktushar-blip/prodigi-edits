@@ -129,3 +129,44 @@ Changed:
 - tailwind.config.ts — replaced the `fontFamily.sans` Inter entry with the same system font stack.
 
 Search for `next/font`, `--font-inter`, and Inter usage found no remaining matches. No commands run.
+
+## Task A: Design tokens and base UI
+Changed:
+- app/globals.css — kept the Tailwind directives, added brand and surface CSS variables, replaced the invalid hero mesh with a blurred indigo/pink/lavender radial-gradient `.bg-hero-mesh`, added `.text-gradient` (with `.gradient-text` kept as an alias), and retained the required system body font stack.
+- tailwind.config.ts — added nested brand indigo/blue tokens, ink/muted/surface/border tokens, rounded `pill`/`3xl`, the soft shadow, and content coverage for `app`, `components`, and `lib`.
+- app/layout.tsx — mounted `ToastProvider` around the app.
+- lib/utils.ts — already existed with `cn` using `clsx` and `tailwind-merge`; left unchanged.
+
+Created in components/ui:
+- button.tsx — primary gradient pill, secondary, outline, ghost, danger, and link variants plus sm/md/lg/icon sizes and loading state.
+- card.tsx — Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter.
+- input.tsx, textarea.tsx, select.tsx — accessible form controls with focus and invalid states.
+- badge.tsx — default, secondary, outline, success, warning, danger, and info variants.
+- tabs.tsx — accessible controlled/uncontrolled tabs with keyboard navigation.
+- dialog.tsx — portal dialog with focus handling, Escape close, body scroll lock, and focus restoration.
+- dropdown-menu.tsx — accessible menu with outside-click/Escape handling and arrow-key navigation.
+- avatar.tsx — image with loading/error fallback.
+- progress.tsx — accessible progress bar.
+- skeleton.tsx — pulse placeholder.
+- toast.tsx — toast provider, variants, auto-dismiss, actions, and `useToast`.
+
+Nothing left undone. Packages needed: none.
+
+## Task B: Shared components
+Existing files found: `components/shared/empty-state.tsx` and `components/shared/stat-card.tsx`. Both were rewritten because their APIs and styling were incomplete or still used retired colour classes.
+
+Created:
+- components/shared/logo.tsx — reads `BRAND_NAME`/`BRAND_TAGLINE` from `lib/config.ts`, gradient play mark, optional tagline/href/size/tone, and accessible focus styling.
+- components/shared/section-heading.tsx — eyebrow, one gradient-highlighted headline word, optional subcopy, alignment, heading level, and id support.
+- components/shared/fade-in.tsx — client framer-motion fade-up using `whileInView`, reduced-motion support, and configurable delay/once.
+- components/shared/status-badge.tsx — distinct colours and readable labels for all nine order statuses, including a status dot.
+- components/shared/page-header.tsx — eyebrow, gradient-highlighted title (supports both `title` and legacy `headline`), description, and action slot.
+- components/shared/media-placeholder.tsx — gradient frame with aspect ratios, badge/title/description, and icon-name mapping instead of images.
+
+Rewrote:
+- components/shared/empty-state.tsx — valid brand styling, `Link` action, and icon-name string mapping with a safe fallback.
+- components/shared/stat-card.tsx — optional icon-name support, hint text, and consistent card styling.
+
+All icon-bearing shared components accept icon name strings and map them to `lucide-react` components internally, so no icon components are passed across a client boundary. No external images or new packages used.
+
+Nothing left undone. No commands run.

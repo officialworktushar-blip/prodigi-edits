@@ -4,12 +4,27 @@ export default {
   darkMode: ['class'],
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
+        brand: {
+          indigo: {
+            DEFAULT: '#4F46E5',
+            hover: '#4338CA',
+          },
+          blue: {
+            DEFAULT: '#3B82F6',
+            hover: '#2563EB',
+          },
+          ink: '#0F1222',
+          muted: '#64748B',
+          surface: '#FAFAFC',
+          border: '#E2E8F0',
+        },
         primary: {
           50: '#f5f4ff',
           100: '#ede9fe',
@@ -26,7 +41,7 @@ export default {
       backgroundImage: {
         'gradient-primary': 'linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%)',
         'gradient-mesh-hero':
-          'radial ellipse at 50% 50%, rgba(168, 85, 247, 0.15) 0%, rgba(244, 114, 169, 0.15) 50%, rgba(146, 208, 255, 0.15) 100%',
+          'radial-gradient(at 8% 10%, rgba(79, 70, 229, 0.2) 0px, transparent 46%), radial-gradient(at 82% 8%, rgba(236, 72, 153, 0.14) 0px, transparent 42%), radial-gradient(at 48% 78%, rgba(167, 139, 250, 0.22) 0px, transparent 48%), radial-gradient(at 92% 72%, rgba(59, 130, 246, 0.18) 0px, transparent 44%)',
       },
       fontFamily: {
         sans: [
@@ -43,8 +58,10 @@ export default {
       borderRadius: {
         DEFAULT: '0.75rem',
         full: '9999px',
+        pill: '9999px',
         xl: '1rem',
         '2xl': '1.25rem',
+        '3xl': '1.5rem',
       },
       boxShadow: {
         soft: '0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
