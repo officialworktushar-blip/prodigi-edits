@@ -1,11 +1,13 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { requireUser, requireWorkspaceAccess } from '@/lib/guards';
+import { requireUser } from '@/lib/guards';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { ACTIVE_WORKSPACE_COOKIE } from '@/lib/customer/workspace';
 import type {
   AddOn,
   Coupon,
@@ -21,8 +23,11 @@ import type {
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+const SESSION_EXPIRED_MESSAGE = 'Session expired, please log in again';
+const NO_WORKSPACE_MESSAGE = 'No workspace found for this account';
+
 const workspaceSchema = z.object({
-  workspaceId: z.string().uuid('Choose a workspace.'),
+  workspaceId: z.string().optional(),
 });
 
 const couponCodeSchema = z
@@ -144,26 +149,103 @@ function readWorkspaceId(input: unknown): string {
   return '';
 }
 
+function readCookieWorkspaceId(): string {
+  try {
+    return cookies().get(ACTIVE_WORKSPACE_COOKIE)?.value?.trim() ?? '';
+  } catch {
+    return '';
+  }
+}
+
+async function userHasWorkspaceAccess(
+  supabase: SupabaseClient,
+  workspaceId: string
+): Promise<boolean> {
+  const { data, error } = await supabase.rpc('has_workspace_access', {
+    ws: workspaceId,
+    min_role: 'VIEWER',
+  });
+
+  return !error && data === true;
+}
+
+async function resolveWorkspaceId(
+  supabase: SupabaseClient,
+  userId: string,
+  input: unknown
+): Promise<string | null> {
+  const candidates = [readWorkspaceId(input), readCookieWorkspaceId()];
+  const checked = new Set<string>();
+
+  for (const candidate of candidates) {
+    if (!candidate || checked.has(candidate)) {
+      continue;
+    }
+
+    checked.add(candidate);
+
+    if (!UUID_PATTERN.test(candidate)) {
+      continue;
+    }
+
+    if (await userHasWorkspaceAccess(supabase, candidate)) {
+      return candidate;
+    }
+  }
+
+  const { data: ownedWorkspaces, error: ownedError } = await supabase
+    .from('workspaces')
+    .select('id')
+    .eq('owner_id', userId)
+    .order('created_at', { ascending: true })
+    .limit(1);
+
+  if (!ownedError && ownedWorkspaces && ownedWorkspaces.length > 0) {
+    return (ownedWorkspaces[0] as { id: string }).id;
+  }
+
+  const { data: memberships, error: membershipError } = await supabase
+    .from('workspace_members')
+    .select('workspace_id')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: true })
+    .limit(1);
+
+  if (!membershipError && memberships && memberships.length > 0) {
+    return (memberships[0] as { workspace_id: string }).workspace_id;
+  }
+
+  return null;
+}
+
 async function authorizeAction(
   input: unknown
 ): Promise<
   | { ok: true; userId: string; workspaceId: string }
   | { ok: false; message: string; fieldErrors?: Record<string, string[]> }
 > {
-  const { user } = await requireUser();
-  const workspaceId = readWorkspaceId(input);
+  let userId: string;
 
-  if (!UUID_PATTERN.test(workspaceId)) {
-    return {
-      ok: false,
-      message: 'Choose a valid workspace before continuing.',
-      fieldErrors: { workspaceId: ['Choose a workspace.'] },
-    };
+  try {
+    const { user } = await requireUser();
+
+    if (!user?.id) {
+      return { ok: false, message: SESSION_EXPIRED_MESSAGE };
+    }
+
+    userId = user.id;
+  } catch {
+    return { ok: false, message: SESSION_EXPIRED_MESSAGE };
   }
 
-  await requireWorkspaceAccess(workspaceId);
+  const supabase = createClient();
+  const workspaceId = await resolveWorkspaceId(supabase, userId, input);
 
-  return { ok: true, userId: user.id, workspaceId };
+  if (!workspaceId) {
+    return { ok: false, message: NO_WORKSPACE_MESSAGE };
+  }
+
+  return { ok: true, userId, workspaceId };
 }
 
 function numberValue(value: number | string | null | undefined): number {
@@ -444,6 +526,13 @@ export async function saveIdeaStep(
 
   const data = parsed.data;
   const supabase = createClient();
+  const { data: authData, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !authData.user) {
+    return failure(SESSION_EXPIRED_MESSAGE);
+  }
+
+  const userId = authData.user.id;
   const payload = {
     kind: data.kind,
     title: data.title,
@@ -456,13 +545,26 @@ export async function saveIdeaStep(
       .from('orders')
       .update(payload)
       .eq('id', data.orderId)
-      .eq('customer_id', auth.userId)
+      .eq('customer_id', userId)
       .eq('workspace_id', auth.workspaceId)
       .eq('status', 'DRAFT')
       .select('id, order_no')
       .maybeSingle();
 
     if (error || !updated) {
+      if (error) {
+        console.error(
+          'Failed to update draft order',
+          error.message,
+          error.code,
+          error.details
+        );
+
+        return failure(
+          `This draft could not be updated. ${error.message}`
+        );
+      }
+
       return failure(
         'This draft could not be updated. Refresh the page and try again.'
       );
@@ -482,13 +584,26 @@ export async function saveIdeaStep(
     .insert({
       ...payload,
       workspace_id: auth.workspaceId,
-      customer_id: auth.userId,
+      customer_id: userId,
       status: 'DRAFT',
     })
     .select('id, order_no')
     .single();
 
   if (error || !created) {
+    if (error) {
+      console.error(
+        'Failed to create draft order',
+        error.message,
+        error.code,
+        error.details
+      );
+
+      return failure(
+        `We could not start this draft. Check your workspace and try again. ${error.message}`
+      );
+    }
+
     return failure(
       'We could not start this draft. Check your workspace and try again.'
     );

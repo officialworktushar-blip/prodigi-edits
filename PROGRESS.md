@@ -386,3 +386,13 @@ Changed:
 The customer panel now has orders, review, messages, workspaces/branding, team management, mock billing/credits, settings, and live notifications. Chat unread badges are stored per browser because there is no message read-receipt table. Invite emails are not sent; existing profiles receive an in-app notification and pending invite links are only sent to workspace managers for copying. Billing is intentionally a mock with no payment provider or ledger. Old avatar/logo objects are not deleted when replaced.
 
 Rerun `supabase/schema.sql` and `supabase/storage_seed.sql` to apply the new columns and avatar policies. No build, lint, or typecheck was run because project rules prohibit shell commands. Packages needed: none.
+
+## Task FIX-3: Draft creation errors and workspace resolution
+
+Changed only:
+- `app/(customer)/app/orders/actions.ts` — the draft-idea action now logs Supabase failures with `console.error` using `error.message`, `error.code`, and `error.details`, and returns a message that includes `error.message`.
+- Workspace resolution now tries the workspace id from the switcher input or the `active_workspace_id` cookie, but only after `has_workspace_access` confirms access. If neither candidate works, it uses the first workspace the user owns, then the first workspace they are a member of. If none exist it returns `No workspace found for this account`.
+- Draft creation reads the signed-in user from `supabase.auth.getUser()`, uses that id for `customer_id`, uses the resolved workspace id for `workspace_id`, and still omits the generated `order_no`. Inserted columns are `kind`, `title`, `brief`, `reference_links`, `workspace_id`, `customer_id`, and `status`, all matching `supabase/schema.sql`.
+- Missing or failed `requireUser()`/`getUser()` now returns `Session expired, please log in again` instead of a generic failure.
+
+Nothing left undone. No commands run. Packages needed: none.
