@@ -29,7 +29,16 @@ export default {
           'radial ellipse at 50% 50%, rgba(168, 85, 247, 0.15) 0%, rgba(244, 114, 169, 0.15) 50%, rgba(146, 208, 255, 0.15) 100%',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
       },
       borderRadius: {
         DEFAULT: '0.75rem',

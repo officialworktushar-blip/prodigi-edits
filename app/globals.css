@@ -4,7 +4,6 @@
 
 @layer base {
   :root {
-    --font-inter: Inter, system-ui, sans-serif;
     --color-bg: #ffffff;
     --color-bg-alt: #f8fafc;
     --color-text: #0f1222;
@@ -23,6 +22,8 @@
 
   body {
     @apply bg-white text-slate-900;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 

@@ -121,3 +121,11 @@ Checked:
 - No page currently imports or calls any `lib/data` lookup function, so there were no callers requiring `notFound()`.
 
 Nothing left undone.
+
+## Task FIX-2: Replace Google font with system font stack
+Changed:
+- app/layout.tsx — removed the `next/font/google` Inter import, font configuration, `--font-inter` variable, and dynamic `<html>` class.
+- app/globals.css — removed the `--font-inter` variable and set the body font-family to the required system font stack.
+- tailwind.config.ts — replaced the `fontFamily.sans` Inter entry with the same system font stack.
+
+Search for `next/font`, `--font-inter`, and Inter usage found no remaining matches. No commands run.
