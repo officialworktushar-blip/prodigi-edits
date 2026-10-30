@@ -48,3 +48,5 @@ Created:
 Added USER_ROLE enum + UserRole type to lib/config.ts
 
 Task 4 complete.
+
+## MIGRATION: Prisma and NextAuth removed. Backend is now Supabase. Old UI tasks 1-12 are kept; backend files are being rewritten.
