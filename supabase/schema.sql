@@ -764,7 +764,14 @@ drop policy if exists "orders_select_access" on public.orders;
 create policy "orders_select_access"
   on public.orders for select
   to authenticated
-  using (public.can_access_order(id));
+  using (
+    public.is_admin()
+    or customer_id = auth.uid()
+    or public.has_workspace_access(workspace_id)
+    or editor_id = auth.uid()
+    or manager_id = auth.uid()
+    or thumbnail_artist_id = auth.uid()
+  );
 
 drop policy if exists "orders_insert_access" on public.orders;
 create policy "orders_insert_access"

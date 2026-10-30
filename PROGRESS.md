@@ -396,3 +396,10 @@ Changed only:
 - Missing or failed `requireUser()`/`getUser()` now returns `Session expired, please log in again` instead of a generic failure.
 
 Nothing left undone. No commands run. Packages needed: none.
+
+## Task FIX-4: Orders SELECT policy without can_access_order
+
+Changed only:
+- `supabase/schema.sql` — replaced the `orders_select_access` SELECT policy condition with a direct check: `is_admin() OR customer_id = auth.uid() OR has_workspace_access(workspace_id) OR editor_id = auth.uid() OR manager_id = auth.uid() OR thumbnail_artist_id = auth.uid()`. The policy no longer calls `can_access_order(id)`, which reads the orders table and can fail during an insert with `RETURNING`. The `drop policy if exists` statement remains before `create policy`.
+
+Nothing else changed. No commands run. Packages needed: none.
