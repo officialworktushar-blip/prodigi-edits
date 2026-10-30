@@ -1,6 +1,5 @@
 /// <reference types="next" />
-/*
- * This file is an extension of the TypeScript configuration from your project's `tsconfig.json`.
- *
- * It contains various ambient types that can be useful while developing your project.
- */
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.

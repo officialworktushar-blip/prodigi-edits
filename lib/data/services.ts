@@ -42,8 +42,15 @@ export const SERVICE_PAGE_DATA = {
   },
 } as const;
 
-export function getServicePage(slug: string) {
-  return SERVICE_PAGE_DATA[slug];
+type ServicePage = (typeof SERVICE_PAGE_DATA)[keyof typeof SERVICE_PAGE_DATA];
+
+const SERVICE_PAGES = SERVICE_PAGE_DATA as Record<
+  string,
+  ServicePage | undefined
+>;
+
+export function getServicePage(slug: string): ServicePage | undefined {
+  return SERVICE_PAGES[slug];
 }
 
 export default SERVICE_PAGE_DATA;

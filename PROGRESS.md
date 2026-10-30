@@ -110,3 +110,14 @@ Final search for `prisma`, `next-auth`, `bcrypt`, `lib/db`, `getServerSession`, 
 No `app/(marketing)` files existed, and no files under `components/marketing` imported the legacy backend. The new public data helpers are ready for future marketing pages; none of those pages exist yet.
 
 Packages needed: none.
+
+## Task FIX-1: lib/data slug lookup TypeScript errors
+Changed:
+- lib/data/services.ts — added a `ServicePage` union via `typeof SERVICE_PAGE_DATA` and `keyof typeof`, cast the const data to `Record<string, ServicePage | undefined>`, and typed `getServicePage` to return `ServicePage | undefined`.
+
+Checked:
+- lib/data/use-cases.ts uses `.find()` and does not index a const object, so no change was needed.
+- lib/data/marketing.ts uses Supabase queries and returns arrays or null, so no change was needed.
+- No page currently imports or calls any `lib/data` lookup function, so there were no callers requiring `notFound()`.
+
+Nothing left undone.
