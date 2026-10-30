@@ -1,75 +1,90 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { updateSession } from './lib/supabase/middleware';
+import type { UserRole } from './types/db';
 
-export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const path = req.nextUrl.pathname;
+async function getRole(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<UserRole | null> {
+  const { data } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .maybeSingle();
 
-    // Redirect logic after login
-    if (path === '/login' && token) {
-      if (token.role === 'ADMIN') {
-        return NextResponse.redirect(new URL('/admin', req.url));
-      }
-      if (token.role === 'EDITOR') {
-        return NextResponse.redirect(new URL('/admin/orders', req.url));
-      }
-      if (token.role === 'CUSTOMER') {
-        return NextResponse.redirect(new URL('/app', req.url));
-      }
+  const profile = data as { role?: UserRole } | null;
+
+  return profile?.role ?? null;
+}
+
+function redirectWithCookies(
+  request: NextRequest,
+  pathname: string,
+  response: NextResponse
+) {
+  const url = request.nextUrl.clone();
+  url.pathname = pathname;
+  url.search = '';
+
+  const redirectResponse = NextResponse.redirect(url);
+
+  response.cookies.getAll().forEach((cookie) => {
+    redirectResponse.cookies.set(cookie);
+  });
+
+  return redirectResponse;
+}
+
+export async function middleware(request: NextRequest) {
+  const { supabase, response, user } = await updateSession(request);
+  const pathname = request.nextUrl.pathname;
+
+  const isApp = pathname === '/app' || pathname.startsWith('/app/');
+  const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
+  const isAuthPage = pathname === '/login' || pathname === '/signup';
+
+  if (!user) {
+    if (isApp || isAdmin) {
+      return redirectWithCookies(request, '/login', response);
     }
 
-    // Protect /app/* for CUSTOMER only
-    if (path.startsWith('/app')) {
-      if (!token || token.role !== 'CUSTOMER') {
-        return NextResponse.redirect(new URL('/login', req.url));
-      }
-    }
-
-    // Protect /admin/* for ADMIN and EDITOR only
-    if (path.startsWith('/admin')) {
-      if (!token || (token.role !== 'ADMIN' && token.role !== 'EDITOR')) {
-        return NextResponse.redirect(new URL('/login', req.url));
-      }
-
-      // Editors can only access /admin/orders
-      if (token.role === 'EDITOR' && !path.startsWith('/admin/orders')) {
-        return NextResponse.redirect(new URL('/admin/orders', req.url));
-      }
-    }
-
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        const path = req.nextUrl.pathname;
-
-        // Public paths
-        if (
-          path === '/' ||
-          path === '/login' ||
-          path === '/signup' ||
-          path.startsWith('/api/auth') ||
-          path.startsWith('/_next') ||
-          path === '/favicon.ico'
-        ) {
-          return true;
-        }
-
-        // Protected paths require token
-        if (path.startsWith('/app') || path.startsWith('/admin')) {
-          return !!token;
-        }
-
-        return true;
-      },
-    },
+    return response;
   }
-);
+
+  const role = isAdmin || isAuthPage ? await getRole(supabase, user.id) : null;
+
+  if (isAuthPage) {
+    if (role === 'ADMIN') {
+      return redirectWithCookies(request, '/admin', response);
+    }
+
+    if (role === 'EDITOR') {
+      return redirectWithCookies(request, '/admin/orders', response);
+    }
+
+    return redirectWithCookies(request, '/app', response);
+  }
+
+  if (isAdmin) {
+    if (role !== 'ADMIN' && role !== 'EDITOR') {
+      return redirectWithCookies(request, '/app', response);
+    }
+
+    if (
+      role === 'EDITOR' &&
+      pathname !== '/admin/orders' &&
+      !pathname.startsWith('/admin/orders/')
+    ) {
+      return redirectWithCookies(request, '/admin/orders', response);
+    }
+  }
+
+  return response;
+}
 
 export const config = {
   matcher: [
-    '/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.png$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico)$).*)',
   ],
 };

@@ -50,3 +50,46 @@ Added USER_ROLE enum + UserRole type to lib/config.ts
 Task 4 complete.
 
 ## MIGRATION: Prisma and NextAuth removed. Backend is now Supabase. Old UI tasks 1-12 are kept; backend files are being rewritten.
+
+## Task 2: Supabase schema.sql
+Created:
+- supabase/schema.sql — idempotent SQL with extensions, all enums, all tables, indexes, functions (is_admin, is_staff, has_workspace_access, order/draft helpers), triggers (new user setup, profile role guard, order sensitive-field guard), and RLS policies for every table.
+
+Nothing left undone. Storage, realtime, and seed are intentionally excluded from this file.
+
+## Task 3: Storage, realtime, seed, and DB types
+Created:
+- supabase/storage_seed.sql — private footage/drafts/deliverables buckets, public avatars bucket, storage.objects RLS policies, idempotent realtime publication updates, and seed data for packages, add-ons, testimonials, case studies, and FAQ items.
+- types/db.ts — hand-written TypeScript row types for all 22 tables and all 7 enums.
+
+Nothing left undone. Run storage_seed.sql after schema.sql.
+
+## Task 4: Supabase backend foundation
+Created:
+- lib/supabase/client.ts — browser client via createBrowserClient.
+- lib/supabase/server.ts — server client via createServerClient with synchronous cookies() and getAll/setAll.
+- lib/supabase/admin.ts — server-only service-role client.
+- lib/supabase/middleware.ts — updateSession helper that refreshes auth cookies.
+- middleware.ts — refreshed session, /app protection for any logged-in user, /admin protection for ADMIN/EDITOR, EDITOR limited to /admin/orders, and role-based redirects away from /login and /signup.
+- lib/guards.ts — getUser, requireUser, requireRole, requireWorkspaceAccess.
+- lib/utils.ts — cn helper (file did not exist).
+- .env.example — replaced old backend vars with the four Supabase/site vars.
+
+lib/config.ts already contained every required key, so it was not changed.
+
+Nothing left undone.
+
+## Task 5: Supabase auth pages and actions
+Created:
+- app/(auth)/layout.tsx — split-screen auth layout with gradient mesh value panel and form side.
+- app/(auth)/login/page.tsx — react-hook-form + zod sign-in form with inline errors.
+- app/(auth)/signup/page.tsx — name/email/password sign-up form with confirmation state.
+- app/(auth)/forgot-password/page.tsx — reset-link request form.
+- app/(auth)/reset-password/page.tsx — new-password form.
+- app/(auth)/accept-invite/[token]/page.tsx — invite acceptance form.
+- app/(auth)/actions.ts — signInWithPassword, signUp, resetPasswordForEmail, updateUser, signOut, acceptInvite.
+- app/auth/callback/route.ts — exchangeCodeForSession and safe redirect.
+
+No next-auth imports, SessionProvider, useSession, signIn, or signOut usage remained in the codebase. The old auth page files did not exist, so these paths were created once with no duplicates.
+
+Nothing left undone.
