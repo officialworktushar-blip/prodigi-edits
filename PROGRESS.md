@@ -213,3 +213,47 @@ Changed:
 Homepage now renders: hero, trusted-by, stats, how-it-works, get-started cards, features grid, services tabs, case studies, testimonials, pricing teaser, FAQ, and final CTA.
 
 Nothing left undone. No commands run. Packages needed: none.
+
+## Task F: Pricing page
+Created:
+- `app/(marketing)/pricing/page.tsx` — async server page with metadata, a gradient-washed page header, package assurances, safe `getActivePackages()`/`getActiveAddOns()` fetching, the pricing experience, and the shared final CTA.
+- `components/marketing/pricing/pricing-experience.tsx` — client tabs for Horizontal, Vertical, and Channel Management; horizontal and vertical package cards show discount badges, per-video pricing, block totals, package features, and `/signup` CTAs; shared “All packages include” grid; add-on cards from the `add_ons` table with a graceful empty state.
+- `components/marketing/pricing/channel-management.tsx` — quarterly/annual billing toggle, Starter and Pro cards with billed totals, a 15-row full feature comparison table, mobile horizontal scrolling, and accessible toggle/table semantics.
+- `lib/data/channel-plans.ts` — typed quarterly and annual channel plans, billing options, and comparison rows.
+
+Empty or failed Supabase package/add-on results render `EmptyState` blocks instead of crashing. No external images or new packages used.
+
+Nothing left undone. No commands run. Packages needed: none.
+
+## Task G1: Service, use-case, privacy, and terms pages
+Created:
+- `app/(marketing)/services/[slug]/page.tsx` — static routes for `long-form`, `short-form`, and `channel-management`; `generateStaticParams`, `generateMetadata`, unknown-slug `notFound()`, tailored deliverables/process content, server-rendered lucide icons, and the shared final CTA.
+- `app/(marketing)/use-cases/[slug]/page.tsx` — static routes for all seven use-case slugs, including `realtors`; `generateStaticParams`, `generateMetadata`, unknown-slug `notFound()`, tailored project ideas/outcomes, a three-step handoff, and server-side icon rendering.
+- `app/(marketing)/privacy/page.tsx` — original privacy copy covering collected data, project files, payments, sharing, retention, security, choices, and contact using `BRAND_NAME`/`SUPPORT_EMAIL`.
+- `app/(marketing)/terms/page.tsx` — original terms covering accounts, orders, payment, scheduling, revisions, content ownership, acceptable use, liability, termination, and contact.
+
+Changed:
+- `app/(marketing)/contact/page.tsx` — repaired the config import to `@/lib/config`.
+- `lib/data/use-cases.ts` — corrected the real-estate slug to `realtors` to match navigation and required routes.
+- `app/sitemap.ts` — corrected the use-case URL to `/use-cases/realtors`.
+
+No icon components cross a server-to-client boundary, no external images are used, and no new packages were added.
+
+Nothing left undone. No commands run. Packages needed: none.
+
+## Task G2: Examples, case studies, about, and platform pages
+Created:
+- `app/(marketing)/examples/page.tsx` — ranked page header, format assurances, the examples gallery, and the shared final CTA.
+- `components/marketing/examples/examples-gallery.tsx` — client-side category filter with accessible pressed-state buttons, original representative examples, a responsive media-placeholder card grid, result count, and a case-study link.
+- `app/(marketing)/case-studies/page.tsx` — async server page using `getPublishedCaseStudies()`, safe date formatting, a responsive story grid, a graceful empty state pointing to examples, and the final CTA.
+- `app/(marketing)/case-studies/[slug]/page.tsx` — async published-case-study lookup with `generateMetadata`, unknown-slug `notFound()`, null-safe summary/body rendering, a project snapshot sidebar, and the final CTA.
+- `app/(marketing)/about/page.tsx` — original story, three standards, working principles, all seven use-case links, and the final CTA.
+- `app/(marketing)/platform/page.tsx` — order-workspace preview, four platform capabilities, the shared four-step `HowItWorks` workflow, the full order status flow with revision loop, and the final CTA.
+
+Changed:
+- `app/sitemap.ts` — corrected `/cases` to `/case-studies`, added `/examples`, `/privacy`, and `/terms`, and removed the unused brand import.
+- `components/marketing/footer.tsx` — added Privacy and Terms links to the footer legal/account navigation.
+
+All Supabase reads use existing safe helpers that tolerate missing configuration, null rows, and empty results. No icon components are passed from server pages to client components. No external images or new packages were used.
+
+Nothing left undone. No commands run. Packages needed: none.

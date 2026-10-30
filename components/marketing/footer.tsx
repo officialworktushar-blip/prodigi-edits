@@ -90,9 +90,21 @@ export function Footer() {
             &copy; {year} {BRAND_NAME}. All rights reserved.
           </p>
           <nav
-            aria-label="Footer account links"
-            className="flex items-center gap-5"
+            aria-label="Footer legal and account links"
+            className="flex flex-wrap items-center gap-5"
           >
+            <Link
+              href="/privacy"
+              className="text-xs font-medium text-slate-500 transition-colors hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs font-medium text-slate-500 transition-colors hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
+            >
+              Terms
+            </Link>
             <Link
               href="/contact"
               className="text-xs font-medium text-slate-500 transition-colors hover:text-brand-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"

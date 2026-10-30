@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-react';
-import { BRAND_NAME, SUPPORT_EMAIL } from '../../lib/config';
+import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
 
 type ContactValues = {
   name: string;

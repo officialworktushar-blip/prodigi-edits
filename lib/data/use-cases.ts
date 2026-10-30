@@ -19,7 +19,7 @@ export const USE_CASES = [
     description: 'Clean up long recording sessions, normalize mixes, trim filler, add intro/outro bounces, and deliver formats ready for every major podcast platform.',
   },
   {
-    slug: 'real-estate',
+    slug: 'realtors',
     label: 'Real Estate Agents',
     icon: MapPin,
     description: 'Agent highlight reels, property tours, and virtual showings — curated for fast booking decisions on listings and listings-focused platforms.',
