@@ -403,3 +403,17 @@ Changed only:
 - `supabase/schema.sql` — replaced the `orders_select_access` SELECT policy condition with a direct check: `is_admin() OR customer_id = auth.uid() OR has_workspace_access(workspace_id) OR editor_id = auth.uid() OR manager_id = auth.uid() OR thumbnail_artist_id = auth.uid()`. The policy no longer calls `can_access_order(id)`, which reads the orders table and can fail during an insert with `RETURNING`. The `drop policy if exists` statement remains before `create policy`.
 
 Nothing else changed. No commands run. Packages needed: none.
+
+## Task N: Admin panel shell
+
+Created:
+- `app/(admin)/admin/layout.tsx` — admin shell using `requireRole(['ADMIN','EDITOR'])`, desktop sidebar, sticky header, user identity, skip link, and command-palette trigger.
+- `app/(admin)/admin/page.tsx` — ADMIN-only operations dashboard; editors are redirected to `/admin/orders`. Includes five KPI cards, orders-by-status and orders-per-week charts, and an overdue-orders table/list.
+- `app/(admin)/admin/loading.tsx` and `app/(admin)/admin/error.tsx` — dashboard skeleton and retryable error boundary.
+- `components/admin/nav-items.ts` — shared admin navigation definitions and role filtering; editors receive only Orders.
+- `components/admin/sidebar.tsx` — role-aware client sidebar with active links and support link.
+- `components/admin/command-palette.tsx` — Ctrl/Cmd+K palette with role-filtered page jumps and debounced order search by title or exact order number.
+- `components/admin/orders-by-status-chart.tsx` and `components/admin/orders-per-week-chart.tsx` — client-only recharts visualizations receiving serializable data.
+- `lib/data/admin.ts` — user-scoped admin order summaries, active subscription count, status labels, and status flow.
+
+The admin dashboard shows new orders today, in-progress, overdue, in-review, and active-subscription counts. Overdue excludes `DELIVERED` and `CANCELLED` orders with a past `due_at`. Charts use the last eight weeks for weekly volume. Order links target `/admin/orders/[id]`, which will be supplied by the admin-orders task. Left undone: the other admin subpages and `/admin/orders` routes are not part of this shell task and still need to be implemented. No packages were added. No build, lint, or typecheck was run because project rules prohibit shell commands.
