@@ -1,3 +1,4 @@
+import { Building2, GraduationCap, MapPin, Stethoscope, Mic, Scale, Users } from 'lucide-react';
 export const USE_CASES = [
   {
     slug: 'youtubers',
@@ -32,13 +33,13 @@ export const USE_CASES = [
   {
     slug: 'doctors',
     label: 'Doctors & dentists',
-    icon: MedicalBag,
+    icon: Stethoscope,
     description: 'Explainer reels for patients, procedure highlights, and health tips — warmer tone plus tighter cuts than most generic editors deliver.',
   },
   {
     slug: 'lawyers',
     label: 'Lawyers & firms',
-    icon: ScaleBalance,
+    icon: Scale,
     description: 'Client testimonials, trial cutdowns, firm updates — professional polish with tight pacing, built to look like polished commercials.',
   },
 ] as const;
