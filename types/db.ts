@@ -39,6 +39,10 @@ export interface Workspace {
   type: string | null;
   notes: string | null;
   logo_url: string | null;
+  brand_heading_font: string;
+  brand_body_font: string;
+  brand_primary_color: string;
+  brand_accent_color: string;
   created_at: string;
 }
 

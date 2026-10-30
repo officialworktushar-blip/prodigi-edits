@@ -102,6 +102,65 @@ create policy "deliverables_delete_staff"
   using (bucket_id = 'deliverables' and public.is_staff());
 
 -- -----------------------------------------------------------------------------
+-- Avatars and workspace logos
+-- Path convention: {user_id}/avatar-* or {workspace_id}/brand/*
+-- -----------------------------------------------------------------------------
+drop policy if exists "avatars_select_owner_or_manager" on storage.objects;
+create policy "avatars_select_owner_or_manager"
+  on storage.objects for select
+  to authenticated
+  using (
+    bucket_id = 'avatars'
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.has_workspace_access(((storage.foldername(name))[1])::uuid, 'MANAGER')
+    )
+  );
+
+drop policy if exists "avatars_insert_owner_or_manager" on storage.objects;
+create policy "avatars_insert_owner_or_manager"
+  on storage.objects for insert
+  to authenticated
+  with check (
+    bucket_id = 'avatars'
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.has_workspace_access(((storage.foldername(name))[1])::uuid, 'MANAGER')
+    )
+  );
+
+drop policy if exists "avatars_update_owner_or_manager" on storage.objects;
+create policy "avatars_update_owner_or_manager"
+  on storage.objects for update
+  to authenticated
+  using (
+    bucket_id = 'avatars'
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.has_workspace_access(((storage.foldername(name))[1])::uuid, 'MANAGER')
+    )
+  )
+  with check (
+    bucket_id = 'avatars'
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.has_workspace_access(((storage.foldername(name))[1])::uuid, 'MANAGER')
+    )
+  );
+
+drop policy if exists "avatars_delete_owner_or_manager" on storage.objects;
+create policy "avatars_delete_owner_or_manager"
+  on storage.objects for delete
+  to authenticated
+  using (
+    bucket_id = 'avatars'
+    and (
+      (storage.foldername(name))[1] = auth.uid()::text
+      or public.has_workspace_access(((storage.foldername(name))[1])::uuid, 'MANAGER')
+    )
+  );
+
+-- -----------------------------------------------------------------------------
 -- Realtime publication
 -- Adds messages, notifications, review_comments, and orders once each.
 -- -----------------------------------------------------------------------------

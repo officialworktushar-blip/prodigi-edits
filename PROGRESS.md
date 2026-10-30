@@ -257,3 +257,132 @@ Changed:
 All Supabase reads use existing safe helpers that tolerate missing configuration, null rows, and empty results. No icon components are passed from server pages to client components. No external images or new packages were used.
 
 Nothing left undone. No commands run. Packages needed: none.
+
+## Task H: Customer panel shell and dashboard
+Created:
+- `lib/customer/workspace.ts` — active workspace cookie constant and a resolver that safely falls back to the first available workspace.
+- `lib/data/customer.ts` — null-safe Supabase helpers for customer workspaces, notifications, unread counts, orders, and credits; failed queries and missing configuration return empty arrays or `0`.
+- `app/(customer)/app/actions.ts` — `setActiveWorkspace` validates the selected workspace before setting the cookie and refreshing the panel; `signOutAction` signs out and returns to `/login`. Both actions start with `requireUser`.
+- `components/customer/sidebar.tsx` — desktop navigation with New Order CTA, active-route states, current workspace summary, and support contact.
+- `components/customer/topbar.tsx` — workspace switcher, unread notification menu, user menu, settings links, and sign out.
+- `components/customer/mobile-nav.tsx` — seven-destination fixed mobile navigation with accessible active states.
+- `app/(customer)/app/layout.tsx` — authenticated customer shell that loads workspaces, notifications, and unread counts, resolves the active workspace from the cookie, and renders sidebar, topbar, main content, and mobile nav.
+- `app/(customer)/app/page.tsx` — dashboard with active orders, in-review drafts, credit balance, a review banner, responsive recent orders, New Order card, notification activity, and workspace summary.
+- `app/(customer)/app/loading.tsx` — dashboard-shaped skeleton state.
+- `app/(customer)/app/error.tsx` — recoverable client error state with retry and dashboard links.
+
+The customer shell and dashboard are complete. All Supabase reads tolerate missing configuration, null rows, RLS-filtered results, and empty arrays. No shell commands were run. Packages needed: none.
+
+Order detail, workspaces, messages, team, billing, and settings pages remain future tasks.
+
+## Task I: Customer order wizard
+Created:
+- `app/(customer)/app/orders/actions.ts` — server actions for idea, footage, style, coupon preview, and final submission. Every action starts with `requireUser` plus `requireWorkspaceAccess`; drafts are limited to the signed-in customer, selected workspace, and `DRAFT` status; invalid coupons now fail explicitly before extras are replaced or the order is submitted.
+- `components/customer/wizard/types.ts` — shared wizard workspace, add-on, package, credit, idea, footage, quote, coupon, and action-result types.
+- `components/customer/wizard/format.ts` — currency formatting, optional numeric parsing, and field-error lookup helpers.
+- `components/customer/wizard/stepper.tsx` — desktop and mobile progress stepper.
+- `components/customer/wizard/step-idea.tsx` — project type, title, brief, and reference-link step with inline validation.
+- `components/customer/wizard/step-footage.tsx` — cloud-link handoff, 60-minute/20 GB allowances, warnings, and uploader placeholder.
+- `components/customer/wizard/step-style.tsx` — workspace notes preview and selectable active add-ons.
+- `components/customer/wizard/step-review.tsx` — brief/footage/extras summary, price breakdown, credit toggle, and coupon entry.
+- `components/customer/wizard/order-wizard.tsx` — client state container for all four steps, draft saving, coupon preview, submit success state, and reset flow.
+- `app/(customer)/app/orders/new/page.tsx` — protected server page that resolves the active workspace and loads active packages, add-ons, and credits with safe empty fallbacks.
+
+Draft idea and footage data are persisted through `orders`; cloud links and size estimates are stored in `footage_files` with `CLOUD_LINK`/`SIZE_ESTIMATE` sources. Final submission sets `SUBMITTED`, records best-effort service-role audit and notification rows, and returns a success summary instead of redirecting. Customers have no direct notification/audit insert rights under current RLS.
+
+The file uploader remains a cloud-link placeholder by design. Credit use and coupon codes affect the estimate, but credit balances and coupon usage counters are not mutated; billing ledger behavior remains a future task. A page reload starts a new draft; resuming an existing draft is not implemented. No build was run because the project rules prohibit shell commands. Packages needed: none.
+
+## Task J: Direct-to-Supabase footage uploads
+Created:
+- `lib/storage.ts` — `FOOTAGE_BUCKET`, signed upload/download URL helpers, object removal, upload ticket typing, and object-path normalization that blocks empty, absolute, backslash, and traversal paths.
+- `app/api/upload/sign/route.ts` — authenticated signed-upload endpoint. It validates order/file metadata, checks the draft order through the user-scoped Supabase client, builds a unique `{workspace_id}/{order_id}/{timestamp}-{random}-{safe_name}` path, and returns only `{ path, token }`.
+- `app/(customer)/app/orders/upload-actions.ts` — `saveUploadedFootage` verifies workspace access, draft status, and order-owned path before inserting a `footage_files` row with `source: 'UPLOAD'`; `removeUploadedFootage` verifies the same path ownership, removes the storage object, and deletes any matching row.
+- `components/customer/wizard/file-uploader.tsx` — client drag/drop and multi-file uploader with direct browser `uploadToSignedUrl`, staged progress, file validation, cancel, retry, cleanup, and accessible status/progress states.
+
+Changed:
+- `components/customer/wizard/types.ts` — added uploaded-footage and upload/remove result types.
+- `components/customer/wizard/step-footage.tsx` — replaced the uploader placeholder with the real uploader, added workspace/order props, and updated the footage handoff copy.
+- `components/customer/wizard/order-wizard.tsx` — passes workspace/order context into the footage step and disables Back/Continue while uploads are in progress.
+
+Files upload directly from the browser to the private `footage` bucket; only path/token metadata passes through the app server, so Vercel does not proxy video bytes. Cancelled uploads and failed post-upload saves trigger best-effort object/row cleanup. Retries request a fresh signed path, and attempt tokens prevent an older cancelled request from completing after a retry. This supersedes Task I's uploader-placeholder note.
+
+No build, lint, or typecheck was run because project rules prohibit shell commands. Upload progress is stage-based rather than byte-level because the current Supabase `uploadToSignedUrl` API exposes no progress callback or abort signal. Removing already-completed uploads from the list is not exposed. Packages needed: none.
+
+## Task K: Customer orders list and detail pages
+Created:
+- `app/(customer)/app/orders/page.tsx` — authenticated orders list with active-workspace scoping, title/order-number search, URL-driven status tabs, result count, responsive table, and filter-aware empty states.
+- `app/(customer)/app/orders/[id]/page.tsx` — RLS-scoped order detail page with `notFound()` for unknown or inaccessible IDs, URL-driven tabs, footage, review placeholder, server-signed deliverables, and message activity.
+- `app/(customer)/app/orders/loading.tsx` — list-shaped loading skeleton.
+- `app/(customer)/app/orders/[id]/loading.tsx` — detail-shaped loading skeleton.
+- `components/customer/orders/order-utils.ts` — status/kind labels, search-param parsing, date/size formatting, safe URL handling, overdue detection, initials, and due-countdown metadata.
+- `components/customer/orders/order-filters.tsx` — GET search form and accessible status-tab links that preserve the current query.
+- `components/customer/orders/orders-table.tsx` — desktop table and mobile order cards.
+- `components/customer/orders/order-detail-tabs.tsx` — Overview, Footage, Drafts & Review, Deliverables, and Activity tab navigation.
+- `components/customer/orders/order-overview.tsx` — status timeline, deadline, assigned team, project brief, references, and order facts.
+- `components/customer/orders/order-status-timeline.tsx` — current-state production timeline with revision, cancellation, and delivered states.
+- `components/customer/orders/due-countdown.tsx` — client-side due countdown that refreshes every minute without hydration-time clock assumptions.
+- `components/customer/orders/order-footage.tsx` — footage uploads, cloud links, and size estimates with source labels and safe external links.
+- `components/customer/orders/review-placeholder.tsx` — `Drafts & Review` placeholder containing the required `Review tool coming in next task` copy.
+- `components/customer/orders/order-deliverables.tsx` — final-file list with private download links and expiry notice.
+- `components/customer/orders/order-activity.tsx` — newest-first order message history with current-user and team labels.
+
+Changed:
+- `lib/storage.ts` — added `DELIVERABLES_BUCKET` and an optional bucket argument to `createDownloadUrl`, preserving the footage default and one-hour expiry default.
+- `lib/data/customer.ts` — added safe order-list filtering by status/search, single-order lookup, footage/deliverables/messages loaders, and server-only assigned-team profile lookup.
+- `PROGRESS.md` — recorded Task K.
+
+Order detail data is first loaded through the user-scoped Supabase client so RLS decides whether the order exists for this customer. Assigned-team profile names are fetched through the service-role client only after that successful order lookup. Deliverable links are signed server-side from the private `deliverables` bucket and expire after one hour. Activity currently reads order messages only; the customer-visible audit-log policy is admin-only, and there is no status-history table.
+
+No new message composer or footage-download action was added because they were not part of this task. The overview timeline reflects the current status rather than historical transition timestamps. No build, lint, or typecheck was run because project rules prohibit shell commands. Packages needed: none.
+
+## Task L: Customer draft review tool
+Created:
+- `app/(customer)/app/orders/[id]/review-actions.ts` — server actions for adding comments, resolving/reopening an author's comments, requesting a revision, and approving a cut. Every exported action starts with `requireUser`; order access is resolved through the RLS-scoped server client and then checked with `requireWorkspaceAccess`. Revision and approval updates are conditional on the order still being `IN_REVIEW`.
+- `components/customer/review/types.ts` — review draft, author, and server-action result types.
+- `components/customer/review/format.ts` — safe review timestamp formatting.
+- `components/customer/review/use-review-comments.ts` — Supabase Realtime subscription for new `review_comments` rows filtered to the selected draft, with unique channel names, disconnect handling, and cleanup.
+- `components/customer/review/review-player.tsx` — signed-URL HTML5 video player, private-link expiry notice, version pills, poster support, and missing-file state.
+- `components/customer/review/timeline-markers.tsx` — deduplicated comment markers across the draft timeline, open/resolved colours, current playhead, and click-to-seek controls.
+- `components/customer/review/comment-panel.tsx` — comment composer at the current playhead, threaded replies, timestamp seek links, open/resolved badges, author-only resolve/reopen controls, live indicator, and error/status feedback.
+- `components/customer/review/review-actions.tsx` — review decision panel that enables revision/approval only for `IN_REVIEW`, updates local status after success, and refreshes the route.
+- `components/customer/review/review-workspace.tsx` — selected-version state, latest-playable default, per-draft comment filtering, realtime merge, seek handling, and empty state when no draft exists.
+
+Changed:
+- `lib/storage.ts` — added `DRAFTS_BUCKET`.
+- `lib/data/customer.ts` — added `getOrderDrafts` and `getDraftReviewComments`, and reused the existing team-profile loader for comment authors.
+- `app/(customer)/app/orders/[id]/page.tsx` — loads drafts and comments, signs every draft video and thumbnail from the private `drafts` bucket server-side with one-hour expiry, loads comment-author profiles, and renders `ReviewWorkspace` in the review tab instead of `ReviewPlaceholder`.
+- `PROGRESS.md` — recorded Task L.
+
+Comments are accepted on any non-cancelled order; only the comment author can change its status through the UI because the RLS policy also permits staff updates. Revision and approval are limited to `IN_REVIEW`, and conditional updates prevent stale tabs from overwriting a later status change. Realtime currently merges new comments only; status changes made by collaborators appear after navigation or refresh. No notification, audit-log, or status-history rows are written by these actions.
+
+`components/customer/orders/review-placeholder.tsx` is no longer imported or rendered, but the unused file remains because project rules prohibit shell commands for file deletion. No build, lint, or typecheck was run because project rules prohibit shell commands. Packages needed: none.
+
+## Task M: Customer panel completion
+Created:
+- `lib/payments.ts` — mock package purchase that looks up an active package with the service-role client and increments or creates the matching credit balance.
+- `app/api/upload/image/route.ts` — authenticated signed-upload endpoint for avatars and workspace logos, with MIME/size validation, workspace-manager checks for logos, and scoped storage paths.
+- `components/customer/use-notifications-realtime.ts` — Realtime subscription for new notification rows.
+- `components/customer/chat/types.ts`, `format.ts`, `use-workspace-messages.ts`, `chat-thread-list.tsx`, `chat-panel.tsx`, and `chat-workspace.tsx` — workspace/order conversations, realtime inserts, optimistic sends, retry, and local unread badges.
+- `app/(customer)/app/messages/actions.ts` and `page.tsx` — chat message sending and the messages screen.
+- `app/(customer)/app/workspaces/actions.ts` — workspace branding and logo updates with manager checks.
+- `components/customer/workspaces/workspace-logo-uploader.tsx` and `workspace-branding-editor.tsx` — logo upload plus debounced autosave brand colours/fonts with preview.
+- `app/(customer)/app/workspaces/page.tsx` and `app/(customer)/app/workspaces/[id]/page.tsx` — workspace list and detail/branding screen.
+- `app/(customer)/app/team/actions.ts` and `components/customer/team/team-manager.tsx` — invite, remove, and revoke actions plus role-aware team UI.
+- `app/(customer)/app/team/page.tsx` — active-workspace team screen with member/profile and invite data.
+- `app/(customer)/app/billing/actions.ts`, `components/customer/billing/billing-purchase.tsx`, and `app/(customer)/app/billing/page.tsx` — credit balances, package cards, mock purchases, and subscription summary.
+- `app/(customer)/app/settings/actions.ts`, `components/customer/settings/account-settings.tsx`, and `app/(customer)/app/settings/page.tsx` — profile name, avatar upload, and password changes.
+
+Changed:
+- `supabase/schema.sql` — added workspace brand heading/body font and primary/accent colour columns, and limited invite reads to workspace managers/admins so viewers cannot inspect invite tokens.
+- `types/db.ts` — added the branded workspace fields.
+- `supabase/storage_seed.sql` — owner/manager avatar storage policies.
+- `lib/storage.ts` — avatar bucket support, public URLs, and optional bucket arguments for uploads/removal.
+- `lib/data/customer.ts` — workspace, membership, invite, message, and subscription helpers; team profiles now include email.
+- `app/(customer)/app/actions.ts` — mark-one and mark-all notification actions.
+- `components/customer/topbar.tsx` and `app/(customer)/app/layout.tsx` — realtime notifications, mark-read controls, and signed-in avatar wiring.
+- `components/customer/chat/use-workspace-messages.ts` — failed/rejected sends now mark the optimistic message as failed.
+- `PROGRESS.md` — recorded Task M.
+
+The customer panel now has orders, review, messages, workspaces/branding, team management, mock billing/credits, settings, and live notifications. Chat unread badges are stored per browser because there is no message read-receipt table. Invite emails are not sent; existing profiles receive an in-app notification and pending invite links are only sent to workspace managers for copying. Billing is intentionally a mock with no payment provider or ledger. Old avatar/logo objects are not deleted when replaced.
+
+Rerun `supabase/schema.sql` and `supabase/storage_seed.sql` to apply the new columns and avatar policies. No build, lint, or typecheck was run because project rules prohibit shell commands. Packages needed: none.

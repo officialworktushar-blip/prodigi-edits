@@ -90,8 +90,18 @@ create table if not exists public.workspaces (
   type text,
   notes text,
   logo_url text,
+  brand_heading_font text not null default 'Inter',
+  brand_body_font text not null default 'Inter',
+  brand_primary_color text not null default '#4F46E5',
+  brand_accent_color text not null default '#3B82F6',
   created_at timestamptz not null default now()
 );
+
+alter table public.workspaces
+  add column if not exists brand_heading_font text not null default 'Inter',
+  add column if not exists brand_body_font text not null default 'Inter',
+  add column if not exists brand_primary_color text not null default '#4F46E5',
+  add column if not exists brand_accent_color text not null default '#3B82F6';
 
 create table if not exists public.workspace_members (
   id uuid primary key default gen_random_uuid(),
@@ -686,7 +696,7 @@ drop policy if exists "invites_select_access" on public.invites;
 create policy "invites_select_access"
   on public.invites for select
   to authenticated
-  using (public.has_workspace_access(workspace_id));
+  using (public.has_workspace_access(workspace_id, 'MANAGER') or public.is_admin());
 
 drop policy if exists "invites_insert_manager" on public.invites;
 create policy "invites_insert_manager"
