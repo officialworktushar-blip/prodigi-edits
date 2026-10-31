@@ -118,7 +118,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         setDueDateInput(
           orderData.order.due_at ? toLocalInput(orderData.order.due_at) : ''
         );
-        setNotes(orderData.order.brief || '');
+        setNotes(orderData.notes || '');
       }
     } catch (error) {
       console.error('Error loading order:', error);
@@ -896,7 +896,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="whitespace-pre-wrap text-sm text-slate-600">
-                {order.brief || 'No notes'}
+                {data.notes || 'No notes'}
               </div>
 
               <Button
