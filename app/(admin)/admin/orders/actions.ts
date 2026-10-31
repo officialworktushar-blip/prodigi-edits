@@ -1,5 +1,6 @@
 'use server';
 
+import { createDownloadUrl } from '@/lib/storage';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -516,4 +517,9 @@ export async function cancelOrder(input: z.infer<typeof cancelOrderSchema>) {
   revalidatePath(`/admin/orders/${validated.orderId}`);
 
   return { success: true };
+}
+
+export async function getDownloadUrl(bucket: 'drafts' | 'deliverables', path: string) {
+  await requireRole(['ADMIN', 'EDITOR']);
+  return await createDownloadUrl(path, 3600, bucket);
 }
