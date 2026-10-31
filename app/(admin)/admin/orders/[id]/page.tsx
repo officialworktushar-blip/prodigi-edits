@@ -2,27 +2,37 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Upload, FileVideo, Download, Calendar, User, Clock, FileText, History, X } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import {
+  ArrowLeft,
+  Upload,
+  FileVideo,
+  Download,
+  Calendar,
+  User,
+  Clock,
+  FileText,
+  History,
+  X,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { StatusBadge } from '@/components/shared/status-badge';
 import {
   getOrderById,
   getStaffProfiles,
   assignStaff,
-  setDueDate,
+  setDueDate as setDueDateAction,
   updateInternalNotes,
   uploadDraft,
   uploadDeliverable,
   updateStatus,
   cancelOrder,
+  getDownloadUrl,
 } from '../actions';
-import { createDownloadUrl } from '@/lib/storage';
 import type { OrderStatus, OrderKind } from '@/types/db';
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
@@ -43,12 +53,28 @@ const KIND_LABELS: Record<OrderKind, string> = {
   THUMBNAIL: 'Thumbnail',
 };
 
+const EMPTY_DRAFT_FORM = { path: '', thumbnailPath: '', note: '' };
+const EMPTY_DELIVERABLE_FORM = { name: '', path: '', type: '' };
+
+// UTC ISO string -> value for <input type="datetime-local"> in the viewer's local time
+function toLocalInput(iso: string) {
+  const d = new Date(iso);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+}
+
+function safeFileName(name: string) {
+  return name.replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
 export default function OrderDetailPage({ params }: { params: { id: string } }) {
   const orderId = params.id;
   const [data, setData] = useState<any>(null);
   const [staff, setStaff] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [fileUploading, setFileUploading] = useState(false);
 
   const [assignDialogOpen, setAssignDialogOpen] = useState(false);
   const [dueDateDialogOpen, setDueDateDialogOpen] = useState(false);
@@ -62,22 +88,15 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     editorId: '',
     thumbnailArtistId: '',
   });
-  const [dueDate, setDueDate] = useState('');
+  const [dueDateInput, setDueDateInput] = useState('');
   const [notes, setNotes] = useState('');
-  const [draftForm, setDraftForm] = useState({
-    path: '',
-    thumbnailPath: '',
-    note: '',
-  });
-  const [deliverableForm, setDeliverableForm] = useState({
-    name: '',
-    path: '',
-    type: '',
-  });
+  const [draftForm, setDraftForm] = useState(EMPTY_DRAFT_FORM);
+  const [deliverableForm, setDeliverableForm] = useState(EMPTY_DELIVERABLE_FORM);
   const [cancelReason, setCancelReason] = useState('');
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   async function loadData() {
@@ -88,7 +107,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         getStaffProfiles(),
       ]);
       setData(orderData);
-      setStaff(staffData);
+      setStaff(staffData || []);
 
       if (orderData?.order) {
         setAssignForm({
@@ -96,7 +115,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
           editorId: orderData.order.editor_id || '',
           thumbnailArtistId: orderData.order.thumbnail_artist_id || '',
         });
-        setDueDate(orderData.order.due_at ? orderData.order.due_at.slice(0, 16) : '');
+        setDueDateInput(
+          orderData.order.due_at ? toLocalInput(orderData.order.due_at) : ''
+        );
         setNotes(orderData.order.brief || '');
       }
     } catch (error) {
@@ -122,9 +143,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
   }
 
   async function handleSetDueDate() {
-    const result = await setDueDate({
+    const result = await setDueDateAction({
       orderId,
-      dueAt: dueDate ? new Date(dueDate).toISOString() : null,
+      dueAt: dueDateInput ? new Date(dueDateInput).toISOString() : null,
     });
     if (result.success) {
       setDueDateDialogOpen(false);
@@ -164,7 +185,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
     if (result.success) {
       setDraftDialogOpen(false);
-      setDraftForm({ path: '', thumbnailPath: '', note: '' });
+      setDraftForm(EMPTY_DRAFT_FORM);
       loadData();
     } else {
       alert(result.error || 'Failed to upload draft');
@@ -188,7 +209,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
     if (result.success) {
       setDeliverableDialogOpen(false);
-      setDeliverableForm({ name: '', path: '', type: '' });
+      setDeliverableForm(EMPTY_DELIVERABLE_FORM);
       loadData();
     } else {
       alert(result.error || 'Failed to upload deliverable');
@@ -202,6 +223,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     });
     if (result.success) {
       setCancelDialogOpen(false);
+      setCancelReason('');
       loadData();
     } else {
       alert(result.error || 'Failed to cancel order');
@@ -217,13 +239,27 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     }
   }
 
-  async function handleFileUpload(type: 'draft' | 'draftThumbnail' | 'deliverable', file: File) {
+  async function handleFileUpload(
+    type: 'draft' | 'draftThumbnail' | 'deliverable',
+    file: File
+  ) {
+    const workspaceId = data?.order?.workspace_id;
+    if (!workspaceId) {
+      alert('Workspace not found for this order');
+      return;
+    }
+
+    setFileUploading(true);
     try {
+      const requestedPath = `${workspaceId}/${orderId}/${type}-${Date.now()}-${safeFileName(
+        file.name
+      )}`;
+
       const signRes = await fetch('/api/upload/sign-staff', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          path: `${orderId}/${type}/${Date.now()}-${file.name}`,
+          path: requestedPath,
           bucket: type === 'deliverable' ? 'deliverables' : 'drafts',
         }),
       });
@@ -232,10 +268,13 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         throw new Error('Failed to get upload URL');
       }
 
-      const { signedUrl, path } = await signRes.json();
+      const signed = await signRes.json();
+      const signedUrl: string = signed.signedUrl;
+      const path: string = signed.path || requestedPath;
 
       const uploadRes = await fetch(signedUrl, {
         method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
         body: file,
       });
 
@@ -244,21 +283,23 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
       }
 
       if (type === 'draft') {
-        setDraftForm({ ...draftForm, path });
+        setDraftForm((f) => ({ ...f, path }));
       } else if (type === 'draftThumbnail') {
-        setDraftForm({ ...draftForm, thumbnailPath: path });
+        setDraftForm((f) => ({ ...f, thumbnailPath: path }));
       } else {
-        setDeliverableForm({ ...deliverableForm, path });
+        setDeliverableForm((f) => ({ ...f, path }));
       }
     } catch (error) {
       console.error('Upload error:', error);
       alert('Failed to upload file');
+    } finally {
+      setFileUploading(false);
     }
   }
 
-  async function handleDownload(path: string, bucket: string) {
+  async function handleDownload(path: string, bucket: 'drafts' | 'deliverables') {
     try {
-      const url = await createDownloadUrl(path, 3600, bucket);
+      const url = await getDownloadUrl(bucket, path);
       window.open(url, '_blank');
     } catch (error) {
       console.error('Download error:', error);
@@ -282,13 +323,17 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     );
   }
 
-  const { order, drafts, deliverables, comments, auditLogs } = data;
+  const order = data.order;
+  const drafts: any[] = data.drafts || [];
+  const deliverables: any[] = data.deliverables || [];
+  const comments: any[] = data.comments || [];
+  const auditLogs: any[] = data.auditLogs || [];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Link href="/admin/orders">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" className="h-9 w-9 p-0" aria-label="Back to orders">
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </Link>
@@ -304,7 +349,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -327,7 +372,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     Kind
                   </label>
                   <div className="mt-1">
-                    <Badge variant="outline">{KIND_LABELS[order.kind]}</Badge>
+                    <span className="inline-flex items-center rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                      {KIND_LABELS[order.kind as OrderKind] || order.kind}
+                    </span>
                   </div>
                 </div>
                 <div>
@@ -335,9 +382,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     Due Date
                   </label>
                   <div className="mt-1 text-sm text-slate-600">
-                    {order.due_at
-                      ? new Date(order.due_at).toLocaleString()
-                      : 'Not set'}
+                    {order.due_at ? new Date(order.due_at).toLocaleString() : 'Not set'}
                   </div>
                 </div>
                 <div>
@@ -355,7 +400,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                   <label className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                     Brief
                   </label>
-                  <div className="mt-1 text-sm text-slate-600 whitespace-pre-wrap">
+                  <div className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
                     {order.brief}
                   </div>
                 </div>
@@ -366,7 +411,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                   <label className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                     Reference Links
                   </label>
-                  <div className="mt-1 text-sm text-slate-600 whitespace-pre-wrap">
+                  <div className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
                     {order.reference_links}
                   </div>
                 </div>
@@ -380,9 +425,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 <FileVideo className="h-5 w-5" />
                 Drafts
               </CardTitle>
-              <CardDescription>
-                Video drafts for customer review
-              </CardDescription>
+              <p className="text-sm text-slate-500">Video drafts for customer review</p>
             </CardHeader>
             <CardContent className="space-y-3">
               {drafts.length === 0 ? (
@@ -400,9 +443,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                         Version {draft.version}
                       </div>
                       {draft.note && (
-                        <div className="mt-0.5 text-xs text-slate-500">
-                          {draft.note}
-                        </div>
+                        <div className="mt-0.5 text-xs text-slate-500">{draft.note}</div>
                       )}
                       <div className="mt-1 text-xs text-slate-400">
                         {new Date(draft.created_at).toLocaleString()}
@@ -411,7 +452,8 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     {draft.path && (
                       <Button
                         variant="ghost"
-                        size="icon"
+                        className="h-9 w-9 p-0"
+                        aria-label="Download draft"
                         onClick={() => handleDownload(draft.path, 'drafts')}
                       >
                         <Download className="h-4 w-4" />
@@ -421,13 +463,18 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 ))
               )}
 
-              <Dialog open={draftDialogOpen} onOpenChange={setDraftDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="w-full">
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload New Draft
-                  </Button>
-                </DialogTrigger>
+              <Button className="w-full" onClick={() => setDraftDialogOpen(true)}>
+                <Upload className="mr-2 h-4 w-4" />
+                Upload New Draft
+              </Button>
+
+              <Dialog
+                open={draftDialogOpen}
+                onOpenChange={(open: boolean) => {
+                  setDraftDialogOpen(open);
+                  if (!open) setDraftForm(EMPTY_DRAFT_FORM);
+                }}
+              >
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Upload Draft</DialogTitle>
@@ -446,10 +493,11 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                         }}
                         className="mt-1"
                       />
-                      {draftForm.path && (
-                        <div className="mt-1 text-xs text-green-600">
-                          File ready to upload
-                        </div>
+                      {fileUploading && (
+                        <div className="mt-1 text-xs text-slate-500">Uploading file...</div>
+                      )}
+                      {draftForm.path && !fileUploading && (
+                        <div className="mt-1 text-xs text-green-600">File uploaded</div>
                       )}
                     </div>
 
@@ -475,7 +523,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                       <Textarea
                         value={draftForm.note}
                         onChange={(e) =>
-                          setDraftForm({ ...draftForm, note: e.target.value })
+                          setDraftForm((f) => ({ ...f, note: e.target.value }))
                         }
                         placeholder="Add a note for the customer..."
                         className="mt-1"
@@ -484,10 +532,10 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
                     <Button
                       onClick={handleUploadDraft}
-                      disabled={uploading || !draftForm.path}
+                      disabled={uploading || fileUploading || !draftForm.path}
                       className="w-full"
                     >
-                      {uploading ? 'Uploading...' : 'Upload Draft'}
+                      {uploading ? 'Saving...' : 'Save Draft'}
                     </Button>
                   </div>
                 </DialogContent>
@@ -501,9 +549,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 <FileVideo className="h-5 w-5" />
                 Deliverables
               </CardTitle>
-              <CardDescription>
-                Final files for customer download
-              </CardDescription>
+              <p className="text-sm text-slate-500">Final files for customer download</p>
             </CardHeader>
             <CardContent className="space-y-3">
               {deliverables.length === 0 ? (
@@ -517,13 +563,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/50 p-3"
                   >
                     <div className="flex-1">
-                      <div className="font-semibold text-brand-ink">
-                        {del.name}
-                      </div>
+                      <div className="font-semibold text-brand-ink">{del.name}</div>
                       {del.type && (
-                        <div className="mt-0.5 text-xs text-slate-500">
-                          {del.type}
-                        </div>
+                        <div className="mt-0.5 text-xs text-slate-500">{del.type}</div>
                       )}
                       <div className="mt-1 text-xs text-slate-400">
                         {new Date(del.created_at).toLocaleString()}
@@ -532,7 +574,8 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     {del.path && (
                       <Button
                         variant="ghost"
-                        size="icon"
+                        className="h-9 w-9 p-0"
+                        aria-label="Download deliverable"
                         onClick={() => handleDownload(del.path, 'deliverables')}
                       >
                         <Download className="h-4 w-4" />
@@ -542,32 +585,29 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 ))
               )}
 
+              <Button className="w-full" onClick={() => setDeliverableDialogOpen(true)}>
+                <Upload className="mr-2 h-4 w-4" />
+                Upload Deliverable
+              </Button>
+
               <Dialog
                 open={deliverableDialogOpen}
-                onOpenChange={setDeliverableDialogOpen}
+                onOpenChange={(open: boolean) => {
+                  setDeliverableDialogOpen(open);
+                  if (!open) setDeliverableForm(EMPTY_DELIVERABLE_FORM);
+                }}
               >
-                <DialogTrigger asChild>
-                  <Button className="w-full">
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload Deliverable
-                  </Button>
-                </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Upload Deliverable</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">
-                        Name *
-                      </label>
+                      <label className="text-sm font-medium text-slate-700">Name *</label>
                       <Input
                         value={deliverableForm.name}
                         onChange={(e) =>
-                          setDeliverableForm({
-                            ...deliverableForm,
-                            name: e.target.value,
-                          })
+                          setDeliverableForm((f) => ({ ...f, name: e.target.value }))
                         }
                         placeholder="e.g., Final video v1"
                         className="mt-1"
@@ -575,29 +615,25 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">
-                        File *
-                      </label>
+                      <label className="text-sm font-medium text-slate-700">File *</label>
                       <Input
                         type="file"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) {
+                            setDeliverableForm((f) =>
+                              f.name ? f : { ...f, name: file.name }
+                            );
                             handleFileUpload('deliverable', file);
-                            if (!deliverableForm.name) {
-                              setDeliverableForm({
-                                ...deliverableForm,
-                                name: file.name,
-                              });
-                            }
                           }
                         }}
                         className="mt-1"
                       />
-                      {deliverableForm.path && (
-                        <div className="mt-1 text-xs text-green-600">
-                          File ready to upload
-                        </div>
+                      {fileUploading && (
+                        <div className="mt-1 text-xs text-slate-500">Uploading file...</div>
+                      )}
+                      {deliverableForm.path && !fileUploading && (
+                        <div className="mt-1 text-xs text-green-600">File uploaded</div>
                       )}
                     </div>
 
@@ -608,10 +644,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                       <Input
                         value={deliverableForm.type}
                         onChange={(e) =>
-                          setDeliverableForm({
-                            ...deliverableForm,
-                            type: e.target.value,
-                          })
+                          setDeliverableForm((f) => ({ ...f, type: e.target.value }))
                         }
                         placeholder="e.g., MP4, MOV"
                         className="mt-1"
@@ -620,10 +653,15 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
                     <Button
                       onClick={handleUploadDeliverable}
-                      disabled={uploading || !deliverableForm.path}
+                      disabled={
+                        uploading ||
+                        fileUploading ||
+                        !deliverableForm.path ||
+                        !deliverableForm.name
+                      }
                       className="w-full"
                     >
-                      {uploading ? 'Uploading...' : 'Upload Deliverable'}
+                      {uploading ? 'Saving...' : 'Save Deliverable'}
                     </Button>
                   </div>
                 </DialogContent>
@@ -637,9 +675,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 <FileText className="h-5 w-5" />
                 Review Comments
               </CardTitle>
-              <CardDescription>
-                Customer feedback on drafts
-              </CardDescription>
+              <p className="text-sm text-slate-500">Customer feedback on drafts</p>
             </CardHeader>
             <CardContent className="space-y-3">
               {comments.length === 0 ? (
@@ -657,20 +693,24 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                         <div className="font-semibold text-brand-ink">
                           {comment.author?.name || comment.author?.email || 'Unknown'}
                         </div>
-                        <div className="mt-1 text-sm text-slate-600 whitespace-pre-wrap">
+                        <div className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
                           {comment.body}
                         </div>
-                        {comment.timestamp_sec && (
+                        {comment.timestamp_sec != null && (
                           <div className="mt-1 text-xs text-slate-400">
-                            Timestamp: {Math.floor(comment.timestamp_sec)}s
+                            Timestamp: {Math.floor(Number(comment.timestamp_sec))}s
                           </div>
                         )}
                       </div>
-                      <Badge
-                        variant={comment.status === 'OPEN' ? 'warning' : 'success'}
+                      <span
+                        className={
+                          comment.status === 'OPEN'
+                            ? 'inline-flex rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700'
+                            : 'inline-flex rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700'
+                        }
                       >
                         {comment.status}
-                      </Badge>
+                      </span>
                     </div>
                     <div className="mt-2 text-xs text-slate-400">
                       {new Date(comment.created_at).toLocaleString()}
@@ -718,25 +758,26 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 </div>
               </div>
 
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => setAssignDialogOpen(true)}
+              >
+                Assign Staff
+              </Button>
+
               <Dialog open={assignDialogOpen} onOpenChange={setAssignDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Assign Staff
-                  </Button>
-                </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Assign Staff</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">
-                        Manager
-                      </label>
+                      <label className="text-sm font-medium text-slate-700">Manager</label>
                       <Select
                         value={assignForm.managerId}
                         onChange={(e) =>
-                          setAssignForm({ ...assignForm, managerId: e.target.value })
+                          setAssignForm((f) => ({ ...f, managerId: e.target.value }))
                         }
                         className="mt-1"
                       >
@@ -750,13 +791,11 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">
-                        Editor
-                      </label>
+                      <label className="text-sm font-medium text-slate-700">Editor</label>
                       <Select
                         value={assignForm.editorId}
                         onChange={(e) =>
-                          setAssignForm({ ...assignForm, editorId: e.target.value })
+                          setAssignForm((f) => ({ ...f, editorId: e.target.value }))
                         }
                         className="mt-1"
                       >
@@ -776,10 +815,10 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                       <Select
                         value={assignForm.thumbnailArtistId}
                         onChange={(e) =>
-                          setAssignForm({
-                            ...assignForm,
+                          setAssignForm((f) => ({
+                            ...f,
                             thumbnailArtistId: e.target.value,
-                          })
+                          }))
                         }
                         className="mt-1"
                       >
@@ -810,17 +849,18 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="text-sm text-slate-600">
-                {order.due_at
-                  ? new Date(order.due_at).toLocaleString()
-                  : 'Not set'}
+                {order.due_at ? new Date(order.due_at).toLocaleString() : 'Not set'}
               </div>
 
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => setDueDateDialogOpen(true)}
+              >
+                Set Due Date
+              </Button>
+
               <Dialog open={dueDateDialogOpen} onOpenChange={setDueDateDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Set Due Date
-                  </Button>
-                </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Set Due Date</DialogTitle>
@@ -828,12 +868,12 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                   <div className="space-y-4">
                     <div>
                       <label className="text-sm font-medium text-slate-700">
-                        Due Date & Time
+                        Due Date &amp; Time
                       </label>
                       <Input
                         type="datetime-local"
-                        value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
+                        value={dueDateInput}
+                        onChange={(e) => setDueDateInput(e.target.value)}
                         className="mt-1"
                       />
                     </div>
@@ -855,16 +895,19 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="text-sm text-slate-600 whitespace-pre-wrap">
+              <div className="whitespace-pre-wrap text-sm text-slate-600">
                 {order.brief || 'No notes'}
               </div>
 
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => setNotesDialogOpen(true)}
+              >
+                Edit Notes
+              </Button>
+
               <Dialog open={notesDialogOpen} onOpenChange={setNotesDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Edit Notes
-                  </Button>
-                </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Edit Internal Notes</DialogTitle>
@@ -897,46 +940,47 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 value={order.status}
                 onChange={(e) => handleStatusChange(e.target.value as OrderStatus)}
               >
-                <option value="DRAFT">Draft</option>
-                <option value="SUBMITTED">Submitted</option>
-                <option value="ASSIGNED">Assigned</option>
-                <option value="IN_PROGRESS">In Progress</option>
-                <option value="IN_REVIEW">In Review</option>
-                <option value="REVISION_REQUESTED">Revision Requested</option>
-                <option value="APPROVED">Approved</option>
-                <option value="DELIVERED">Delivered</option>
-                <option value="CANCELLED">Cancelled</option>
+                {(Object.keys(STATUS_LABELS) as OrderStatus[]).map((s) => (
+                  <option key={s} value={s}>
+                    {STATUS_LABELS[s]}
+                  </option>
+                ))}
               </Select>
 
               {order.status !== 'CANCELLED' && (
-                <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="danger" className="w-full">
-                      <X className="mr-2 h-4 w-4" />
-                      Cancel Order
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Cancel Order</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <Textarea
-                        value={cancelReason}
-                        onChange={(e) => setCancelReason(e.target.value)}
-                        placeholder="Reason for cancellation (optional)..."
-                        rows={3}
-                      />
-                      <Button
-                        onClick={handleCancelOrder}
-                        variant="danger"
-                        className="w-full"
-                      >
-                        Confirm Cancellation
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <>
+                  <Button
+                    variant="outline"
+                    className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                    onClick={() => setCancelDialogOpen(true)}
+                  >
+                    <X className="mr-2 h-4 w-4" />
+                    Cancel Order
+                  </Button>
+
+                  <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Cancel Order</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <Textarea
+                          value={cancelReason}
+                          onChange={(e) => setCancelReason(e.target.value)}
+                          placeholder="Reason for cancellation (optional)..."
+                          rows={3}
+                        />
+                        <Button
+                          onClick={handleCancelOrder}
+                          variant="outline"
+                          className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                        >
+                          Confirm Cancellation
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </>
               )}
             </CardContent>
           </Card>
@@ -948,7 +992,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                 Audit Log
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 max-h-96 overflow-y-auto">
+            <CardContent className="max-h-96 space-y-3 overflow-y-auto">
               {auditLogs.length === 0 ? (
                 <div className="py-4 text-center text-sm text-slate-500">
                   No activity logged
@@ -962,7 +1006,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
                         <div className="font-semibold text-brand-ink">
-                          {log.action.replace(/_/g, ' ')}
+                          {String(log.action || '').replace(/_/g, ' ')}
                         </div>
                         <div className="mt-0.5 text-xs text-slate-500">
                           {log.actor?.name || log.actor?.email || 'System'}
@@ -982,3 +1026,4 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     </div>
   );
 }
+

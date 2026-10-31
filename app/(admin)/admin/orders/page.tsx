@@ -116,7 +116,7 @@ export default function OrdersPage() {
 
         <div className="flex items-center gap-2">
           <Button
-            variant={view === 'table' ? 'default' : 'outline'}
+            variant={view === 'table' ? 'primary' : 'outline'}
             size="sm"
             onClick={() => setView('table')}
           >
@@ -124,7 +124,7 @@ export default function OrdersPage() {
             Table
           </Button>
           <Button
-            variant={view === 'board' ? 'default' : 'outline'}
+            variant={view === 'board' ? 'primary' : 'outline'}
             size="sm"
             onClick={() => setView('board')}
           >
@@ -153,7 +153,7 @@ export default function OrdersPage() {
             <option value="">All Statuses</option>
             {STATUS_OPTIONS.map((status) => (
               <option key={status} value={status}>
-                {STATUS_LABELS[status]}
+                {STATUS_LABELS[status as OrderStatus]}
               </option>
             ))}
           </Select>
@@ -165,7 +165,7 @@ export default function OrdersPage() {
             <option value="">All Kinds</option>
             {KIND_OPTIONS.map((kind) => (
               <option key={kind} value={kind}>
-                {KIND_LABELS[kind]}
+                {KIND_LABELS[kind as OrderKind]}
               </option>
             ))}
           </Select>
@@ -177,7 +177,7 @@ export default function OrdersPage() {
             <option value="">All Editors</option>
             {editors.map((editor) => (
               <option key={editor.id} value={editor.id}>
-                {editor.name || editor.email || 'Unknown'}
+                {editor.name || 'Unknown'}
               </option>
             ))}
           </Select>
@@ -228,7 +228,7 @@ export default function OrdersPage() {
                       {order.customer?.name || order.customer?.email || 'Unknown'}
                     </td>
                     <td className="px-4 py-3">
-                      <Badge variant="outline">{KIND_LABELS[order.kind]}</Badge>
+                      <Badge variant="outline">{KIND_LABELS[order.kind as OrderKind]}</Badge>
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={order.status} />
@@ -246,11 +246,11 @@ export default function OrdersPage() {
                     </td>
                     <td className="px-4 py-3">
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
+                        <DropdownMenuTrigger>
+  <span className="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100">
+    <MoreVertical className="h-4 w-4" />
+  </span>
+</DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <Link href={`/admin/orders/${order.id}`}>
                             <DropdownMenuItem>View Details</DropdownMenuItem>
@@ -265,7 +265,7 @@ export default function OrdersPage() {
                               onClick={() => handleStatusChange(order.id, status)}
                               disabled={order.status === status}
                             >
-                              {STATUS_LABELS[status]}
+                              {STATUS_LABELS[status as OrderStatus]}
                             </DropdownMenuItem>
                           ))}
                         </DropdownMenuContent>
@@ -314,12 +314,12 @@ export default function OrdersPage() {
                         </div>
                       </div>
                       <Badge variant="outline" className="shrink-0 text-[10px]">
-                        {KIND_LABELS[order.kind]}
+                        {KIND_LABELS[order.kind as OrderKind]}
                       </Badge>
                     </div>
 
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -338,7 +338,7 @@ export default function OrdersPage() {
                             onClick={() => handleStatusChange(order.id, s)}
                             disabled={order.status === s}
                           >
-                            {STATUS_LABELS[s]}
+                            {STATUS_LABELS[s as OrderStatus]}
                           </DropdownMenuItem>
                         ))}
                       </DropdownMenuContent>
