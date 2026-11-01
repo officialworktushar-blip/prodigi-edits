@@ -8,13 +8,10 @@ import type {
   Testimonial,
 } from '@/types/db';
 import { Hero } from '@/components/marketing/home/hero';
-import { Stats } from '@/components/marketing/home/stats';
-import { HowItWorks } from '@/components/marketing/home/how-it-works';
-import { GetStartedCards } from '@/components/marketing/home/get-started-cards';
-import { FeaturesGrid } from '@/components/marketing/home/features-grid';
-import { ServicesTabs } from '@/components/marketing/home/services-tabs';
-import { CaseStudiesCarousel } from '@/components/marketing/home/case-studies-carousel';
-import { Testimonials } from '@/components/marketing/home/testimonials';
+import { TrustedBy } from '@/components/marketing/home/trusted-by';
+import { CreateVideosSection } from '@/components/marketing/home/create-videos-section';
+import { ThreeWaysSection } from '@/components/marketing/home/three-ways-section';
+import { KeepCalmSection } from '@/components/marketing/home/keep-calm-section';
 import { PricingTeaser } from '@/components/marketing/home/pricing-teaser';
 import { FaqAccordion } from '@/components/marketing/home/faq';
 import { FinalCta } from '@/components/marketing/home/final-cta';
@@ -26,15 +23,11 @@ export const metadata: Metadata = {
 };
 
 interface HomeData {
-  testimonials: Testimonial[];
-  caseStudies: CaseStudy[];
   faqItems: FaqItem[];
   packages: Package[];
 }
 
 const EMPTY_HOME_DATA: HomeData = {
-  testimonials: [],
-  caseStudies: [],
   faqItems: [],
   packages: [],
 };
@@ -72,43 +65,24 @@ async function getHomeData(): Promise<HomeData> {
   try {
     const supabase = createClient();
 
-    const [testimonialsResult, caseStudiesResult, faqResult, packagesResult] =
-      await Promise.all([
-        supabase
-          .from('testimonials')
-          .select('*')
-          .eq('is_published', true)
-          .order('created_at', { ascending: false })
-          .limit(6),
-        supabase
-          .from('case_studies')
-          .select('*')
-          .eq('is_published', true)
-          .order('created_at', { ascending: false })
-          .limit(6),
-        supabase
-          .from('faq_items')
-          .select('*')
-          .eq('is_published', true)
-          .order('sort_order', { ascending: true }),
-        supabase
-          .from('packages')
-          .select('*')
-          .eq('is_active', true)
-          .order('video_count', { ascending: true }),
-      ]);
+    const [faqResult, packagesResult] = await Promise.all([
+      supabase
+        .from('faq_items')
+        .select('*')
+        .eq('is_published', true)
+        .order('sort_order', { ascending: true }),
+      supabase
+        .from('packages')
+        .select('*')
+        .eq('is_active', true)
+        .order('video_count', { ascending: true }),
+    ]);
 
     const activePackages = packagesResult.error
       ? []
       : ((packagesResult.data as Package[] | null) ?? []);
 
     return {
-      testimonials: testimonialsResult.error
-        ? []
-        : ((testimonialsResult.data as Testimonial[] | null) ?? []),
-      caseStudies: caseStudiesResult.error
-        ? []
-        : ((caseStudiesResult.data as CaseStudy[] | null) ?? []),
       faqItems: faqResult.error
         ? []
         : ((faqResult.data as FaqItem[] | null) ?? []),
@@ -120,19 +94,15 @@ async function getHomeData(): Promise<HomeData> {
 }
 
 export default async function MarketingHomePage() {
-  const { testimonials, caseStudies, faqItems, packages } =
-    await getHomeData();
+  const { faqItems, packages } = await getHomeData();
 
   return (
     <>
       <Hero />
-      <Stats />
-      <HowItWorks />
-      <GetStartedCards />
-      <FeaturesGrid />
-      <ServicesTabs />
-      <CaseStudiesCarousel caseStudies={caseStudies} />
-      <Testimonials testimonials={testimonials} />
+      <TrustedBy />
+      <CreateVideosSection />
+      <ThreeWaysSection />
+      <KeepCalmSection />
       <PricingTeaser packages={packages} />
       <FaqAccordion items={faqItems} />
       <FinalCta />

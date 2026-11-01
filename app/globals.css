@@ -31,6 +31,12 @@
     --hero-cyan: #4cc9ff;
     --hero-cyan-hover: #7ad8ff;
     --hero-ink: #062033;
+    --hs-navy: #00212e;
+    --hs-teal: #003b52;
+    --hs-ink: #021b26;
+    --hs-light: #eff3f6;
+    --hs-sky: #4ccfff;
+    --hs-cyan: #0fb5f7;
   }
 
   html {
@@ -65,6 +71,13 @@
   .text-gradient,
   .gradient-text {
     background-image: linear-gradient(90deg, #0ea5e9 0%, #8b5cf6 55%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hs-grad-text {
+    background-image: linear-gradient(90deg, #10b2f9 0%, #6b7fd0 45%, #d4287a 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
