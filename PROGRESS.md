@@ -524,3 +524,21 @@ Changed:
 - `app/(auth)/layout.tsx` - only the left `<aside>` changed: `bg-[#0F1222]` became `bg-hero-dark`, the three blurred circles became the two `PageHero` blobs (violet and pink, `animate-glow-drift`, with the staggered delay on the pink one), and the `h1` span uses `text-gradient-hero` instead of the indigo/blue/pink gradient. Text, links, and the form side are unchanged.
 
 `app/(customer)`, `app/(admin)`, and `components/shared/page-header.tsx` were not touched. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task S1: Reusable marketing section components
+
+Created:
+- `lib/data/testimonials.ts` — shared `Testimonial[]` fallback matching the six seeded client notes exactly.
+- `components/sections/page-hero.tsx` — prop-driven light/dark hero with a CSS/SVG editor mockup, actions, optional pill, children, and tone-aware gradient highlight. Passing `pill={null}` removes the default pill.
+- `components/sections/pain-section.tsx` — three-card problem section with orange outline icons and optional highlight.
+- `components/sections/way-section.tsx` — two-card approach section with framed illustrations, optional CTA, and pink full-stop accent.
+- `components/sections/feature-split.tsx` — reversible two-column feature section with a default theme-grid mockup and `FadeIn`.
+- `components/sections/gradient-cta-banner.tsx` — dark gradient CTA with a CSS-only floating chart fan.
+- `components/sections/reviews-wall.tsx` — dark masonry client-note wall using shared testimonials and SVG initials avatars.
+- `components/sections/section-illustrations.tsx` — 12 inline SVG illustrations plus the `SectionIllustration` name switch.
+- `components/sections/index.ts` — barrel exports for all components and prop types.
+
+Changed:
+- `app/globals.css` — added reduced-motion-guarded `pe-float`, `pe-pulse-soft`, `pe-draw-line`, `pe-shimmer`, and `pe-cursor-move` keyframes with matching `.animate-*` utilities.
+
+All testimonial quotes were checked against `supabase/storage_seed.sql`; the Home page, footer, navigation, and existing `components/marketing/page-hero.tsx` were not changed. `app/(marketing)/layout.tsx` still shares the unchanged `components/marketing/footer.tsx` across marketing pages. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
