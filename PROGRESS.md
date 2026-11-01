@@ -427,3 +427,31 @@ Created:
 - `app/(admin)/admin/orders/[id]/page.tsx` — client order detail page with staff assignment (manager/editor/thumbnail-artist), due date, internal notes, draft upload (with optional thumbnail and note, auto versioning), deliverable upload, review comments view, status change, cancel with reason, and audit log. All uploads use the staff sign route and private buckets. Downloads use server-signed URLs with one-hour expiry.
 
 Nothing left undone. No packages were added. No build, lint, or typecheck was run because project rules prohibit shell commands.
+
+## Task H1: Dark gradient hero design tokens
+
+Changed:
+- `app/globals.css` — added `--hero-navy`, `--hero-teal`, `--hero-cyan`, `--hero-cyan-hover`, and `--hero-ink` to `:root`; added `.bg-hero-dark`, `.text-gradient-hero`, `.btn-cyan` (hover and focus-visible), `.btn-outline-light` (hover and focus-visible), and `.glass-window` to `@layer utilities`; changed the existing `.text-gradient, .gradient-text` rule to the deeper sky/violet/pink gradient while keeping both selectors and the clip rules.
+- `tailwind.config.ts` — added `hero-rise`, `hero-fade-up`, `glow-drift`, `text-shimmer`, and `draw-arc` keyframes and matching `animation` entries. Existing animations and keyframes were kept.
+
+`.bg-hero-mesh` was left unchanged, and every pre-existing utility, token, and Tailwind class still resolves. No commands were run. Nothing left undone. Packages needed: none.
+
+## Task H2: Dark gradient home hero
+
+Rewrote:
+- `components/marketing/home/hero.tsx` — dark `bg-hero-dark` hero with two blurred violet/pink blobs, a two-line headline using `text-gradient-hero` and `animate-text-shimmer`, the provided subcopy, `btn-cyan` and `btn-outline-light` CTAs, the product window reveal, and a five-item text wordmark strip. The old eyebrow, rating row, floating cards, and `MediaPlaceholder` usage were removed. It remains a server component with CSS animations only.
+
+Created:
+- `components/marketing/home/hero-product-window.tsx` — decorative server-rendered mock order/review window using `glass-window`, a toolbar, layered side rails, a three-tile storyboard, a progress ring chart using `animate-draw-arc` and CSS custom properties, and the desktop-only add-note affordance. No client hooks or framer-motion.
+
+Changed:
+- `app/(marketing)/page.tsx` — removed the `TrustedBy` import and usage. `components/marketing/home/trusted-by.tsx` is kept but no longer rendered on the homepage.
+
+Every lucide icon used was verified against `node_modules/lucide-react/dist/lucide-react.d.ts` (version 1.65.0): `House`, `ChevronDown`, `Palette`, `ChartColumn`, `CirclePlay`, `Share`, `Contrast`, `CircleQuestionMark`, `Grid2x2`, `Droplets`, `LayoutGrid`, `Grip`, `Lightbulb`, `Settings`, `Accessibility`, `MessageCirclePlus`, `CirclePlus`, and `Play`. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task H3: White marketing navbar restyle
+
+Changed only:
+- `components/marketing/navbar.tsx` — header is now solid white with `border-slate-100`, `h-[72px]`, and `z-50`; desktop nav links use 15px medium slate with small chevrons, indigo hover, and wider spacing. The desktop action row now reads Talk to us (`/contact`, outline), Get started (`/signup`, `.btn-cyan` with `!px-5 !py-2.5 !text-[15px]`), Log in (`/login`, plain text). The mobile action block shows the same three stacked full width, with Get started using `.btn-cyan`.
+
+Dropdown logic, links, mobile menu behavior, and all accessibility attributes were left untouched. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.

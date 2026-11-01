@@ -74,6 +74,11 @@ export default {
       animation: {
         'fade-up': 'fade-up 0.3s ease-out',
         'hover-lift': 'hover-lift 0.2s ease-out',
+        'hero-rise': 'hero-rise 0.9s cubic-bezier(.22,1,.36,1) both',
+        'hero-fade-up': 'hero-fade-up 0.6s ease-out both',
+        'glow-drift': 'glow-drift 18s ease-in-out infinite',
+        'text-shimmer': 'text-shimmer 9s ease-in-out infinite',
+        'draw-arc': 'draw-arc 1.4s ease-out both',
       },
       keyframes: {
         'fade-up': {
@@ -83,6 +88,26 @@ export default {
         'hover-lift': {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-2px)' },
+        },
+        'hero-rise': {
+          '0%': { opacity: '0', transform: 'translateY(28px) scale(.985)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
+        'hero-fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'glow-drift': {
+          '0%,100%': { transform: 'translate3d(0,0,0)' },
+          '50%': { transform: 'translate3d(2%,-3%,0)' },
+        },
+        'text-shimmer': {
+          '0%,100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        'draw-arc': {
+          '0%': { strokeDashoffset: 'var(--arc-length)' },
+          '100%': { strokeDashoffset: 'var(--arc-offset)' },
         },
       },
     },

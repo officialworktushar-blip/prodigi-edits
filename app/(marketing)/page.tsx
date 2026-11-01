@@ -8,7 +8,6 @@ import type {
   Testimonial,
 } from '@/types/db';
 import { Hero } from '@/components/marketing/home/hero';
-import { TrustedBy } from '@/components/marketing/home/trusted-by';
 import { Stats } from '@/components/marketing/home/stats';
 import { HowItWorks } from '@/components/marketing/home/how-it-works';
 import { GetStartedCards } from '@/components/marketing/home/get-started-cards';
@@ -127,7 +126,6 @@ export default async function MarketingHomePage() {
   return (
     <>
       <Hero />
-      <TrustedBy />
       <Stats />
       <HowItWorks />
       <GetStartedCards />
