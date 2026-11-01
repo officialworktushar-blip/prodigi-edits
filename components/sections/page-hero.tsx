@@ -51,6 +51,8 @@ export interface PageHeroProps {
   primaryAction?: PageHeroAction;
   secondaryAction?: PageHeroAction;
   mockup?: PageHeroMockup;
+  visual?: ReactNode;
+  highlightClassName?: string;
   pill?: PageHeroPill | null;
   tone?: PageHeroTone;
   children?: ReactNode;
@@ -78,10 +80,18 @@ const DEFAULT_PILL: PageHeroPill = {
   href: '/platform',
 };
 
-function renderTitle(title: string, highlight?: string, isDark = true) {
-  const highlightClass = isDark
+function renderTitle(
+  title: string,
+  highlight?: string,
+  isDark = true,
+  highlightClassName?: string
+) {
+  const baseClass = isDark
     ? 'text-gradient-hero animate-text-shimmer'
     : 'text-gradient';
+  const highlightClass = highlightClassName
+    ? `${baseClass} ${highlightClassName}`
+    : baseClass;
   const target = highlight?.trim();
 
   if (target) {
@@ -309,6 +319,8 @@ export function PageHero({
   primaryAction,
   secondaryAction,
   mockup,
+  visual,
+  highlightClassName,
   pill = DEFAULT_PILL,
   tone = 'light',
   children,
@@ -369,7 +381,7 @@ export function PageHero({
               )}
               style={{ animationDelay: '0.1s' }}
             >
-              {renderTitle(title, highlight, isDark)}
+              {renderTitle(title, highlight, isDark, highlightClassName)}
             </h1>
 
             {description ? (
@@ -425,7 +437,7 @@ export function PageHero({
             className="animate-hero-fade-up"
             style={{ animationDelay: '0.2s' }}
           >
-            <ProductMockup mockup={mockup ?? {}} />
+            {visual ?? <ProductMockup mockup={mockup ?? {}} />}
           </div>
         </div>
 

@@ -542,3 +542,13 @@ Changed:
 - `app/globals.css` — added reduced-motion-guarded `pe-float`, `pe-pulse-soft`, `pe-draw-line`, `pe-shimmer`, and `pe-cursor-move` keyframes with matching `.animate-*` utilities.
 
 All testimonial quotes were checked against `supabase/storage_seed.sql`; the Home page, footer, navigation, and existing `components/marketing/page-hero.tsx` were not changed. `app/(marketing)/layout.tsx` still shares the unchanged `components/marketing/footer.tsx` across marketing pages. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task S2: Rebuild service pages with shared sections
+
+Changed:
+- `app/(marketing)/services/[slug]/page.tsx` — rebuilt the long-form, short-form, and channel-management routes in the exact order `PageHero` → `PainSection` → `WaySection` → three alternating `FeatureSplit` sections → `GradientCTABanner` → `ReviewsWall`. The existing marketing layout still supplies the unchanged header and footer. Removed `MediaPlaceholder`, the old video-style preview, the old stat/process sections, and `FinalCta` from these pages.
+- `lib/data/services.ts` — replaced the old service copy/stats with the new hero, pain, way, feature, and CTA content for all three slugs. Every page uses three distinct `SectionIllustration` mockups for its feature sections and two distinct gradient SVG illustrations for its way cards. Copy uses only the approved site facts and no invented clients, prices, or stats.
+- `components/sections/page-hero.tsx` — added optional `visual` and `highlightClassName` props so service heroes can use custom CSS/SVG mockups and italic gradient highlights; `pill={null}` remains supported.
+- `components/marketing/services/service-hero-mockups.tsx` — added pure CSS/SVG hero mockups: long-form story map/paper-edit timeline with chapter markers, short-form vertical frames/caption styles/hook timeline, and channel-management calendar/thumbnail concepts/performance recap.
+
+The Home page, header, footer, routes, and existing `components/marketing/page-hero.tsx` were not changed. No `<video>` or video-style placeholder remains on the three service pages. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
