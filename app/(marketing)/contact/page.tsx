@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-react';
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
-import { PageHero } from '@/components/marketing/page-hero';
+import { getMarketingPageContent } from '@/lib/data/marketing-pages';
+import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
 
 type ContactValues = {
   name: string;
@@ -24,7 +25,7 @@ const EMPTY_VALUES: ContactValues = {
   message: '',
 };
 
-export default function ContactPage() {
+function ContactFormSection() {
   const [values, setValues] = useState<ContactValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -76,18 +77,9 @@ export default function ContactPage() {
   }
 
   return (
-    <>
-      <PageHero
-        eyebrow="Talk to the crew"
-        title="Tell us what you want to ship next"
-        highlight="ship next"
-        description="Whether you want an estimate, a custom workflow, or a demo, send a note below and we will get back within one business day."
-        size="compact"
-      />
-
-      <div className="bg-white">
-        <div className="mx-auto max-w-screen-1200 px-6 py-12 sm:py-16">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+    <div className="bg-white">
+      <div className="mx-auto max-w-screen-1200 px-6 py-12 sm:py-16">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <aside className="rounded-2xl border border-slate-200 bg-[#FAFAFC] p-8 shadow-soft">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-lg font-semibold text-white">
               {BRAND_NAME.slice(0, 1)}
@@ -236,9 +228,19 @@ export default function ContactPage() {
               </form>
             )}
           </div>
-          </div>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+export default function ContactPage() {
+  const content = getMarketingPageContent('contact');
+
+  return (
+    <MarketingPageShell
+      content={content}
+      afterHero={<ContactFormSection />}
+    />
   );
 }
