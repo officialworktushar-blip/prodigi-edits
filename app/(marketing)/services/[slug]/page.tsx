@@ -10,7 +10,7 @@ import {
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { FadeIn } from '@/components/shared/fade-in';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 import { StatCard } from '@/components/shared/stat-card';
 
 type ServiceSlug = keyof typeof SERVICE_PAGE_DATA;
@@ -255,44 +255,32 @@ export default function ServiceDetailPage({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
+      <PageHero
+        eyebrow={page.pill}
+        title={page.headline}
+        highlight={getHighlight(page.headline)}
+        description={page.description}
+        actions={
+          <>
+            <Link href={page.cta} className="btn-cyan">
+              Start an order
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+            <Link href="/examples" className="btn-outline-light">
+              See examples
+            </Link>
+          </>
+        }
+      >
+        <p className="flex items-center justify-center gap-2 text-sm font-medium text-sky-200/90">
+          <Icon aria-hidden="true" className="h-4 w-4" />
+          Built around {page.highlight}
+        </p>
+      </PageHero>
 
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <PageHeader
-                eyebrow={page.pill}
-                title={page.headline}
-                highlight={getHighlight(page.headline)}
-                description={page.description}
-              />
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href={page.cta}
-                  className="btn-cyan"
-                >
-                  Start an order
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/examples"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-                >
-                  See examples
-                </Link>
-              </div>
-
-              <p className="mt-6 flex items-center gap-2 text-sm font-medium text-indigo-700">
-                <Icon aria-hidden="true" className="h-4 w-4" />
-                Built around {page.highlight}
-              </p>
-            </div>
-
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
             <MediaPlaceholder
               aspect="video"
               badge={page.pill}
@@ -302,7 +290,7 @@ export default function ServiceDetailPage({
             />
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {page.stats.map((stat, index) => (
               <StatCard
                 key={stat.label}

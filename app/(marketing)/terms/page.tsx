@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 export const metadata: Metadata = {
   title: `Terms — ${BRAND_NAME}`,
@@ -32,19 +32,17 @@ function LegalSection({
 export default function TermsPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-12 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <PageHeader
-            eyebrow="Legal"
-            title="Terms that keep the work clear"
-            highlight="clear"
-            description="The rules for using the platform, placing orders, reviewing edits, and receiving final files."
-          />
-          <p className="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
+      <PageHero
+        size="compact"
+        eyebrow="Legal"
+        title="Terms that keep the work clear"
+        highlight="clear"
+        description="The rules for using the platform, placing orders, reviewing edits, and receiving final files."
+      />
+
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-10 sm:px-6 lg:px-8">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
             Effective October 30, 2026
           </p>
         </div>

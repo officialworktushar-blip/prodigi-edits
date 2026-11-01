@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { BRAND_NAME } from '@/lib/config';
 import { getPublishedCaseStudyBySlug } from '@/lib/data/marketing';
 import { FinalCta } from '@/components/marketing/home/final-cta';
+import { PageHero } from '@/components/marketing/page-hero';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
 
 function formatDate(value: string) {
@@ -63,47 +64,28 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-14 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <Link
-            href="/case-studies"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-          >
-            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-            All case studies
-          </Link>
+      <PageHero
+        eyebrow={`Case study · ${formatDate(caseStudy.created_at)}`}
+        title={caseStudy.title}
+        description={caseStudy.summary ?? undefined}
+      >
+        <Link
+          href="/case-studies"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-0"
+        >
+          <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+          All case studies
+        </Link>
+      </PageHero>
 
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-600">
-                  Case study
-                </span>
-                <span className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">
-                  {formatDate(caseStudy.created_at)}
-                </span>
-              </div>
-              <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight text-brand-ink sm:text-5xl">
-                {caseStudy.title}
-              </h1>
-              {caseStudy.summary ? (
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-500">
-                  {caseStudy.summary}
-                </p>
-              ) : null}
-            </div>
-
-            <MediaPlaceholder
-              aspect="video"
-              badge="Project story"
-              title={caseStudy.title}
-              icon="film"
-            />
-          </div>
+      <section className="bg-white">
+        <div className="mx-auto max-w-4xl px-4 pt-12 sm:px-6 lg:px-8">
+          <MediaPlaceholder
+            aspect="video"
+            badge="Project story"
+            title={caseStudy.title}
+            icon="film"
+          />
         </div>
       </section>
 

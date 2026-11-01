@@ -7,7 +7,7 @@ import { USE_CASES, getUseCasePage } from '@/lib/data/use-cases';
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { FadeIn } from '@/components/shared/fade-in';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 type UseCaseSlug = (typeof USE_CASES)[number]['slug'];
 
@@ -269,65 +269,49 @@ export default function UseCasePage({
   }
 
   const content = USE_CASE_CONTENT[page.slug];
-  const Icon = page.icon;
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
+      <PageHero
+        eyebrow="Use case"
+        title={`Video editing for ${page.label}`}
+        highlight={page.label}
+        description={page.description}
+        actions={
+          <>
+            <Link href="/signup" className="btn-cyan">
+              Start an order
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+            <Link href="/pricing" className="btn-outline-light">
+              View pricing
+            </Link>
+          </>
+        }
+      >
+        <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          {quickFacts.map((fact) => {
+            const FactIcon = fact.icon;
 
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-100 bg-white text-indigo-600 shadow-soft">
-                <Icon aria-hidden="true" className="h-6 w-6" />
-              </span>
-              <PageHeader
-                eyebrow="Use case"
-                title={`Video editing for ${page.label}`}
-                highlight={page.label}
-                description={page.description}
-              />
+            return (
+              <li
+                key={fact.label}
+                className="flex items-center gap-1.5 text-sm font-medium text-sky-200/90"
+              >
+                <FactIcon
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 text-sky-300"
+                />
+                {fact.label}
+              </li>
+            );
+          })}
+        </ul>
+      </PageHero>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/signup"
-                  className="btn-cyan"
-                >
-                  Start an order
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-                >
-                  View pricing
-                </Link>
-              </div>
-
-              <ul className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-                {quickFacts.map((fact) => {
-                  const FactIcon = fact.icon;
-
-                  return (
-                    <li
-                      key={fact.label}
-                      className="flex items-center gap-1.5 text-xs font-medium text-slate-500"
-                    >
-                      <FactIcon
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5 text-indigo-500"
-                      />
-                      {fact.label}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
             <MediaPlaceholder
               aspect="video"
               badge={page.label}

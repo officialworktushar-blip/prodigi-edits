@@ -9,11 +9,13 @@ export default function AuthLayout({
 }) {
   return (
     <div className="min-h-screen bg-white text-[#0F1222] lg:grid lg:grid-cols-2">
-      <aside className="relative hidden overflow-hidden bg-[#0F1222] p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
+      <aside className="relative hidden overflow-hidden bg-hero-dark p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-[#4F46E5]/40 blur-3xl" />
-          <div className="absolute right-0 top-1/3 h-96 w-96 rounded-full bg-[#3B82F6]/30 blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-[#EC4899]/25 blur-3xl" />
+          <div className="absolute -left-24 top-1/3 h-72 w-72 animate-glow-drift rounded-full bg-violet-600/25 blur-3xl" />
+          <div
+            className="absolute -right-24 top-1/4 h-72 w-72 animate-glow-drift rounded-full bg-pink-600/20 blur-3xl"
+            style={{ animationDelay: '-9s' }}
+          />
         </div>
 
         <div className="relative z-10">
@@ -31,9 +33,7 @@ export default function AuthLayout({
           </p>
           <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight xl:text-5xl">
             Your next edit is{' '}
-            <span className="bg-gradient-to-r from-indigo-300 via-blue-300 to-pink-300 bg-clip-text text-transparent">
-              already in motion.
-            </span>
+            <span className="text-gradient-hero">already in motion.</span>
           </h1>
           <p className="mt-5 text-base leading-7 text-slate-300">
             {BRAND_TAGLINE}. One workspace for briefs, footage, drafts, and feedback

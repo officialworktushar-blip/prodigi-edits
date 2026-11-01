@@ -4,7 +4,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import { BRAND_NAME } from '@/lib/config';
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { ExamplesGallery } from '@/components/marketing/examples/examples-gallery';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 export const metadata: Metadata = {
   title: `Examples — ${BRAND_NAME}`,
@@ -21,29 +21,22 @@ const assurances = [
 export default function ExamplesPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-12 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <PageHeader
-            eyebrow="Examples"
-            title="A gallery of finished work"
-            highlight="finished"
-            description="A closer look at the formats we build most often. Every preview below is a layout example; published project stories live in the case study library."
-            actions={
-              <Link
-                href="/case-studies"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-              >
-                Read case studies
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-            }
-          />
+      <PageHero
+        eyebrow="Examples"
+        title="A gallery of finished work"
+        highlight="finished"
+        description="A closer look at the formats we build most often. Every preview below is a layout example; published project stories live in the case study library."
+        actions={
+          <Link href="/case-studies" className="btn-cyan">
+            Read case studies
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        }
+      />
 
-          <ul className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-10 sm:px-6 lg:px-8">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {assurances.map((assurance) => (
               <li
                 key={assurance}

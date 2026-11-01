@@ -12,7 +12,7 @@ import { BRAND_NAME } from '@/lib/config';
 import { HowItWorks } from '@/components/marketing/home/how-it-works';
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { FadeIn } from '@/components/shared/fade-in';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 export const metadata: Metadata = {
   title: `Platform — ${BRAND_NAME}`,
@@ -65,37 +65,27 @@ const visibility = [
 export default function PlatformPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <PageHeader
-                eyebrow="The workspace"
-                title="One place from brief to delivery"
-                highlight="delivery"
-                description="The platform keeps the request, the footage, the feedback, and the final files in one visible order. No mystery versions. No lost notes."
-              />
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/signup"
-                  className="btn-cyan"
-                >
-                  Start an order
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-                >
-                  View pricing
-                </Link>
-              </div>
-            </div>
+      <PageHero
+        eyebrow="The workspace"
+        title="One place from brief to delivery"
+        highlight="delivery"
+        description="The platform keeps the request, the footage, the feedback, and the final files in one visible order. No mystery versions. No lost notes."
+        actions={
+          <>
+            <Link href="/signup" className="btn-cyan">
+              Start an order
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+            <Link href="/pricing" className="btn-outline-light">
+              View pricing
+            </Link>
+          </>
+        }
+      />
 
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
             <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-soft-lg">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div>

@@ -468,3 +468,59 @@ Changed:
 - `components/marketing/home/final-cta.tsx` was rewritten as a full-width dark `bg-hero-dark` section with a centered headline, `text-gradient-hero` closing words, one sentence of copy, `btn-cyan` and `btn-outline-light` CTAs, and the same three assurances in `text-white/80`.
 
 `app/(customer)`, `app/(admin)`, and `components/ui/button.tsx` were not touched. Headline highlights still use the existing `.text-gradient`/`.gradient-text` classes. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P1: Shared public page hero
+
+Created:
+- `components/marketing/page-hero.tsx` — server-only dark hero built on `bg-hero-dark` with two drifting glow blobs, an optional sky eyebrow, a single animated `h1`, optional description, actions, and children slots. Highlight matching mirrors the shared page header: an explicit highlight is wrapped when found in the title, otherwise the last word is wrapped. All highlights use `text-gradient-hero animate-text-shimmer`. Supports `default` and `compact` vertical padding plus a `className` override.
+
+`components/shared/page-header.tsx` was not modified. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P2: Shared dark hero on five public pages
+
+Changed:
+- `app/(marketing)/pricing/page.tsx` — replaced the old white hero with `PageHero`, moved the assurance list into a white section below it, and moved the “Need a custom mix?” link into `actions` with `btn-cyan`.
+- `app/(marketing)/examples/page.tsx` — replaced the old white hero with `PageHero`, moved the assurance list into a white section below it, and moved the “Read case studies” link into `actions` with `btn-cyan`.
+- `app/(marketing)/case-studies/page.tsx` — replaced the old white hero with `PageHero` and moved the “Browse examples” link into `actions` with `btn-cyan`.
+- `app/(marketing)/privacy/page.tsx` and `app/(marketing)/terms/page.tsx` — replaced the old white hero with compact `PageHero` and moved the effective-date line into a white section below it.
+
+Each page keeps its original eyebrow, title, highlight, description, links, arrow icons, metadata, and data fetching. Unused `PageHeader` imports were removed and `PageHero` imports added. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P3: Shared dark hero on the remaining public pages
+
+Changed:
+- `app/(marketing)/services/[slug]/page.tsx` - replaced the two-column white hero with `PageHero` using the existing `page.pill`, `page.headline`, `getHighlight(page.headline)`, and `page.description`. "Start an order" uses `btn-cyan` and "See examples" uses `btn-outline-light`. The "Built around ..." line with the service icon moved into `PageHero` children in `text-sm font-medium text-sky-200/90`. The `MediaPlaceholder` moved into a white section right after the hero, centered with `max-w-4xl`, followed by the unchanged stat grid with `mt-10`. The `PageHeader` import was replaced with `PageHero`.
+- `app/(marketing)/use-cases/[slug]/page.tsx` - replaced the two-column white hero with `PageHero`. "Start an order" uses `btn-cyan` and "View pricing" uses `btn-outline-light`. The `quickFacts` row moved into `PageHero` children as centered `text-sm font-medium text-sky-200/90` items with sky icons. The `MediaPlaceholder` moved into a white section right after the hero, centered with `max-w-4xl`. The now-unused `Icon` constant and the `PageHeader` import were removed; `PageHero` was imported.
+- `app/(marketing)/about/page.tsx` - replaced the two-column white hero with `PageHero` and the same copy. "Start an order" uses `btn-cyan` and "Talk to the team" uses `btn-outline-light`. The `MediaPlaceholder` moved into a white section right after the hero, centered with `max-w-4xl`. The `PageHeader` import was replaced with `PageHero`.
+- `app/(marketing)/platform/page.tsx` - replaced the two-column white hero with `PageHero` and the same copy. "Start an order" uses `btn-cyan` and "View pricing" uses `btn-outline-light`. The static order-preview card moved into a white section right after the hero, centered with `max-w-4xl`, with its markup unchanged. The `PageHeader` import was replaced with `PageHero`.
+
+All other sections, data, and metadata were left unchanged. `components/shared/page-header.tsx` was not modified. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P2 re-check: Shared dark hero on five public pages
+
+Verified each page against the P2 spec; all five already comply, so no code changes were needed:
+- `app/(marketing)/pricing/page.tsx` - `PageHero` with the original eyebrow/title/highlight/description, one `btn-cyan` action, and the assurance list in a white section with `pb-4 pt-10`.
+- `app/(marketing)/examples/page.tsx` - `PageHero` with the original copy, one `btn-cyan` action, and the assurance list in a white section with `pb-4 pt-10`.
+- `app/(marketing)/case-studies/page.tsx` - `PageHero` with the original copy and one `btn-cyan` action.
+- `app/(marketing)/privacy/page.tsx` and `app/(marketing)/terms/page.tsx` - compact `PageHero` with the original copy, and the effective-date line in a white section with `pb-4 pt-10`.
+
+No `PageHeader` imports remain on these pages; `PageHero` is imported in all five. Metadata, data fetching, and every other section are unchanged. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P3 re-check: Shared dark hero on the remaining public pages
+
+Verified each page against the P3 spec; all four already comply, so no code changes were needed:
+- `app/(marketing)/services/[slug]/page.tsx` - `PageHero` uses `page.pill`, `page.headline`, `getHighlight(page.headline)`, and `page.description`; primary `btn-cyan`, secondary `btn-outline-light`; "Built around ..." with the service icon in `PageHero` children at `text-sm font-medium text-sky-200/90`; `MediaPlaceholder` centered in a white `pb-4 pt-12` section with the unchanged stat grid below at `mt-10`.
+- `app/(marketing)/use-cases/[slug]/page.tsx` - `PageHero` uses the existing eyebrow/title/highlight/description; primary `btn-cyan`, secondary `btn-outline-light`; `quickFacts` row in `PageHero` children as sky-tinted `text-sm font-medium`; `MediaPlaceholder` centered in a white `pb-4 pt-12` section.
+- `app/(marketing)/about/page.tsx` - `PageHero` with the same copy and the same two buttons; `MediaPlaceholder` centered in a white `pb-4 pt-12` section.
+- `app/(marketing)/platform/page.tsx` - `PageHero` with the same copy and the same two buttons; the static order-preview card moved unchanged into a white `pb-4 pt-12` section, centered with `max-w-4xl`.
+
+No `PageHeader` imports remain under `app/(marketing)`. All other sections, data, and metadata are unchanged. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task P4: Detail hero, contact hero, auth panel
+
+Changed:
+- `app/(marketing)/case-studies/[slug]/page.tsx` - replaced the white two-column hero with `PageHero`. Eyebrow is `Case study · {formatDate(caseStudy.created_at)}`, the title is `caseStudy.title`, and the description is `caseStudy.summary ?? undefined`. The "All case studies" back link moved into `PageHero` children with the `ArrowLeft` icon, restyled as `text-sm font-semibold text-sky-200 hover:text-white`. `MediaPlaceholder` moved into a new white section with `mx-auto max-w-4xl px-4 pt-12 sm:px-6 lg:px-8` directly after the hero. Added the `PageHero` import; the rest of the page is unchanged.
+- `app/(marketing)/contact/page.tsx` - kept the client component and all form logic. Replaced the outer `<main className="relative overflow-hidden bg-white">` with a fragment, removed the decorative gradient div and the old centered header, and added `<PageHero eyebrow="Talk to the crew" title="Tell us what you want to ship next" highlight="ship next" description="..." size="compact" />` with the original paragraph text. The existing two-column grid (aside + form) is wrapped in `<div className="bg-white"><div className="mx-auto max-w-screen-1200 px-6 py-12 sm:py-16"> ... </div></div>`. Exactly one `h1` remains (inside `PageHero`) and there is no nested `<main>`.
+- `app/(auth)/layout.tsx` - only the left `<aside>` changed: `bg-[#0F1222]` became `bg-hero-dark`, the three blurred circles became the two `PageHero` blobs (violet and pink, `animate-glow-drift`, with the staggered delay on the pink one), and the `h1` span uses `text-gradient-hero` instead of the indigo/blue/pink gradient. Text, links, and the form side are unchanged.
+
+`app/(customer)`, `app/(admin)`, and `components/shared/page-header.tsx` were not touched. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.

@@ -7,7 +7,7 @@ import { FinalCta } from '@/components/marketing/home/final-cta';
 import { EmptyState } from '@/components/shared/empty-state';
 import { FadeIn } from '@/components/shared/fade-in';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 export const metadata: Metadata = {
   title: `Case studies — ${BRAND_NAME}`,
@@ -36,29 +36,18 @@ export default async function CaseStudiesPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-12 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <PageHeader
-            eyebrow="Case studies"
-            title="Project stories with the working details"
-            highlight="details"
-            description="What the brief asked for, what changed during the edit, and how the final delivery came together. No vague before-and-after claims."
-            actions={
-              <Link
-                href="/examples"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-              >
-                Browse examples
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-            }
-          />
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Case studies"
+        title="Project stories with the working details"
+        highlight="details"
+        description="What the brief asked for, what changed during the edit, and how the final delivery came together. No vague before-and-after claims."
+        actions={
+          <Link href="/examples" className="btn-cyan">
+            Browse examples
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+        }
+      />
 
       <section className="bg-white">
         <div className="mx-auto max-w-screen-1200 px-4 pb-20 sm:px-6 lg:px-8">

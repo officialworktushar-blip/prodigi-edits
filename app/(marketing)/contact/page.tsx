@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-react';
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
+import { PageHero } from '@/components/marketing/page-hero';
 
 type ContactValues = {
   name: string;
@@ -75,24 +76,18 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="relative overflow-hidden bg-white">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20" />
+    <>
+      <PageHero
+        eyebrow="Talk to the crew"
+        title="Tell us what you want to ship next"
+        highlight="ship next"
+        description="Whether you want an estimate, a custom workflow, or a demo, send a note below and we will get back within one business day."
+        size="compact"
+      />
 
-      <div className="relative mx-auto max-w-screen-1200 px-6 py-16 sm:py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600">
-            Talk to the crew
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#0F1222] sm:text-5xl">
-            Tell us what you want to <span className="gradient-text">ship next</span>
-          </h1>
-          <p className="mt-5 text-base leading-7 text-slate-500">
-            Whether you want an estimate, a custom workflow, or a demo, send a
-            note below and we will get back within one business day.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <div className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-6 py-12 sm:py-16">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <aside className="rounded-2xl border border-slate-200 bg-[#FAFAFC] p-8 shadow-soft">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-lg font-semibold text-white">
               {BRAND_NAME.slice(0, 1)}
@@ -241,8 +236,9 @@ export default function ContactPage() {
               </form>
             )}
           </div>
+          </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }

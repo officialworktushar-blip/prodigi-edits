@@ -12,7 +12,7 @@ import { USE_CASES } from '@/lib/data/use-cases';
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { FadeIn } from '@/components/shared/fade-in';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
-import { PageHeader } from '@/components/shared/page-header';
+import { PageHero } from '@/components/marketing/page-hero';
 
 export const metadata: Metadata = {
   title: `About — ${BRAND_NAME}`,
@@ -62,37 +62,27 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-white">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
-        />
-        <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pt-20 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
-              <PageHeader
-                eyebrow="About"
-                title="A small crew for the work that matters"
-                highlight="matters"
-                description="We built a video editing service for people who care about the finished piece but do not want to manage a production team to get it."
-              />
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/signup"
-                  className="btn-cyan"
-                >
-                  Start an order
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-colors hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
-                >
-                  Talk to the team
-                </Link>
-              </div>
-            </div>
+      <PageHero
+        eyebrow="About"
+        title="A small crew for the work that matters"
+        highlight="matters"
+        description="We built a video editing service for people who care about the finished piece but do not want to manage a production team to get it."
+        actions={
+          <>
+            <Link href="/signup" className="btn-cyan">
+              Start an order
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+            <Link href="/contact" className="btn-outline-light">
+              Talk to the team
+            </Link>
+          </>
+        }
+      />
 
+      <section className="bg-white">
+        <div className="mx-auto max-w-screen-1200 px-4 pb-4 pt-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
             <MediaPlaceholder
               aspect="video"
               badge="The crew"
