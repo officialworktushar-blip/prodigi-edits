@@ -132,7 +132,7 @@ export function HowItWorks() {
                       className={cn(
                         'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-colors',
                         isActive
-                          ? 'bg-gradient-to-br from-brand-indigo to-brand-blue text-white'
+                          ? 'bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-white'
                           : 'bg-slate-200/80 text-slate-500'
                       )}
                     >
@@ -179,7 +179,7 @@ export function HowItWorks() {
                 className="h-2 w-28 overflow-hidden rounded-full bg-slate-100"
               >
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-brand-indigo to-brand-blue transition-all duration-300"
+                  className="h-full rounded-full bg-gradient-to-r from-[#0ea5e9] via-[#8b5cf6] to-[#ec4899] transition-all duration-300"
                   style={{
                     width: `${((activeStep + 1) / STEPS.length) * 100}%`,
                   }}
@@ -387,7 +387,7 @@ function UploadPreview() {
                   'h-full rounded-full',
                   file.progress === 100
                     ? 'bg-emerald-500'
-                    : 'bg-gradient-to-r from-brand-indigo to-brand-blue'
+                    : 'bg-gradient-to-r from-[#0ea5e9] via-[#8b5cf6] to-[#ec4899]'
                 )}
                 style={{ width: `${file.progress}%` }}
               />
@@ -526,7 +526,7 @@ function DeliverPreview() {
       </div>
 
       <div className="grid gap-2 sm:grid-cols-2">
-        <span className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-indigo to-brand-blue px-4 py-2.5 text-sm font-semibold text-white shadow-soft">
+        <span className="btn-cyan">
           <Download aria-hidden="true" className="h-4 w-4" />
           Download all
         </span>

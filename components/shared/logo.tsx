@@ -44,7 +44,7 @@ export function Logo({
       <span
         aria-hidden="true"
         className={cn(
-          'inline-flex shrink-0 items-center justify-center bg-gradient-to-br from-brand-indigo to-brand-blue text-white shadow-soft',
+          'inline-flex shrink-0 items-center justify-center bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-white shadow-soft',
           markSizes[size]
         )}
       >

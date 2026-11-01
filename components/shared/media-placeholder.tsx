@@ -52,7 +52,7 @@ export function MediaPlaceholder({
       role="img"
       aria-label={label}
       className={cn(
-        'relative w-full overflow-hidden rounded-2xl border border-white/70 bg-gradient-to-br from-indigo-100 via-white to-pink-100 shadow-soft',
+        'relative w-full overflow-hidden rounded-2xl border border-white/70 bg-gradient-to-br from-sky-100 via-white to-pink-100 shadow-soft',
         aspectClasses[aspect],
         className
       )}

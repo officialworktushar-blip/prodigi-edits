@@ -156,7 +156,7 @@ export function ChannelManagementPlans({
               {plan.featured ? (
                 <div
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-indigo to-brand-blue"
+                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#0ea5e9] via-[#8b5cf6] to-[#ec4899]"
                 />
               ) : null}
 
@@ -213,12 +213,11 @@ export function ChannelManagementPlans({
               <div className="mt-auto pt-8">
                 <Link
                   href={`/signup?plan=${plan.id.toLowerCase()}&billing=${billing.toLowerCase()}`}
-                  className={cn(
-                    'inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2',
+                  className={
                     plan.featured
-                      ? 'bg-gradient-to-r from-brand-indigo to-brand-blue text-white shadow-soft hover:shadow-soft-lg'
-                      : 'border border-slate-200 bg-white text-slate-700 shadow-soft hover:border-slate-300 hover:text-brand-ink'
-                  )}
+                      ? 'btn-cyan w-full'
+                      : 'inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-soft transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2'
+                  }
                 >
                   {plan.ctaLabel}
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />

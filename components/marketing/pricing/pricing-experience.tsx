@@ -160,7 +160,7 @@ function PackageCard({
       <div className="mt-auto pt-7">
         <Link
           href="/signup"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-indigo to-brand-blue px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition duration-200 hover:-translate-y-0.5 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
+          className="btn-cyan w-full"
         >
           Choose this package
           <ArrowRight aria-hidden="true" className="h-4 w-4" />

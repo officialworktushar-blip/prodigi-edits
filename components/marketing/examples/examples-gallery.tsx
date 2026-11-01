@@ -181,7 +181,7 @@ export function ExamplesGallery() {
                 className={cn(
                   'rounded-full border px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2',
                   isActive
-                    ? 'border-transparent bg-gradient-to-r from-brand-indigo to-brand-blue text-white shadow-soft'
+                    ? 'border-transparent bg-[#4cc9ff] text-[#062033] shadow-soft'
                     : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-brand-ink'
                 )}
               >

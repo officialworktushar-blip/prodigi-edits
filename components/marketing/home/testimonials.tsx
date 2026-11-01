@@ -75,7 +75,7 @@ export function Testimonials({ testimonials = [] }: TestimonialsProps) {
                   </blockquote>
 
                   <figcaption className="mt-6 flex items-center gap-3 border-t border-slate-100 pt-5">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 text-xs font-semibold text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-xs font-semibold text-white">
                       {initials(testimonial.name)}
                     </span>
                     <span className="min-w-0">

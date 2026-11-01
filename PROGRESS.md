@@ -455,3 +455,16 @@ Changed only:
 - `components/marketing/navbar.tsx` — header is now solid white with `border-slate-100`, `h-[72px]`, and `z-50`; desktop nav links use 15px medium slate with small chevrons, indigo hover, and wider spacing. The desktop action row now reads Talk to us (`/contact`, outline), Get started (`/signup`, `.btn-cyan` with `!px-5 !py-2.5 !text-[15px]`), Log in (`/login`, plain text). The mobile action block shows the same three stacked full width, with Get started using `.btn-cyan`.
 
 Dropdown logic, links, mobile menu behavior, and all accessibility attributes were left untouched. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task H4: Public site gradient restyle
+
+Changed:
+- Filled primary CTA links across `app/(marketing)` and `components/{marketing,shared}` now use `btn-cyan`: about, platform, services, use-cases, case-study detail, pricing package cards, channel-management featured plan, services-tabs, shared empty state, contact submit, and the how-it-works mock download action.
+- Small gradient icon chips/badges now use `bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400`: the shared logo mark, testimonial avatar initials, contact sidebar mark, and the active how-it-works step number.
+- Gradient accent bars and progress fills now use `#0ea5e9` → `#8b5cf6` → `#ec4899`: channel-management featured card stripe and both how-it-works progress bars.
+- Active tabs/filters use solid cyan with dark ink (`bg-[#4cc9ff] text-[#062033]`) for readable contrast.
+- Page-top gradient washes were retinted from indigo/blue to sky/violet/pink tones.
+- The shared media-placeholder wash now starts at sky instead of indigo.
+- `components/marketing/home/final-cta.tsx` was rewritten as a full-width dark `bg-hero-dark` section with a centered headline, `text-gradient-hero` closing words, one sentence of copy, `btn-cyan` and `btn-outline-light` CTAs, and the same three assurances in `text-white/80`.
+
+`app/(customer)`, `app/(admin)`, and `components/ui/button.tsx` were not touched. Headline highlights still use the existing `.text-gradient`/`.gradient-text` classes. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.

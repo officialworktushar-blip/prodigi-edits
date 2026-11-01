@@ -147,7 +147,7 @@ export function ServicesTabs() {
                 className={cn(
                   'inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2',
                   isActive
-                    ? 'border-transparent bg-gradient-to-r from-brand-indigo to-brand-blue text-white shadow-soft'
+                    ? 'border-transparent bg-[#4cc9ff] text-[#062033] shadow-soft'
                     : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-brand-ink'
                 )}
               >
@@ -199,7 +199,7 @@ export function ServicesTabs() {
 
                 <Link
                   href={active.href}
-                  className="mt-7 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-indigo to-brand-blue px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition duration-200 hover:-translate-y-0.5 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
+                  className="btn-cyan mt-7"
                 >
                   {active.cta}
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />

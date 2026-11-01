@@ -65,7 +65,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-white">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-indigo-50/80 via-blue-50/40 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20"
         />
         <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pt-20 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -79,7 +79,7 @@ export default function AboutPage() {
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-indigo to-brand-blue px-6 py-3 text-sm font-semibold text-white shadow-soft transition duration-200 hover:-translate-y-0.5 hover:shadow-soft-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-indigo focus-visible:ring-offset-2"
+                  className="btn-cyan"
                 >
                   Start an order
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />

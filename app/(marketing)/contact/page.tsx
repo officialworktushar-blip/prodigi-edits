@@ -76,7 +76,7 @@ export default function ContactPage() {
 
   return (
     <main className="relative overflow-hidden bg-white">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-indigo-50/80 via-blue-50/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-50/80 via-violet-50/40 to-pink-50/20" />
 
       <div className="relative mx-auto max-w-screen-1200 px-6 py-16 sm:py-20">
         <div className="mx-auto max-w-2xl text-center">
@@ -94,7 +94,7 @@ export default function ContactPage() {
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <aside className="rounded-2xl border border-slate-200 bg-[#FAFAFC] p-8 shadow-soft">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#4F46E5] to-[#3B82F6] text-lg font-semibold text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 via-violet-400 to-pink-400 text-lg font-semibold text-white">
               {BRAND_NAME.slice(0, 1)}
             </div>
             <h2 className="mt-5 text-xl font-semibold tracking-tight text-[#0F1222]">
@@ -233,7 +233,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#4F46E5] to-[#3B82F6] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="btn-cyan w-full disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <Send className="h-4 w-4" />
                   {isSubmitting ? 'Sending...' : 'Send message'}
