@@ -17,22 +17,22 @@ export const metadata: Metadata = {
 function ValuesSection() {
   const values = [
     {
-      icon: Users,
+      icon: <Users aria-hidden="true" className="h-4 w-4" />,
       title: 'Dedicated team',
       description: 'A small accountable crew with a named contact who owns the handoff.',
     },
     {
-      icon: Shield,
+      icon: <Shield aria-hidden="true" className="h-4 w-4" />,
       title: 'Multiple specialists',
       description: 'Editing, motion, color, and sound in one workflow.',
     },
     {
-      icon: Clock,
+      icon: <Clock aria-hidden="true" className="h-4 w-4" />,
       title: 'Live progress',
       description: 'Drafts, comments, and approvals in one place.',
     },
     {
-      icon: MessageSquare,
+      icon: <MessageSquare aria-hidden="true" className="h-4 w-4" />,
       title: 'Useful revisions',
       description: 'Timecoded notes and honest trade-offs before pushing back.',
     },
