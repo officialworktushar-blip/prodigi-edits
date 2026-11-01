@@ -552,3 +552,13 @@ Changed:
 - `components/marketing/services/service-hero-mockups.tsx` — added pure CSS/SVG hero mockups: long-form story map/paper-edit timeline with chapter markers, short-form vertical frames/caption styles/hook timeline, and channel-management calendar/thumbnail concepts/performance recap.
 
 The Home page, header, footer, routes, and existing `components/marketing/page-hero.tsx` were not changed. No `<video>` or video-style placeholder remains on the three service pages. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.
+
+## Task U1: Rebuild use-case pages with shared sections
+
+Changed:
+- `app/(marketing)/use-cases/[slug]/page.tsx` — rebuilt all seven routes in the exact order `PageHero` → `PainSection` → `WaySection` → three alternating `FeatureSplit` sections → `GradientCTABanner` → `ReviewsWall`. The existing marketing layout still supplies the unchanged header and footer. Removed `MediaPlaceholder`, the old video-style preview, the old project/outcome/process sections, `FinalCta`, and the old `components/marketing/page-hero.tsx`.
+- `lib/data/use-cases.ts` — exported `UseCaseSlug` for the page content record.
+- `lib/data/use-case-pages.ts` — typed page content for all seven slugs, including hero mockup data, pain trios, way cards, three feature sections each, and one-CTA banners. Copy uses no invented clients, prices, or stats; doctor and lawyer copy avoids outcome claims.
+- `components/marketing/use-cases/use-case-hero-mockup.tsx` — added a data-driven CSS/SVG workspace mockup for the hero. It uses clip cards, a project canvas, palette swatches, and a timeline with no play icon or video-style chrome.
+
+`PageHero` uses the new custom visual with `tone="dark"` and `pill={null}`. All seven pages map way-card and feature illustration names to `SectionIllustration`. The default `ReviewsWall` order already starts with Maya Chen, YouTube creator. The Home page, header, footer, routes, and existing `components/marketing/page-hero.tsx` were not changed. No `<video>` or video-style placeholder remains on the use-case pages. No build, lint, or dev commands were run. Nothing left undone. Packages needed: none.

@@ -44,6 +44,8 @@ export const USE_CASES = [
   },
 ] as const;
 
+export type UseCaseSlug = (typeof USE_CASES)[number]['slug'];
+
 export function getUseCasePage(slug: string) {
   return USE_CASES.find((u) => u.slug === slug);
 }
