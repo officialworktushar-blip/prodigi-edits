@@ -149,13 +149,13 @@ function ProductMockup({ mockup }: { mockup: PageHeroMockup }) {
   const toolbarItems = mockup.toolbarItems ?? ['File', 'Edit', 'View', 'Export'];
 
   return (
-    <div className="relative">
+    <div className="relative px-[10%]">
       <div
         aria-hidden="true"
         className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-sky-300/30 via-violet-300/25 to-pink-300/30 blur-2xl"
       />
 
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220] shadow-[0_30px_80px_-30px_rgba(15,23,42,0.65)]">
+      <div className="relative overflow-hidden rounded-2xl border-2 border-white/20 bg-[#0b1220] shadow-[0_30px_80px_-30px_rgba(15,23,42,0.65)]">
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
