@@ -110,6 +110,7 @@ export default function ServiceDetailPage({
         pill={null}
         containerClassName="!max-w-none !px-4 pb-[5rem] pt-[5rem] sm:!px-6 sm:pb-[6.25rem] sm:pt-[6.25rem] lg:!px-6 lg:pb-[7.5rem] lg:pt-[7.5rem]"
         layoutClassName="lg:grid-cols-[0.42fr_0.58fr] lg:gap-8"
+        textClassName="ml-3 sm:ml-4 lg:ml-5"
         visualClassName="min-w-0"
       />
 

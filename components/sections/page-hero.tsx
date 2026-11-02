@@ -59,6 +59,7 @@ export interface PageHeroProps {
   className?: string;
   containerClassName?: string;
   layoutClassName?: string;
+  textClassName?: string;
   visualClassName?: string;
 }
 
@@ -330,6 +331,7 @@ export function PageHero({
   className,
   containerClassName,
   layoutClassName,
+  textClassName,
   visualClassName,
 }: PageHeroProps) {
   const isDark = tone === 'dark';
@@ -376,7 +378,7 @@ export function PageHero({
             layoutClassName
           )}
         >
-          <div className="max-w-2xl">
+          <div className={cn('max-w-2xl', textClassName)}>
             {eyebrow ? (
               <p
                 className={cn(

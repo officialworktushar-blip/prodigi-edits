@@ -209,3 +209,9 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 ### Anything left undone
 - Production build and visual browser checks were not run because the project instructions prohibit shell commands and server runs.
 
+## Task: Add left margin to service hero text
+
+- Added a responsive left margin to the text column in service heroes only, using 12px on mobile, 16px at small breakpoints, and 20px on desktop.
+- Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
