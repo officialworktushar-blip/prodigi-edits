@@ -12,7 +12,28 @@ import {
   SectionIllustration,
   WaySection,
 } from '@/components/sections';
-import { UseCaseHeroMockup } from '@/components/marketing/use-cases/use-case-hero-mockup';
+import {
+  YouTubersMockup,
+  BusinessesMockup,
+  PodcastersMockup,
+  RealtorsMockup,
+  CourseCreatorsMockup,
+  DoctorsMockup,
+  LawyersMockup,
+} from '@/components/mockups/index';
+
+function getHeroMockup(slug: string) {
+  const mockupMap: Record<string, JSX.Element> = {
+    youtubers: <YouTubersMockup />,
+    businesses: <BusinessesMockup />,
+    podcasters: <PodcastersMockup />,
+    realtors: <RealtorsMockup />,
+    'course-creators': <CourseCreatorsMockup />,
+    doctors: <DoctorsMockup />,
+    lawyers: <LawyersMockup />,
+  };
+  return mockupMap[slug];
+}
 
 export function generateStaticParams() {
   return USE_CASES.map((useCase) => ({
@@ -72,7 +93,7 @@ export default function UseCasePage({
         description={content.description}
         primaryAction={content.primaryAction}
         secondaryAction={content.secondaryAction}
-        visual={<UseCaseHeroMockup mockup={content.heroMockup} />}
+        visual={getHeroMockup(params.slug)}
         tone="dark"
         pill={null}
       />

@@ -16,21 +16,21 @@ import {
   WaySection,
 } from '@/components/sections';
 import {
-  ChannelManagementHeroMockup,
-  LongFormHeroMockup,
-  ShortFormHeroMockup,
-} from '@/components/marketing/services/service-hero-mockups';
+  ChannelManagementMockup,
+  LongFormMockup,
+  ShortFormMockup,
+} from '@/components/mockups/index';
 
 function getHeroVisual(slug: ServiceSlug) {
   if (slug === 'short-form') {
-    return <ShortFormHeroMockup />;
+    return <ShortFormMockup />;
   }
 
   if (slug === 'channel-management') {
-    return <ChannelManagementHeroMockup />;
+    return <ChannelManagementMockup />;
   }
 
-  return <LongFormHeroMockup />;
+  return <LongFormMockup />;
 }
 
 export function generateStaticParams() {
