@@ -4,6 +4,8 @@ export function ChannelManagementMockup() {
   return (
     <MockupShell
       tabs={['Plan', 'Thumbnails']}
+      supportPanel={{ title: 'Publishing week', detail: '3 items on track', rows: ['Wed · short scheduled', 'Fri · flagship review'] }}
+      floatingPanel={{ title: 'Channel pulse', detail: '+18% watch time', rows: ['2 uploads ready', 'Next slot · Friday'] }}
       accent="#6366f1"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

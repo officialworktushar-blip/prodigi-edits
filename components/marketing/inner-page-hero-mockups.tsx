@@ -25,18 +25,45 @@ function Window({
   );
 }
 
-function Glow({ children }: { children: ReactNode }) {
+interface LayerPanelContent {
+  title: string;
+  detail: string;
+  rows: [string, string];
+}
+
+function Glow({
+  children,
+  support,
+  floating,
+}: {
+  children: ReactNode;
+  support: LayerPanelContent;
+  floating: LayerPanelContent;
+}) {
   return (
-    <div className="relative isolate mx-auto w-full max-w-[610px] px-1 py-4 sm:px-3">
-      <div aria-hidden="true" className="absolute inset-8 -z-10 rounded-full bg-gradient-to-br from-sky-400/30 via-violet-400/30 to-pink-400/30 blur-3xl" />
-      {children}
+    <div className="relative isolate mx-auto w-full max-w-[660px] px-1 py-5 sm:px-3 sm:py-6">
+      <div aria-hidden="true" className="absolute inset-8 -z-10 rounded-full bg-gradient-to-br from-sky-400/20 via-violet-400/20 to-pink-400/20 blur-3xl" />
+      <div className="relative z-10 ml-auto w-[96%] sm:w-[94%]">{children}</div>
+      <div className="absolute bottom-1 left-0 z-20 w-[45%] sm:w-[38%]">
+        <div className="rounded-xl border border-slate-200/90 bg-white/95 p-2.5 text-slate-800 shadow-[0_18px_45px_-16px_rgba(15,23,42,0.5)] backdrop-blur sm:rounded-2xl sm:p-3">
+          <p className="truncate text-[8px] font-semibold uppercase tracking-[0.12em] text-slate-400 sm:text-[9px]">{support.title}</p>
+          <p className="mt-1 truncate text-[9px] font-semibold sm:text-[10px]">{support.detail}</p>
+          <div className="mt-2 space-y-1.5">{support.rows.map((row, index) => <div key={row} className="flex items-center gap-1.5"><span className={`h-1.5 w-1.5 shrink-0 rounded-full ${index === 0 ? 'bg-emerald-500' : 'bg-sky-500'}`} /><span className="truncate text-[8px] text-slate-500">{row}</span></div>)}</div>
+        </div>
+      </div>
+      <div className="absolute right-0 top-[18%] z-20 w-[40%] sm:w-[34%]">
+        <div className="rotate-1 rounded-xl border border-slate-200/90 bg-white/95 p-2.5 text-slate-800 shadow-[0_18px_45px_-16px_rgba(15,23,42,0.55)] backdrop-blur sm:rounded-2xl sm:p-3">
+          <div className="flex items-start justify-between gap-2"><div className="min-w-0"><p className="truncate text-[8px] font-semibold uppercase tracking-[0.12em] text-slate-400 sm:text-[9px]">{floating.title}</p><p className="mt-1 truncate text-[9px] font-semibold sm:text-[10px]">{floating.detail}</p></div><span className="h-2 w-2 shrink-0 rounded-full bg-violet-500" /></div>
+          <div className="mt-2 space-y-1.5">{floating.rows.map((row, index) => <div key={row} className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 shrink-0 rounded-sm bg-indigo-400" /><span className="min-w-0 flex-1 truncate text-[8px] text-slate-500">{row}</span><span className="h-1 w-5 shrink-0 rounded-full bg-slate-100"><span className={`block h-full rounded-full ${index === 0 ? 'w-4/5 bg-indigo-500' : 'w-1/2 bg-sky-400'}`} /></span></div>)}</div>
+        </div>
+      </div>
     </div>
   );
 }
 
 export function AboutTeamMockup() {
   return (
-    <Glow>
+    <Glow support={{ title: 'Crew handoff', detail: 'Editor · motion · sound', rows: ['Single project thread', 'Review owner assigned'] }} floating={{ title: 'Next milestone', detail: 'First cut · tomorrow', rows: ['Brief confirmed', 'Feedback stays timecoded'] }}>
       <Window label="ProdigiEdits · Team workspace">
         <div className="grid grid-cols-[1fr_0.82fr] gap-3 p-4 sm:p-5">
           <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
@@ -57,7 +84,7 @@ export function AboutTeamMockup() {
 
 export function CaseStudiesHeroMockup() {
   return (
-    <Glow>
+    <Glow support={{ title: 'Story snapshot', detail: 'Clear brief · clean finish', rows: ['Review loop documented', 'Delivery package ready'] }} floating={{ title: 'Project result', detail: 'Approved for publishing', rows: ['Master and social cut', 'Client notes resolved'] }}>
       <Window label="Selected project stories">
         <div className="grid gap-3 p-4 sm:grid-cols-[1.25fr_0.75fr] sm:p-5">
           <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
@@ -75,7 +102,7 @@ export function CaseStudiesHeroMockup() {
 
 export function ContactInboxMockup() {
   return (
-    <Glow>
+    <Glow support={{ title: 'Support queue', detail: 'A real person owns the reply', rows: ['Project details captured', 'No booking pressure'] }} floating={{ title: 'Response window', detail: 'Within one business day', rows: ['Service recommendation', 'Clear next step'] }}>
       <div className="relative mx-auto max-w-[560px] rounded-[1.4rem] border border-slate-200/80 bg-white p-4 shadow-[0_28px_70px_-24px_rgba(15,23,42,0.35)] sm:p-5" aria-hidden="true">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3"><div><p className="text-[10px] font-semibold text-slate-800">Project questions</p><p className="mt-0.5 text-[9px] text-slate-400">Support inbox · 1 conversation</p></div><span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[9px] font-semibold text-emerald-700">Replying today</span></div>
         <div className="mt-4 flex gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-sky-400 to-indigo-500 text-[10px] font-bold text-white">P</span><div className="rounded-2xl rounded-tl-sm bg-slate-100 px-3 py-2.5"><p className="text-[9px] font-semibold text-slate-700">Your ProdigiEdits team</p><p className="mt-1 max-w-[270px] text-[10px] leading-4 text-slate-600">Tell us what you publish, how often, and when the next video needs to land.</p></div></div>
@@ -94,7 +121,7 @@ export function ExamplesReelMockup() {
     { title: 'Product launch', ratio: 'aspect-video', color: 'from-amber-400 to-rose-700', label: 'Campaign' },
   ];
   return (
-    <Glow>
+    <Glow support={{ title: 'Format shelf', detail: 'One idea · three cuts', rows: ['Landscape master', 'Vertical captioned clip'] }} floating={{ title: 'Export controls', detail: 'Platform ready', rows: ['Safe-zone crop checked', 'Captions and end card'] }}>
       <div aria-hidden="true" className="relative rounded-2xl border border-white/15 bg-[#111827] p-4 shadow-[0_30px_80px_-28px_rgba(15,23,42,0.8)] sm:p-5">
         <div className="mb-4 flex items-center justify-between"><div><p className="text-[10px] font-semibold text-white/85">Format gallery</p><p className="mt-1 text-[9px] text-white/40">A preview of the edit, not just the frame</p></div><span className="rounded-full bg-violet-400/15 px-2 py-1 text-[9px] text-violet-200">3 formats</span></div>
         <div className="grid grid-cols-[1fr_0.62fr_1fr] items-end gap-2 sm:gap-3">{cards.map((card, i) => <div key={card.title} className={`rounded-xl border border-white/10 bg-white/[0.04] p-2 ${i === 1 ? 'mb-5' : ''}`}><div className={`${card.ratio} overflow-hidden rounded-lg bg-gradient-to-br ${card.color} p-2`}><div className="flex h-full flex-col justify-between"><span className="w-fit rounded bg-black/25 px-1.5 py-1 text-[8px] text-white">{card.label}</span><div><span className="grid h-6 w-6 place-items-center rounded-full bg-white/85 text-[9px] text-slate-800">▶</span>{i === 1 ? <span className="mt-2 block rounded bg-slate-950/70 px-1 py-1 text-center text-[7px] font-semibold text-white">CAPTIONS ON</span> : null}</div></div></div><p className="mt-2 truncate text-[8px] font-medium text-white/70 sm:text-[9px]">{card.title}</p></div>)}</div>
@@ -106,7 +133,7 @@ export function ExamplesReelMockup() {
 
 export function PlatformWorkspaceMockup() {
   return (
-    <Glow>
+    <Glow support={{ title: 'Order activity', detail: 'Draft 02 · in review', rows: ['Timestamped feedback', 'Editor response visible'] }} floating={{ title: 'Delivery shelf', detail: '3 approved files', rows: ['Master video', 'Captions · social exports'] }}>
       <Window label="Order #PE-2048 · Workspace">
         <div className="grid gap-3 p-4 sm:grid-cols-[0.72fr_1.28fr] sm:p-5">
           <div className="space-y-2"><div className="rounded-lg bg-indigo-400/15 p-3"><p className="text-[8px] uppercase tracking-wider text-indigo-200/70">Current status</p><p className="mt-1 text-xs font-semibold text-white">In review</p><div className="mt-3 h-1 rounded-full bg-white/10"><span className="block h-full w-4/5 rounded-full bg-indigo-300" /></div></div>{['Brief & files','Review notes','Final delivery'].map((x,i)=><div key={x} className="flex items-center gap-2 rounded-lg border border-white/10 p-2.5"><span className={`h-2 w-2 rounded-full ${i<2?'bg-emerald-400':'bg-white/20'}`}/><span className="text-[9px] text-white/60">{x}</span></div>)}</div>
@@ -125,7 +152,7 @@ export function PricingPlanMockup() {
     { name: 'Channel', price: '$$$', items: ['Weekly plan', 'Packaging', 'Publish rhythm'], color: 'border-white/10' },
   ];
   return (
-    <Glow>
+    <Glow support={{ title: 'Package details', detail: 'Scope shown up front', rows: ['Included revisions', 'Optional add-ons listed'] }} floating={{ title: 'Volume pricing', detail: 'Rate updates by batch', rows: ['Per-video price visible', 'No production fee'] }}>
       <div aria-hidden="true" className="relative rounded-2xl border border-white/15 bg-[#111827] p-4 shadow-[0_30px_80px_-28px_rgba(15,23,42,0.8)] sm:p-5">
         <div className="flex items-center justify-between"><div><p className="text-[10px] font-semibold text-white/85">Choose your publishing rhythm</p><p className="mt-1 text-[9px] text-white/40">Clear scope, visible deliverables</p></div><span className="rounded-full bg-emerald-400/15 px-2 py-1 text-[8px] text-emerald-200">No hidden fees</span></div>
         <div className="mt-4 grid grid-cols-3 gap-2">{plans.map((plan) => <div key={plan.name} className={`rounded-xl border p-3 ${plan.color}`}><p className="text-[9px] font-semibold text-white/80">{plan.name}</p><p className="mt-2 text-base font-semibold text-white sm:text-lg">{plan.price}</p><div className="my-3 h-px bg-white/10"/><div className="space-y-2">{plan.items.map(item=><div key={item} className="flex items-start gap-1.5 text-[8px] leading-3 text-white/55"><span className="text-sky-300">✓</span>{item}</div>)}</div><div className="mt-3 h-1 rounded-full bg-gradient-to-r from-sky-400 to-violet-500"/></div>)}</div>
@@ -137,7 +164,7 @@ export function PricingPlanMockup() {
 
 export function CaseStudyHeroMockup({ title }: { title: string }) {
   return (
-    <Glow>
+    <Glow support={{ title: 'Project record', detail: 'Brief through delivery', rows: ['Key decision captured', 'Final version approved'] }} floating={{ title: 'Outcome notes', detail: 'Built around the brief', rows: ['Constraint addressed', 'Handoff ready to publish'] }}>
       <Window label="Project story · delivered">
         <div className="p-4 sm:p-5"><div className="aspect-[1.7] rounded-xl bg-gradient-to-br from-violet-600 via-indigo-800 to-slate-950 p-4"><div className="flex h-full flex-col justify-between"><span className="w-fit rounded-full bg-white/15 px-2 py-1 text-[8px] text-white/80">PROJECT CUT · FINAL</span><div><p className="max-w-[19rem] text-sm font-semibold leading-5 text-white sm:text-base">{title}</p><div className="mt-2 flex gap-1"><span className="h-1 w-12 rounded-full bg-sky-300"/><span className="h-1 w-8 rounded-full bg-violet-300"/><span className="h-1 w-5 rounded-full bg-pink-300"/></div></div></div></div><div className="mt-3 grid grid-cols-3 gap-2">{[['01','Brief'],['02','Review'],['03','Delivered']].map(([n,l])=><div key={n} className="rounded-lg border border-white/10 bg-white/[0.04] p-2"><span className="text-[8px] text-sky-300">{n}</span><p className="mt-1 text-[9px] text-white/60">{l}</p></div>)}</div></div>
       </Window>
@@ -148,7 +175,7 @@ export function CaseStudyHeroMockup({ title }: { title: string }) {
 
 export function PrivacyHeroMockup() {
   return (
-    <Glow>
+    <Glow support={{ title: 'Access controls', detail: 'Workspace roles', rows: ['Owner manages invites', 'Editor sees assigned work'] }} floating={{ title: 'File handling', detail: 'Project scoped access', rows: ['Private working files', 'Customer owns final video'] }}>
       <div aria-hidden="true" className="relative mx-auto max-w-[520px] rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_28px_70px_-24px_rgba(15,23,42,0.35)]">
         <div className="flex items-center gap-3 border-b border-slate-100 pb-4"><span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-lg text-indigo-600">◈</span><div><p className="text-xs font-semibold text-slate-800">Workspace access</p><p className="mt-1 text-[9px] text-slate-400">Your files stay with your project</p></div><span className="ml-auto rounded-full bg-emerald-50 px-2 py-1 text-[8px] font-semibold text-emerald-700">Protected</span></div>
         <div className="mt-4 space-y-3">{[['Project owner','Full workspace access','bg-indigo-500'],['Assigned editor','Project files only','bg-sky-500'],['Shared link','Disabled by default','bg-violet-500']].map(([role,desc,color])=><div key={role} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3"><span className={`h-2.5 w-2.5 rounded-full ${color}`}/><div className="min-w-0 flex-1"><p className="text-[10px] font-semibold text-slate-700">{role}</p><p className="mt-0.5 text-[9px] text-slate-400">{desc}</p></div><span className="text-[9px] text-slate-400">•••</span></div>)}</div>
@@ -161,7 +188,7 @@ export function PrivacyHeroMockup() {
 export function TermsHeroMockup() {
   const steps = ['Submit brief', 'Editor assigned', 'Review & revise', 'Approve', 'Delivered'];
   return (
-    <Glow>
+    <Glow support={{ title: 'Review terms', detail: 'Two focused rounds', rows: ['Feedback on agreed direction', 'Change requests clarified'] }} floating={{ title: 'Order milestones', detail: 'Submission to delivery', rows: ['Schedule starts with full brief', 'Approval closes the work'] }}>
       <div aria-hidden="true" className="relative mx-auto max-w-[560px] rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_28px_70px_-24px_rgba(15,23,42,0.35)]">
         <div className="flex items-center justify-between"><div><p className="text-xs font-semibold text-slate-800">Order lifecycle</p><p className="mt-1 text-[9px] text-slate-400">A clear path from request to final files</p></div><span className="rounded-full bg-blue-50 px-2.5 py-1 text-[8px] font-semibold text-blue-700">Service terms</span></div>
         <div className="relative mt-6 grid grid-cols-5 gap-1">{steps.map((step,index)=><div key={step} className="relative flex flex-col items-center text-center"><span className={`z-10 grid h-7 w-7 place-items-center rounded-full text-[9px] font-semibold ${index<3?'bg-indigo-600 text-white':'border border-slate-200 bg-white text-slate-400'}`}>{index<3?'✓':index+1}</span>{index<4?<span className="absolute left-1/2 top-3.5 h-0.5 w-full bg-slate-200"/>:null}<span className="mt-2 text-[8px] leading-3 text-slate-500 sm:text-[9px]">{step}</span></div>)}</div>

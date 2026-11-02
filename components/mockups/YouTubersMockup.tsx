@@ -4,6 +4,8 @@ export function YouTubersMockup() {
   return (
     <MockupShell
       tabs={['Retention', 'Thumbnail']}
+      supportPanel={{ title: 'Channel cadence', detail: 'This week · 4 pieces', rows: ['Flagship cut in review', 'Shorts batch delivered'] }}
+      floatingPanel={{ title: 'Retention pass', detail: 'Opening holds viewers', rows: ['Hook at 00:08', 'Thumbnail B leading'] }}
       accent="#10b981"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

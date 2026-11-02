@@ -4,6 +4,8 @@ export function CourseCreatorsMockup() {
   return (
     <MockupShell
       tabs={['Modules', 'Chapters']}
+      supportPanel={{ title: 'Course sequence', detail: 'Module 2 · 5 lessons', rows: ['Intro edit approved', 'Chapter titles aligned'] }}
+      floatingPanel={{ title: 'Lesson packaging', detail: 'Ready for LMS', rows: ['Clean lesson master', 'Promo clip included'] }}
       accent="#a855f7"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

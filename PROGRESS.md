@@ -91,3 +91,29 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - `npm run build` - Passed (Next.js 14.2.35; 53 static pages generated).
 - Confirmed `pill={null}` was also unsupported by the marketing PageHero props and was removed from that usage.
 - No backend or routing behavior changed.
+
+## Task: Replace inner-page hero mockups with layered UI compositions
+
+### Files created
+- None.
+
+### Files modified
+- `components/mockups/MockupShell.tsx` - Added layered support and floating panels to the service and use-case hero compositions.
+- `components/mockups/LongFormMockup.tsx`
+- `components/mockups/ShortFormMockup.tsx`
+- `components/mockups/ChannelManagementMockup.tsx`
+- `components/mockups/YouTubersMockup.tsx`
+- `components/mockups/BusinessesMockup.tsx`
+- `components/mockups/PodcastersMockup.tsx`
+- `components/mockups/RealtorsMockup.tsx`
+- `components/mockups/CourseCreatorsMockup.tsx`
+- `components/mockups/DoctorsMockup.tsx`
+- `components/mockups/LawyersMockup.tsx`
+- `components/marketing/inner-page-hero-mockups.tsx` - Added distinct layered support and floating panels to the remaining inner-page mockups.
+
+### Anything left undone
+- Browser-based desktop, tablet, and mobile visual inspection was not run; no server was started per project instructions.
+- Homepage, backend, APIs, and business logic were not modified.
+
+### Verification
+- `npm run build` - Passed (Next.js 14.2.35; 53 static pages generated).

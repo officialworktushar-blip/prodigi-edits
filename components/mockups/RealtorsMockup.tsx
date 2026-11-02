@@ -4,6 +4,8 @@ export function RealtorsMockup() {
   return (
     <MockupShell
       tabs={['Tour', 'Branding']}
+      supportPanel={{ title: 'Listing kit', detail: '742 Willow · ready', rows: ['Wide property tour', 'Vertical agent cut'] }}
+      floatingPanel={{ title: 'Tour details', detail: '4 bed · 3 bath', rows: ['Lower third applied', 'Open house card added'] }}
       accent="#ea580c"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

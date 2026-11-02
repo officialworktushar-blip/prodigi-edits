@@ -4,6 +4,8 @@ export function PodcastersMockup() {
   return (
     <MockupShell
       tabs={['Episode', 'Clips']}
+      supportPanel={{ title: 'Episode mix', detail: '42:18 · mastered', rows: ['Noise removed', 'Voice levels matched'] }}
+      floatingPanel={{ title: 'Audio polish', detail: 'Broadcast ready', rows: ['Loudness normalized', '3 social clips queued'] }}
       accent="#fb923c"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

@@ -4,6 +4,8 @@ export function DoctorsMockup() {
   return (
     <MockupShell
       tabs={['Explain', 'Captions']}
+      supportPanel={{ title: 'Patient explainer', detail: 'Clarity check passed', rows: ['Plain wording reviewed', 'Captions verified'] }}
+      floatingPanel={{ title: 'Accessibility', detail: 'Easy to follow', rows: ['Readable subtitle size', 'Calm pacing confirmed'] }}
       accent="#0ea5e9"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

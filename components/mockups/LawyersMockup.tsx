@@ -4,6 +4,8 @@ export function LawyersMockup() {
   return (
     <MockupShell
       tabs={['Explainer', 'Brand']}
+      supportPanel={{ title: 'Firm video kit', detail: 'Client story · approved', rows: ['Disclosure card included', 'Firm look applied'] }}
+      floatingPanel={{ title: 'Review controls', detail: 'Partner sign-off', rows: ['Final language checked', 'Share link restricted'] }}
       accent="#4f46e5"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

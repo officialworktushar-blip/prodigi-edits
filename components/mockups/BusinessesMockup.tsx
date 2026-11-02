@@ -4,6 +4,8 @@ export function BusinessesMockup() {
   return (
     <MockupShell
       tabs={['Brand', 'Review']}
+      supportPanel={{ title: 'Launch package', detail: 'Brand system applied', rows: ['Product film · approved', 'Sales cut · in review'] }}
+      floatingPanel={{ title: 'Brand controls', detail: 'Launch palette', rows: ['Type and color locked', '3 reviewers assigned'] }}
       accent="#f59e0b"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

@@ -4,6 +4,8 @@ export function ShortFormMockup() {
   return (
     <MockupShell
       tabs={['Hook', 'Captions']}
+      supportPanel={{ title: 'Clip batch', detail: '6 vertical cuts', rows: ['Safe zones checked', 'Captions proofed'] }}
+      floatingPanel={{ title: 'Social export', detail: '9:16 · 1080 × 1920', rows: ['Reels · Shorts · TikTok', 'Burned-in captions'] }}
       accent="#ec4899"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

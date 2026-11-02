@@ -4,6 +4,8 @@ export function LongFormMockup() {
   return (
     <MockupShell
       tabs={['Story', 'Style']}
+      supportPanel={{ title: 'Sequence review', detail: '14:08 · picture locked', rows: ['Chapter markers set', 'Audio mix approved'] }}
+      floatingPanel={{ title: 'Color & export', detail: 'Creator grade', rows: ['Skin tones balanced', '4K master · H.264'] }}
       accent="#0d9488"
       rail={
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">

@@ -26,6 +26,43 @@ interface MockupShellProps {
   popover?: ReactNode;
   buttonLabel?: string;
   className?: string;
+  supportPanel: LayerPanel;
+  floatingPanel: LayerPanel;
+}
+
+interface LayerPanel {
+  title: string;
+  detail: string;
+  rows: [string, string];
+}
+
+function LayeredPanel({ panel, floating = false }: { panel: LayerPanel; floating?: boolean }) {
+  return (
+    <div
+      className={`rounded-xl border border-slate-200/90 bg-white/95 p-2.5 text-slate-800 shadow-[0_18px_45px_-16px_rgba(15,23,42,0.55)] backdrop-blur sm:rounded-2xl sm:p-3 ${floating ? 'rotate-1' : '-rotate-1'}`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="truncate text-[8px] font-semibold uppercase tracking-[0.12em] text-slate-400 sm:text-[9px]">
+            {panel.title}
+          </p>
+          <p className="mt-1 truncate text-[9px] font-semibold text-slate-800 sm:text-[10px]">
+            {panel.detail}
+          </p>
+        </div>
+        <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-sky-500" />
+      </div>
+      <div className="mt-2 space-y-1.5">
+        {panel.rows.map((row, index) => (
+          <div key={row} className="flex items-center gap-1.5">
+            <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${index === 0 ? 'bg-emerald-500' : 'bg-violet-400'}`} />
+            <span className="min-w-0 flex-1 truncate text-[8px] text-slate-500">{row}</span>
+            <span className="h-1 w-6 shrink-0 rounded-full bg-slate-100 sm:w-8"><span className={`block h-full rounded-full ${index === 0 ? 'w-3/4 bg-sky-500' : 'w-1/2 bg-violet-400'}`} /></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function RailClip({
@@ -128,12 +165,14 @@ export function MockupShell({
   popover,
   buttonLabel,
   className = '',
+  supportPanel,
+  floatingPanel,
 }: MockupShellProps) {
   return (
-    <div aria-hidden="true" className={`pem ${className}`}>
+    <div aria-hidden="true" className={`pem relative isolate mx-auto w-full max-w-[720px] px-2 py-4 sm:px-4 sm:py-5 ${className}`}>
       <style>{mockupCss}</style>
       <div
-        className="pem-win"
+        className="pem-win relative z-10 ml-auto w-[96%]"
         style={{
           '--pem-accent': accent,
         } as React.CSSProperties}
@@ -240,6 +279,12 @@ export function MockupShell({
             </div>
           </div>
         </div>
+      </div>
+      <div className="absolute bottom-0 left-0 z-20 w-[45%] sm:w-[39%]">
+        <LayeredPanel panel={supportPanel} />
+      </div>
+      <div className="absolute right-0 top-[19%] z-20 w-[40%] sm:w-[34%]">
+        <LayeredPanel panel={floatingPanel} floating />
       </div>
     </div>
   );
