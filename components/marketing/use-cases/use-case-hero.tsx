@@ -79,7 +79,7 @@ export function UseCaseHero({
       />
       <div className="relative mx-auto w-full max-w-none px-4 pb-[5.6875rem] pt-[5.6875rem] sm:px-6 sm:pb-[6.5rem] sm:pt-[6.5rem] lg:px-6 lg:pb-[8.125rem] lg:pt-[8.125rem]">
         <div className="grid items-center gap-9 md:grid-cols-[0.96fr_1.04fr] md:gap-7 lg:grid-cols-[48fr_52fr] lg:gap-9 xl:gap-10">
-          <div className="use-case-hero-copy min-w-0">
+          <div className="use-case-hero-copy ml-12 min-w-0 sm:ml-[72px] lg:ml-[72px]">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
               {eyebrow}
             </p>

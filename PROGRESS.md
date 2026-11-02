@@ -215,6 +215,12 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Increase Use Case hero text left margin by 400%
+
+- Increased the total left offset for the Use Case hero text to four times the existing container gutter: 64px on mobile and 96px from the small breakpoint upward. The offset applies to text only; mockup position and page gutter remain unchanged.
+- Files modified: `components/marketing/use-cases/use-case-hero.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
 ## Task: Remove outer backgrounds from all Use Case mockups
 
 - Created transparent-background PNG variants of all seven Use Case hero mockups, preserving the interface artwork and internal white/light panels while removing the exterior checkerboard/solid backgrounds.
