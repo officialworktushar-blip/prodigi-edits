@@ -1,23 +1,38 @@
 import type { ReactNode } from 'react';
+import Image, { type StaticImageData } from 'next/image';
 import {
-  AudioLines,
   CalendarDays,
   Check,
-  CheckCircle2,
   Clapperboard,
   FileCheck2,
-  Film,
   HeartPulse,
-  Layers3,
-  LockKeyhole,
-  Mic2,
   Play,
-  Scissors,
   ShieldCheck,
-  Sparkles,
-  Subtitles,
-  Users,
 } from 'lucide-react';
+import YouTubersMockup from '@/components/public/UseCases_Youtubers.png';
+import PodcasterMockup from '@/components/public/UseCases_Podcaster.png';
+import CourseCreatorMockup from '@/components/public/UseCases_CourseCreator.png';
+import LawyersMockup from '@/components/public/UseCases_Lawyers.png';
+
+function UploadedMockup({
+  image,
+  alt,
+}: {
+  image: StaticImageData;
+  alt: string;
+}) {
+  return (
+    <div className="relative mx-auto w-full min-[1440px]:-mr-12 min-[1440px]:w-[calc(100%+3rem)]">
+      <Image
+        src={image}
+        alt={alt}
+        priority
+        sizes="(max-width: 767px) 100vw, (max-width: 1439px) 52vw, 56vw"
+        className="block h-auto w-full object-contain"
+      />
+    </div>
+  );
+}
 
 function Stage({ children }: { children: ReactNode }) {
   return (
@@ -111,48 +126,8 @@ function Timeline({ labels, colors = ['#38bdf8', '#8b5cf6', '#ec4899'] }: { labe
   );
 }
 
-function SignalBars({ color = '#22d3ee' }: { color?: string }) {
-  return (
-    <div className="flex h-7 items-end gap-[3px] sm:h-9">
-      {Array.from({ length: 26 }, (_, index) => (
-        <span key={index} className="flex-1 rounded-t-sm opacity-90" style={{ height: `${22 + ((index * 37 + 13) % 70)}%`, backgroundColor: color }} />
-      ))}
-    </div>
-  );
-}
-
 export function YouTubersHeroVisual() {
-  return (
-    <Stage>
-      <AppWindow title="Creator Studio · Video 24" status="Review ready">
-        <div className="flex min-w-0">
-          <Sidebar items={['Overview', 'Videos', 'Analytics', 'Thumbnails']} active="Analytics" />
-          <div className="min-w-0 flex-1 p-3 sm:p-4">
-            <div className="grid grid-cols-[1.2fr_0.8fr] gap-2.5 sm:gap-3">
-              <div className="relative flex aspect-video items-end rounded-xl border border-white/10 bg-gradient-to-br from-indigo-800 via-slate-800 to-cyan-950 p-2.5 sm:p-3">
-                <span className="absolute left-2.5 top-2.5 rounded bg-black/40 px-2 py-1 text-[7px] text-white/70">FLAGSHIP · 12:48</span>
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-white/90 text-indigo-700"><Play className="h-3 w-3 fill-current"/></span>
-                <span className="ml-2 text-[8px] font-semibold text-white sm:text-[9px]">The opening that keeps viewers</span>
-              </div>
-              <div className="rounded-xl border border-white/[0.08] bg-white/[0.035] p-2.5 sm:p-3">
-                <div className="flex items-center justify-between"><span className="text-[8px] text-slate-400">Audience retention</span><span className="text-[8px] font-semibold text-emerald-300">+18%</span></div>
-                <svg viewBox="0 0 140 48" className="mt-2 w-full"><path d="M2 40 C15 34 18 20 31 24 S48 33 62 21 S82 14 93 20 S112 24 138 7" fill="none" stroke="#22d3ee" strokeWidth="2.5"/><path d="M2 40 C15 34 18 20 31 24 S48 33 62 21 S82 14 93 20 S112 24 138 7V48H2Z" fill="#22d3ee" fillOpacity=".1"/></svg>
-                <p className="mt-1 text-[7px] text-slate-500">First 30 seconds · strong hook</p>
-              </div>
-            </div>
-            <div className="mt-3"><Timeline labels={['Video', 'Music', 'Captions']} /></div>
-          </div>
-        </div>
-      </AppWindow>
-      <FloatingPanel title="Thumbnail A/B" className="right-0 top-[13%] w-[43%] sm:w-[37%]">
-        <div className="grid grid-cols-2 gap-1.5"><div className="aspect-video rounded-md bg-gradient-to-br from-amber-500 to-rose-700 p-1"><span className="rounded bg-black/40 px-1 text-[7px]">A</span></div><div className="aspect-video rounded-md border border-cyan-300/50 bg-gradient-to-br from-cyan-600 to-indigo-800 p-1"><span className="rounded bg-black/40 px-1 text-[7px]">B · 58%</span></div></div>
-        <p className="mt-1.5 text-[7px] text-slate-400">Test title and first frame</p>
-      </FloatingPanel>
-      <FloatingPanel title="Publishing queue" className="bottom-0 left-0 w-[40%] sm:w-[34%]">
-        <div className="flex items-center gap-2"><CalendarDays className="h-4 w-4 shrink-0 text-cyan-300"/><div><p className="text-[8px] font-semibold text-white">Friday · 4:30 PM</p><p className="text-[7px] text-slate-400">Package approved</p></div></div>
-      </FloatingPanel>
-    </Stage>
-  );
+  return <UploadedMockup image={YouTubersMockup} alt="YouTubers creator studio with channel growth analytics, publishing calendar, content pipeline, and export settings." />;
 }
 
 export function BusinessesHeroVisual() {
@@ -185,28 +160,7 @@ export function BusinessesHeroVisual() {
 }
 
 export function PodcastersHeroVisual() {
-  return (
-    <Stage>
-      <AppWindow title="Episode editor · The Good Work" status="Mix approved">
-        <div className="flex min-w-0">
-          <Sidebar items={['Episodes', 'Audio', 'Video clips', 'Delivery']} active="Episodes" />
-          <div className="min-w-0 flex-1 p-3 sm:p-4">
-            <div className="grid gap-3 sm:grid-cols-[1.1fr_0.9fr]">
-              <div className="relative flex aspect-video items-end rounded-xl border border-white/10 bg-gradient-to-br from-orange-950 via-slate-800 to-violet-950 p-3"><span className="rounded bg-black/35 px-2 py-1 text-[8px] text-white/80">EP 42 · THE CREATIVE ROUTINE</span><span className="ml-auto grid h-7 w-7 place-items-center rounded-full bg-orange-300 text-slate-950"><Play className="h-3 w-3 fill-current"/></span></div>
-              <div className="rounded-xl border border-white/[0.08] bg-white/[0.035] p-3"><div className="flex items-center gap-2"><Mic2 className="h-4 w-4 text-orange-300"/><span className="text-[8px] font-semibold text-white/80">Voice & mix</span></div><div className="mt-3 space-y-2">{[['Dialogue',82],['Music bed',46],['Noise cleanup',91]].map(([label,width])=><div key={String(label)}><div className="flex justify-between text-[7px] text-slate-400"><span>{label}</span><span>{width}%</span></div><div className="mt-1 h-1.5 rounded-full bg-white/10"><span className="block h-full rounded-full bg-orange-300" style={{width:`${width}%`}}/></div></div>)}</div></div>
-            </div>
-            <div className="mt-3 rounded-xl border border-white/[0.08] bg-black/20 p-2.5"><div className="mb-2 flex items-center justify-between text-[7px] text-slate-400"><span>Multitrack audio · 42:18</span><span>Noise removed</span></div><SignalBars color="#fb923c"/><div className="mt-2 grid grid-cols-2 gap-1.5"><span className="rounded bg-orange-300/15 px-2 py-1 text-[7px] text-orange-100">HOST · CLEAN</span><span className="rounded bg-violet-300/15 px-2 py-1 text-[7px] text-violet-100">GUEST · MATCHED</span></div></div>
-          </div>
-        </div>
-      </AppWindow>
-      <FloatingPanel title="Clip exports" className="right-0 top-[14%] w-[38%] sm:w-[34%]">
-        <div className="space-y-1.5">{['01 · opening thought','02 · best quote'].map(x=><div key={x} className="flex items-center gap-1.5 rounded-md bg-white/[0.05] px-2 py-1"><Scissors className="h-3 w-3 text-orange-300"/><span className="truncate text-[7px] text-slate-300">{x}</span></div>)}</div>
-      </FloatingPanel>
-      <FloatingPanel title="Show identity" className="bottom-0 left-0 w-[38%] sm:w-[32%]">
-        <div className="flex items-center gap-2"><AudioLines className="h-4 w-4 text-cyan-300"/><div><p className="text-[8px] font-semibold text-white">Sonic signature</p><p className="text-[7px] text-slate-400">Intro · outro · loudness</p></div></div>
-      </FloatingPanel>
-    </Stage>
-  );
+  return <UploadedMockup image={PodcasterMockup} alt="Podcast editing mockup with episode artwork, audio timeline, microphone, and publishing controls." />;
 }
 
 export function RealtorsHeroVisual() {
@@ -235,25 +189,7 @@ export function RealtorsHeroVisual() {
 }
 
 export function CourseCreatorsHeroVisual() {
-  return (
-    <Stage>
-      <AppWindow title="Course workspace · Build with clarity" status="Module 04">
-        <div className="flex min-w-0">
-          <aside className="hidden w-[150px] shrink-0 border-r border-white/[0.07] bg-black/15 p-3 sm:block"><p className="text-[7px] font-semibold uppercase tracking-wider text-slate-500">Curriculum</p>{['01 · Start here','02 · The framework','03 · Make it useful','04 · Next steps'].map((item,i)=><div key={item} className={`mt-2 rounded-lg p-2 text-[7px] ${i===3?'border border-violet-300/30 bg-violet-400/10 text-violet-100':'text-slate-400'}`}>{item}</div>)}</aside>
-          <div className="grid min-w-0 flex-1 gap-3 p-3 sm:grid-cols-[1.1fr_0.9fr] sm:p-4">
-            <div><div className="relative flex aspect-video items-end rounded-xl border border-white/10 bg-gradient-to-br from-violet-700 via-indigo-950 to-slate-950 p-3"><span className="rounded bg-black/40 px-2 py-1 text-[8px] text-white/80">LESSON 04 · THE CLEAR NEXT STEP</span><span className="ml-auto grid h-7 w-7 place-items-center rounded-full bg-violet-300 text-slate-950"><Play className="h-3 w-3 fill-current"/></span></div><div className="mt-3"><Timeline labels={['Lesson','Chapter cards','Captions']} colors={['#a78bfa','#38bdf8','#ec4899']}/></div></div>
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.035] p-3"><div className="flex items-center gap-2"><Layers3 className="h-4 w-4 text-violet-300"/><span className="text-[8px] font-semibold text-white/80">Chapter map</span></div>{['Set the goal','Show the method','Try it together','Recap & continue'].map((item,i)=><div key={item} className="mt-2 flex items-center gap-2 rounded-md bg-black/20 p-2"><span className="text-[7px] text-violet-300">0{i+1}</span><span className="min-w-0 flex-1 truncate text-[7px] text-slate-300">{item}</span><span className="h-1 w-7 rounded-full bg-violet-400/70"/></div>)}</div>
-          </div>
-        </div>
-      </AppWindow>
-      <FloatingPanel title="Lesson packaging" className="right-0 top-[14%] w-[39%] sm:w-[34%]">
-        <div className="space-y-1.5">{['Consistent module intro','Readable lesson captions'].map(x=><div key={x} className="flex items-center gap-1.5 text-[7px] text-slate-300"><CheckCircle2 className="h-3 w-3 text-violet-300"/>{x}</div>)}</div>
-      </FloatingPanel>
-      <FloatingPanel title="Learner-ready exports" className="bottom-0 left-0 w-[40%] sm:w-[34%]">
-        <div className="flex items-center gap-2"><Subtitles className="h-4 w-4 text-cyan-300"/><div><p className="text-[8px] font-semibold text-white">Captions synced</p><p className="text-[7px] text-slate-400">Lesson · recap · promo</p></div></div>
-      </FloatingPanel>
-    </Stage>
-  );
+  return <UploadedMockup image={CourseCreatorMockup} alt="Course creator mockup showing a course workspace, curriculum slides, lesson design controls, and theme settings." />;
 }
 
 export function DoctorsHeroVisual() {
@@ -279,23 +215,5 @@ export function DoctorsHeroVisual() {
 }
 
 export function LawyersHeroVisual() {
-  return (
-    <Stage>
-      <AppWindow title="Firm media room · Explainer cut" status="Private review">
-        <div className="flex min-w-0">
-          <Sidebar items={['Matter videos', 'Firm updates', 'Testimonials', 'Access']} active="Firm updates" />
-          <div className="grid min-w-0 flex-1 gap-3 p-3 sm:grid-cols-[1.05fr_0.95fr] sm:p-4">
-            <div><div className="relative flex aspect-video items-end rounded-xl border border-white/10 bg-gradient-to-br from-blue-900 via-indigo-950 to-slate-950 p-3"><span className="absolute left-3 top-3 flex items-center gap-1 rounded bg-black/35 px-2 py-1 text-[7px] text-white/65"><LockKeyhole className="h-3 w-3"/>CLIENT STORY</span><span className="max-w-[75%] rounded bg-black/45 px-2 py-1 text-[8px] font-medium text-white/85">A clear explanation, reviewed by the firm</span><span className="ml-auto grid h-7 w-7 shrink-0 place-items-center rounded-full bg-indigo-300 text-slate-950"><Play className="h-3 w-3 fill-current"/></span></div><div className="mt-3"><Timeline labels={['Story','Disclosure','Captions']} colors={['#818cf8','#38bdf8','#a78bfa']}/></div></div>
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.035] p-3"><div className="flex items-center gap-2"><FileCheck2 className="h-4 w-4 text-indigo-300"/><span className="text-[8px] font-semibold text-white/80">Review record</span></div>{['Script approved','Disclosure included','Partner sign-off'].map((item,i)=><div key={item} className="mt-2 flex items-center justify-between rounded-lg bg-black/20 px-2 py-2"><span className="text-[7px] text-slate-300">{item}</span><span className={`rounded-full px-1.5 py-0.5 text-[7px] ${i<2?'bg-emerald-300/10 text-emerald-200':'bg-indigo-300/10 text-indigo-200'}`}>{i<2?'Done':'Review'}</span></div>)}<div className="mt-3 flex items-center gap-2 rounded-lg border border-white/[0.08] p-2"><Users className="h-3.5 w-3.5 text-indigo-200"/><span className="text-[7px] text-slate-400">Owner · editor · reviewer</span></div></div>
-          </div>
-        </div>
-      </AppWindow>
-      <FloatingPanel title="Firm identity" className="right-0 top-[14%] w-[38%] sm:w-[33%]">
-        <div className="flex items-center gap-2"><span className="grid h-7 w-7 place-items-center rounded-lg bg-indigo-400/15 text-indigo-200"><Sparkles className="h-3.5 w-3.5"/></span><div><p className="text-[8px] font-semibold text-white">Approved style</p><p className="text-[7px] text-slate-400">Titles · color · lower thirds</p></div></div>
-      </FloatingPanel>
-      <FloatingPanel title="Access controls" className="bottom-0 left-0 w-[39%] sm:w-[33%]">
-        <div className="flex items-center gap-2"><LockKeyhole className="h-4 w-4 text-cyan-300"/><div><p className="text-[8px] font-semibold text-white">Restricted workspace</p><p className="text-[7px] text-slate-400">Invited reviewers only</p></div></div>
-      </FloatingPanel>
-    </Stage>
-  );
+  return <UploadedMockup image={LawyersMockup} alt="Law firm video production mockup with private workspace, explainer video, brand controls, and export options." />;
 }

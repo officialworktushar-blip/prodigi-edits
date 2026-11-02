@@ -228,3 +228,11 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Use uploaded mockups on four Use Case heroes
+
+- Replaced the generated hero mockups for YouTubers, Podcasters, Course Creators (the Content Creator page), and Lawyers with their uploaded PNG mockups.
+- Added wide, right aligned image presentation on those four pages with a 24px viewport margin at 1440px and wider. Image proportions are preserved; tablet and mobile use available width.
+- Kept the Businesses, Realtors, and Doctors visuals and all non-Use Case pages unchanged.
+- Files modified: `components/marketing/use-cases/use-case-hero-visuals.tsx`, `components/marketing/use-cases/use-case-hero.tsx`, `app/(marketing)/use-cases/[slug]/page.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+

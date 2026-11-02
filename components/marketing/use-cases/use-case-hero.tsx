@@ -15,6 +15,7 @@ export interface UseCaseHeroProps {
   primaryAction: UseCaseHeroAction;
   secondaryAction: UseCaseHeroAction;
   visual: ReactNode;
+  visualBleed?: boolean;
 }
 
 function renderTitle(title: string, highlight: string) {
@@ -47,6 +48,7 @@ export function UseCaseHero({
   primaryAction,
   secondaryAction,
   visual,
+  visualBleed = false,
 }: UseCaseHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-[#061321] text-white">
@@ -77,7 +79,13 @@ export function UseCaseHero({
             'radial-gradient(ellipse at 70% 50%, rgba(0,180,220,.16), transparent 50%), radial-gradient(ellipse at 10% 90%, rgba(110,65,255,.2), transparent 45%)',
         }}
       />
-      <div className="relative mx-auto max-w-screen-1200 px-4 pb-[5.6875rem] pt-[5.6875rem] sm:px-6 sm:pb-[6.5rem] sm:pt-[6.5rem] lg:px-8 lg:pb-[8.125rem] lg:pt-[8.125rem]">
+      <div
+        className={`relative mx-auto pb-[5.6875rem] pt-[5.6875rem] sm:pb-[6.5rem] sm:pt-[6.5rem] lg:pb-[8.125rem] lg:pt-[8.125rem] ${
+          visualBleed
+            ? 'w-full max-w-none px-4 sm:px-6 lg:px-6'
+            : 'max-w-screen-1200 px-4 sm:px-6 lg:px-8'
+        }`}
+      >
         <div className="grid items-center gap-9 md:grid-cols-[0.96fr_1.04fr] md:gap-7 lg:grid-cols-[48fr_52fr] lg:gap-9 xl:gap-10">
           <div className="use-case-hero-copy min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
