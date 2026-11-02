@@ -451,6 +451,17 @@
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: calc(110% - clamp(4.8px, 0.6vw, 8.8px));
+    margin-left: calc(-5% + clamp(2.4px, 0.3vw, 4.4px));
+    margin-right: calc(-5% + clamp(2.4px, 0.3vw, 4.4px));
+  }
+
+  .cardMedia {
+    aspect-ratio: 17.6 / 9.45;
+  }
+
+  .notesAvatar {
+    width: 15.03%;
   }
 }
 

@@ -104,7 +104,7 @@ const services = [
 export function ThreeWaysSection() {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-screen-1200 px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1308.8px] px-4 py-20 sm:px-6 lg:px-[clamp(17.6px,calc(50vw_-_622.4px),32px)]">
         <Reveal>
           <h2 className="text-center text-[clamp(2rem,4vw,3.25rem)] font-medium tracking-tight [-webkit-font-smoothing:antialiased]" style={{ color: 'var(--hs-ink)' }}>
             Three ways to build faster with ProdigiEdits

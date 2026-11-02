@@ -14,7 +14,7 @@ export function Hero() {
         style={{ animationDelay: '-9s' }}
       />
 
-      <div className="mx-auto max-w-screen-1200 px-4 pt-16 text-center sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
+      <div className="mx-auto max-w-[1280px] px-4 pt-16 text-center sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
         <h1 className="text-4xl font-semibold leading-[1.04] tracking-[-0.03em] sm:text-6xl lg:text-7xl">
           <span className="block animate-hero-fade-up text-white">
             A faster way to ship

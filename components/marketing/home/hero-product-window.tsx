@@ -67,7 +67,7 @@ const BOTTOM_RAIL_ICONS: LucideIcon[] = [
 
 export function HeroProductWindow() {
   return (
-    <div aria-hidden="true" className="relative mx-auto w-full max-w-5xl">
+    <div aria-hidden="true" className="relative mx-auto w-full max-w-[71.68rem]">
       <div className="absolute inset-x-[10%] -bottom-10 h-24 rounded-full bg-cyan-400/50 blur-3xl" />
 
       <div className="glass-window relative overflow-hidden rounded-[22px] text-left sm:rounded-[28px]">
@@ -134,7 +134,7 @@ export function HeroProductWindow() {
                 {SLIDES.map((slide) => (
                   <figure key={slide.caption}>
                     <div
-                      className="animate-hero-fade-up relative flex aspect-[4/3] items-center justify-center rounded-md"
+                      className="animate-hero-fade-up relative flex aspect-[4/3] items-center justify-center rounded-md min-[1088px]:aspect-auto min-[1088px]:h-48"
                       style={{
                         backgroundColor: slide.color,
                         animationDelay: slide.delay,
