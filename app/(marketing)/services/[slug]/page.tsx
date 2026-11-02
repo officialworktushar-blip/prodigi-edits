@@ -43,7 +43,7 @@ function getHeroVisual(slug: ServiceSlug) {
         height={1024}
         sizes="(max-width: 1024px) 100vw, 55vw"
         priority
-        className="h-auto w-full object-contain"
+        className="h-auto w-full object-contain lg:scale-[1.2]"
       />
     </div>
   );

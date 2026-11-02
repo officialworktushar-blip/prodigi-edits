@@ -139,3 +139,12 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 ### Anything left undone
 - Production build and browser viewport inspection were not run because the project instructions prohibit shell commands and starting a server.
 - Homepage and backend files were not modified.
+
+## Task: Scale service hero mockups by 20%
+
+### Files modified
+- `app/(marketing)/services/[slug]/page.tsx` - Applied a 1.2 scale to all service hero images at the desktop two-column breakpoint, preserving mobile sizing and image aspect ratio.
+- `PROGRESS.md` - Recorded this task.
+
+### Anything left undone
+- Build and browser visual checks were not run; project instructions prohibit shell commands and server runs.
