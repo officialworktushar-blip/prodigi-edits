@@ -215,3 +215,9 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Increase service hero text left margin by 25%
+
+- Increased the service hero text column's left margin to 125% of its prior values: 15px on mobile, 20px at small breakpoints, and 25px on desktop.
+- Files modified: `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
