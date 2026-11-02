@@ -15,6 +15,11 @@ interface FrameMotionSettings {
   perspective: number;
 }
 
+interface VisibilityRange {
+  enter: number;
+  exit: number;
+}
+
 const DESKTOP_SETTINGS: FrameMotionSettings = {
   tilt: 10,
   initialScale: 0.94,
@@ -37,37 +42,98 @@ export function HomeVideoFrameMotion() {
   const frameRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const [settings, setSettings] = useState(DESKTOP_SETTINGS);
+  const [visibilityRange, setVisibilityRange] = useState<VisibilityRange>({
+    enter: 0.4,
+    exit: 0.6,
+  });
   const { scrollYProgress } = useScroll({
     target: frameRef,
     offset: ['start end', 'end start'],
   });
-
   useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
+    const tabletQuery = window.matchMedia('(max-width: 1023px)');
     const updateSettings = () => {
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        setSettings(MOBILE_SETTINGS);
-      } else if (window.matchMedia('(max-width: 1023px)').matches) {
-        setSettings(TABLET_SETTINGS);
-      } else {
-        setSettings(DESKTOP_SETTINGS);
-      }
+      setSettings(
+        mobileQuery.matches
+          ? MOBILE_SETTINGS
+          : tabletQuery.matches
+            ? TABLET_SETTINGS
+            : DESKTOP_SETTINGS
+      );
     };
 
     updateSettings();
-    window.addEventListener('resize', updateSettings, { passive: true });
+    mobileQuery.addEventListener('change', updateSettings);
+    tabletQuery.addEventListener('change', updateSettings);
 
-    return () => window.removeEventListener('resize', updateSettings);
+    return () => {
+      mobileQuery.removeEventListener('change', updateSettings);
+      tabletQuery.removeEventListener('change', updateSettings);
+    };
   }, []);
 
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const updateVisibilityRange = () => {
+      const frameHeight = frame.offsetHeight;
+      const viewportHeight = window.innerHeight;
+
+      if (frameHeight <= 0 || viewportHeight <= 0 || frameHeight >= viewportHeight) {
+        setVisibilityRange({ enter: 0.4, exit: 0.6 });
+        return;
+      }
+
+      const totalTravel = frameHeight + viewportHeight;
+      setVisibilityRange({
+        enter: frameHeight / totalTravel,
+        exit: viewportHeight / totalTravel,
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(updateVisibilityRange);
+    resizeObserver.observe(frame);
+    updateVisibilityRange();
+    window.addEventListener('resize', updateVisibilityRange, { passive: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateVisibilityRange);
+    };
+  }, []);
+
+  const transitionStart = Math.max(0, visibilityRange.enter - 0.1);
+  const transitionEnd = Math.min(1, visibilityRange.exit + 0.1);
+  const scrollStops = [
+    0,
+    transitionStart,
+    visibilityRange.enter,
+    visibilityRange.exit,
+    transitionEnd,
+    1,
+  ];
   const rotateX = useTransform(
     scrollYProgress,
-    [0, 1],
-    prefersReducedMotion ? [0, 0] : [settings.tilt, 0]
+    scrollStops,
+    prefersReducedMotion
+      ? [0, 0, 0, 0, 0, 0]
+      : [settings.tilt, settings.tilt, 0, 0, settings.tilt, settings.tilt]
   );
   const scale = useTransform(
     scrollYProgress,
-    [0, 1],
-    prefersReducedMotion ? [1, 1] : [settings.initialScale, 1]
+    scrollStops,
+    prefersReducedMotion
+      ? [1, 1, 1, 1, 1, 1]
+      : [
+          settings.initialScale,
+          settings.initialScale,
+          1,
+          1,
+          settings.initialScale,
+          settings.initialScale,
+        ]
   );
 
   return (
@@ -81,9 +147,7 @@ export function HomeVideoFrameMotion() {
           transformOrigin: 'center center',
         }}
       >
-        <div className="home-video-frame-border mx-auto w-full rounded-[24px] p-[2px] sm:rounded-[30px]">
-          <HeroProductWindow />
-        </div>
+        <HeroProductWindow />
       </motion.div>
     </div>
   );

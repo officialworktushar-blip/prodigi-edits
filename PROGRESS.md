@@ -224,6 +224,13 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/marketing/home/hero.tsx`, `app/globals.css`, `PROGRESS.md`.
 - Production build and desktop/mobile browser checks were not run because the project instructions prohibit shell commands and server runs.
 
+## Task: Refine homepage video frame scroll animation
+
+- Removed the added gradient border and glow wrapper, restoring the existing video frame styling.
+- Changed the scroll transform to use the frame and viewport dimensions to establish a straight/full-size plateau while the frame can be fully visible; tilt and scale ease in/out only across partially visible regions. Used direct scroll interpolation to avoid noticeable lag, with responsive intensity and reduced-motion straight positioning.
+- Files modified: `components/marketing/home/home-video-frame-motion.tsx`, `app/globals.css`, `PROGRESS.md`.
+- Build and two-direction desktop/mobile browser verification were not run because project instructions prohibit shell commands and server runs.
+
 ## Task: Increase Use Case hero text left margin by 400%
 
 - Increased the total left offset for the Use Case hero text to four times the existing container gutter: 64px on mobile and 96px from the small breakpoint upward. The offset applies to text only; mockup position and page gutter remain unchanged.
