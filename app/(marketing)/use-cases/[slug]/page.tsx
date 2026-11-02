@@ -6,31 +6,31 @@ import { getUseCasePageContent } from '@/lib/data/use-case-pages';
 import {
   FeatureSplit,
   GradientCTABanner,
-  PageHero,
   PainSection,
   ReviewsWall,
   SectionIllustration,
   WaySection,
 } from '@/components/sections';
+import { UseCaseHero } from '@/components/marketing/use-cases/use-case-hero';
 import {
-  YouTubersMockup,
-  BusinessesMockup,
-  PodcastersMockup,
-  RealtorsMockup,
-  CourseCreatorsMockup,
-  DoctorsMockup,
-  LawyersMockup,
-} from '@/components/mockups/index';
+  BusinessesHeroVisual,
+  CourseCreatorsHeroVisual,
+  DoctorsHeroVisual,
+  LawyersHeroVisual,
+  PodcastersHeroVisual,
+  RealtorsHeroVisual,
+  YouTubersHeroVisual,
+} from '@/components/marketing/use-cases/use-case-hero-visuals';
 
 function getHeroMockup(slug: string) {
   const mockupMap: Record<string, JSX.Element> = {
-    youtubers: <YouTubersMockup />,
-    businesses: <BusinessesMockup />,
-    podcasters: <PodcastersMockup />,
-    realtors: <RealtorsMockup />,
-    'course-creators': <CourseCreatorsMockup />,
-    doctors: <DoctorsMockup />,
-    lawyers: <LawyersMockup />,
+    youtubers: <YouTubersHeroVisual />,
+    businesses: <BusinessesHeroVisual />,
+    podcasters: <PodcastersHeroVisual />,
+    realtors: <RealtorsHeroVisual />,
+    'course-creators': <CourseCreatorsHeroVisual />,
+    doctors: <DoctorsHeroVisual />,
+    lawyers: <LawyersHeroVisual />,
   };
   return mockupMap[slug];
 }
@@ -86,7 +86,7 @@ export default function UseCasePage({
 
   return (
     <>
-      <PageHero
+      <UseCaseHero
         eyebrow={content.eyebrow}
         title={content.headline}
         highlight={content.highlight}
@@ -94,8 +94,6 @@ export default function UseCasePage({
         primaryAction={content.primaryAction}
         secondaryAction={content.secondaryAction}
         visual={getHeroMockup(params.slug)}
-        tone="dark"
-        pill={null}
       />
 
       <PainSection

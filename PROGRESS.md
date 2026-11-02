@@ -148,3 +148,24 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 
 ### Anything left undone
 - Build and browser visual checks were not run; project instructions prohibit shell commands and server runs.
+
+## Task: Redesign all seven use case heroes
+
+### Files created
+- `components/marketing/use-cases/use-case-hero.tsx` - Responsive dark split-layout hero with preserved page data, CTA links, gradient phrase highlighting, and reduced-motion-aware entrance animation.
+- `components/marketing/use-cases/use-case-hero-visuals.tsx` - Seven distinct dark product interface compositions for the actual use case audiences.
+
+### Files modified
+- `app/(marketing)/use-cases/[slug]/page.tsx` - Replaced the shared hero and old visual mapping with the new UseCaseHero and route-specific visuals.
+- `PROGRESS.md` - Recorded this task.
+
+### Files removed
+- Removed the obsolete `components/mockups` package, including its seven old use case mockups and shared shell; no other source files referenced it after the route switch.
+
+### Verification
+- `npm run build` - Passed; TypeScript and Next.js build completed, 53 static pages generated.
+- Confirmed the seven existing use case slugs remain unchanged: YouTubers, Businesses, Podcasters, Realtors, Course Creators, Doctors, and Lawyers.
+- Homepage, navigation, footer, other page sections, and backend/business logic were not modified.
+
+### Anything left undone
+- Browser-based desktop, tablet, and mobile visual inspection was not run; no server was started.
