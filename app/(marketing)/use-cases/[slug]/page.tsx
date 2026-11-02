@@ -94,7 +94,6 @@ export default function UseCasePage({
         primaryAction={content.primaryAction}
         secondaryAction={content.secondaryAction}
         visual={getHeroMockup(params.slug)}
-        visualBleed={['youtubers', 'podcasters', 'course-creators', 'lawyers'].includes(params.slug)}
       />
 
       <PainSection

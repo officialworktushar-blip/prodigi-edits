@@ -215,6 +215,13 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Replace remaining three Use Case hero mockups
+
+- Replaced the Businesses, Realtors, and Doctors generated visuals with `UseCases_Business.png`, `UseCases_Realtors.png`, and `UseCases_Doctor.png` respectively.
+- All seven Use Case pages now use their uploaded PNG mockups in the shared right-aligned, responsive hero image layout. The legacy generated hero mockup components were removed from the visual module.
+- Files modified: `components/marketing/use-cases/use-case-hero-visuals.tsx`, `components/marketing/use-cases/use-case-hero.tsx`, `app/(marketing)/use-cases/[slug]/page.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
 ## Task: Increase Use Case hero vertical spacing by 30%
 
 - Increased top and bottom padding in the shared Use Case hero component by 30% at mobile, small, and desktop breakpoints. All seven Use Case routes share this component.
