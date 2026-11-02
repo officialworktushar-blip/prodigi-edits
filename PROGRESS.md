@@ -215,6 +215,15 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Remove outer backgrounds from all Use Case mockups
+
+- Created transparent-background PNG variants of all seven Use Case hero mockups, preserving the interface artwork and internal white/light panels while removing the exterior checkerboard/solid backgrounds.
+- Updated the shared Use Case visual module to use the new transparent assets; source uploads were left intact.
+- Files created: `components/public/UseCases_Youtubers_transparent.png`, `components/public/UseCases_Business_transparent.png`, `components/public/UseCases_Podcaster_transparent.png`, `components/public/UseCases_Realtors_transparent.png`, `components/public/UseCases_CourseCreator_transparent.png`, `components/public/UseCases_Doctor_transparent.png`, `components/public/UseCases_Lawyers_transparent.png`.
+- Files modified: `components/marketing/use-cases/use-case-hero-visuals.tsx`, `PROGRESS.md`.
+- Image edit workflow: built-in image generation tool, one background-extraction edit per source image. PNG outputs use RGBA (color type 6).
+- Build and browser checks were not run per project instructions.
+
 ## Task: Replace remaining three Use Case hero mockups
 
 - Replaced the Businesses, Realtors, and Doctors generated visuals with `UseCases_Business.png`, `UseCases_Realtors.png`, and `UseCases_Doctor.png` respectively.

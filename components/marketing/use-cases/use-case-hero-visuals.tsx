@@ -1,11 +1,11 @@
 import Image, { type StaticImageData } from 'next/image';
-import BusinessMockup from '@/components/public/UseCases_Business.png';
-import CourseCreatorMockup from '@/components/public/UseCases_CourseCreator.png';
-import DoctorMockup from '@/components/public/UseCases_Doctor.png';
-import LawyersMockup from '@/components/public/UseCases_Lawyers.png';
-import PodcasterMockup from '@/components/public/UseCases_Podcaster.png';
-import RealtorMockup from '@/components/public/UseCases_Realtors.png';
-import YouTubersMockup from '@/components/public/UseCases_Youtubers.png';
+import BusinessMockup from '@/components/public/UseCases_Business_transparent.png';
+import CourseCreatorMockup from '@/components/public/UseCases_CourseCreator_transparent.png';
+import DoctorMockup from '@/components/public/UseCases_Doctor_transparent.png';
+import LawyersMockup from '@/components/public/UseCases_Lawyers_transparent.png';
+import PodcasterMockup from '@/components/public/UseCases_Podcaster_transparent.png';
+import RealtorMockup from '@/components/public/UseCases_Realtors_transparent.png';
+import YouTubersMockup from '@/components/public/UseCases_Youtubers_transparent.png';
 
 function UploadedMockup({
   image,
