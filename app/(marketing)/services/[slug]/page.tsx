@@ -35,7 +35,7 @@ function getHeroVisual(slug: ServiceSlug) {
   const image = SERVICE_HERO_IMAGES[slug];
 
   return (
-    <div className="relative mx-auto w-full max-w-[720px]">
+    <div className="relative mx-auto w-full max-w-[720px] lg:max-w-none min-[1440px]:-mr-6 min-[1440px]:w-[calc(100%+24px)]">
       <Image
         src={image.src}
         alt={image.alt}
@@ -43,7 +43,7 @@ function getHeroVisual(slug: ServiceSlug) {
         height={1024}
         sizes="(max-width: 1024px) 100vw, 55vw"
         priority
-        className="h-auto w-full object-contain lg:scale-[1.2]"
+        className="h-auto w-full object-contain"
       />
     </div>
   );
@@ -108,7 +108,9 @@ export default function ServiceDetailPage({
         visual={getHeroVisual(page.slug)}
         tone="dark"
         pill={null}
-        containerClassName="pb-[5rem] pt-[5rem] sm:pb-[6.25rem] sm:pt-[6.25rem] lg:pb-[7.5rem] lg:pt-[7.5rem]"
+        containerClassName="!max-w-none !px-4 pb-[5rem] pt-[5rem] sm:!px-6 sm:pb-[6.25rem] sm:pt-[6.25rem] lg:!px-6 lg:pb-[7.5rem] lg:pt-[7.5rem]"
+        layoutClassName="lg:grid-cols-[0.42fr_0.58fr] lg:gap-8"
+        visualClassName="min-w-0"
       />
 
       <PainSection

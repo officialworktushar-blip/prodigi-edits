@@ -199,3 +199,13 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `components/marketing/page-hero.tsx`, `components/marketing/use-cases/use-case-hero.tsx`, `PROGRESS.md`.
 - Build/browser checks were not run; project instructions prohibit shell commands and server runs.
 
+## Task: Widen and enlarge the three service hero mockups
+
+- Added service-only hero layout classes to widen the text/mockup split, reduce horizontal padding, and allocate about 25% more mockup width at 1440px and above while keeping a 24px right margin.
+- Removed the previous CSS scale transform so the image sizing is accounted for by layout dimensions. At laptop and smaller widths, the mockup follows the available grid width and stacks on mobile.
+- Kept service copy and image assets unchanged. No other pages or homepage files were modified.
+- Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
+
+### Anything left undone
+- Production build and visual browser checks were not run because the project instructions prohibit shell commands and server runs.
+

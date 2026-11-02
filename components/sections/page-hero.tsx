@@ -58,6 +58,8 @@ export interface PageHeroProps {
   children?: ReactNode;
   className?: string;
   containerClassName?: string;
+  layoutClassName?: string;
+  visualClassName?: string;
 }
 
 const DEFAULT_CLIPS: PageHeroMockupClip[] = [
@@ -327,6 +329,8 @@ export function PageHero({
   children,
   className,
   containerClassName,
+  layoutClassName,
+  visualClassName,
 }: PageHeroProps) {
   const isDark = tone === 'dark';
 
@@ -366,7 +370,12 @@ export function PageHero({
           containerClassName
         )}
       >
-        <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10">
+        <div
+          className={cn(
+            'grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10',
+            layoutClassName
+          )}
+        >
           <div className="max-w-2xl">
             {eyebrow ? (
               <p
@@ -441,7 +450,7 @@ export function PageHero({
           </div>
 
           <div
-            className="animate-hero-fade-up"
+            className={cn('animate-hero-fade-up min-w-0', visualClassName)}
             style={{ animationDelay: '0.2s' }}
           >
             {visual ?? <ProductMockup mockup={mockup ?? {}} />}
