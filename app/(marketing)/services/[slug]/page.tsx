@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BRAND_NAME } from '@/lib/config';
 import {
@@ -15,22 +16,37 @@ import {
   SectionIllustration,
   WaySection,
 } from '@/components/sections';
-import {
-  ChannelManagementMockup,
-  LongFormMockup,
-  ShortFormMockup,
-} from '@/components/mockups/index';
+const SERVICE_HERO_IMAGES: Record<ServiceSlug, { src: string; alt: string }> = {
+  'long-form': {
+    src: '/service-mockups/service-long-form-editing.png',
+    alt: 'Long-form editing workspace with a video preview, caption controls, export settings, color grading, and a multitrack timeline.',
+  },
+  'short-form': {
+    src: '/service-mockups/service-short-form-editing.png',
+    alt: 'Short-form editing workspace with a vertical video preview, caption styles, social formats, export settings, and a clip timeline.',
+  },
+  'channel-management': {
+    src: '/service-mockups/service-channel-management.png',
+    alt: 'Channel management workspace with a publishing flow, episode list, editing crew, video preview, and performance analytics.',
+  },
+};
 
 function getHeroVisual(slug: ServiceSlug) {
-  if (slug === 'short-form') {
-    return <ShortFormMockup />;
-  }
+  const image = SERVICE_HERO_IMAGES[slug];
 
-  if (slug === 'channel-management') {
-    return <ChannelManagementMockup />;
-  }
-
-  return <LongFormMockup />;
+  return (
+    <div className="relative mx-auto w-full max-w-[720px]">
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={1536}
+        height={1024}
+        sizes="(max-width: 1024px) 100vw, 55vw"
+        priority
+        className="h-auto w-full object-contain"
+      />
+    </div>
+  );
 }
 
 export function generateStaticParams() {

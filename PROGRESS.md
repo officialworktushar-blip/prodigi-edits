@@ -117,3 +117,25 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 
 ### Verification
 - `npm run build` - Passed (Next.js 14.2.35; 53 static pages generated).
+
+## Task: Replace service hero mockups with uploaded transparent images
+
+### Files created
+- `public/service-mockups/service-long-form-editing.png`
+- `public/service-mockups/service-channel-management.png`
+- `public/service-mockups/service-short-form-editing.png`
+
+### Files modified
+- `app/(marketing)/services/[slug]/page.tsx` - Maps each service route to its supplied transparent image using Next Image.
+- `components/mockups/index.tsx` - Removed service mockups from the component registry.
+- `PROGRESS.md` - Recorded this task.
+
+### Files removed
+- `components/mockups/LongFormMockup.tsx`
+- `components/mockups/ShortFormMockup.tsx`
+- `components/mockups/ChannelManagementMockup.tsx`
+- `components/marketing/services/service-hero-mockups.tsx` (unused older service mockups)
+
+### Anything left undone
+- Production build and browser viewport inspection were not run because the project instructions prohibit shell commands and starting a server.
+- Homepage and backend files were not modified.

@@ -1,7 +1,4 @@
 import type { ComponentType } from 'react';
-import { LongFormMockup } from './LongFormMockup';
-import { ShortFormMockup } from './ShortFormMockup';
-import { ChannelManagementMockup } from './ChannelManagementMockup';
 import { YouTubersMockup } from './YouTubersMockup';
 import { BusinessesMockup } from './BusinessesMockup';
 import { PodcastersMockup } from './PodcastersMockup';
@@ -11,9 +8,6 @@ import { DoctorsMockup } from './DoctorsMockup';
 import { LawyersMockup } from './LawyersMockup';
 
 export const heroMockups: Record<string, ComponentType> = {
-  'long-form': LongFormMockup,
-  'short-form': ShortFormMockup,
-  'channel-management': ChannelManagementMockup,
   youtubers: YouTubersMockup,
   businesses: BusinessesMockup,
   podcasters: PodcastersMockup,
@@ -33,9 +27,6 @@ export function HeroMockup({ slug }: HeroMockupProps) {
 }
 
 export {
-  LongFormMockup,
-  ShortFormMockup,
-  ChannelManagementMockup,
   YouTubersMockup,
   BusinessesMockup,
   PodcastersMockup,
