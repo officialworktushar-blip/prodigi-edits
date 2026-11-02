@@ -169,3 +169,13 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 
 ### Anything left undone
 - Browser-based desktop, tablet, and mobile visual inspection was not run; no server was started.
+
+## Task: Increase service hero vertical spacing by 25%
+
+### Files modified
+- `components/sections/page-hero.tsx` - Added a container class override for page-specific vertical spacing.
+- `app/(marketing)/services/[slug]/page.tsx` - Increased top and bottom padding by 25% at base, small, and large breakpoints for all three service pages.
+- `PROGRESS.md` - Recorded this task.
+
+### Anything left undone
+- Build and browser checks were not run; the project instructions prohibit shell commands and server runs.

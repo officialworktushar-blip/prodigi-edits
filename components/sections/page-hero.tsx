@@ -57,6 +57,7 @@ export interface PageHeroProps {
   tone?: PageHeroTone;
   children?: ReactNode;
   className?: string;
+  containerClassName?: string;
 }
 
 const DEFAULT_CLIPS: PageHeroMockupClip[] = [
@@ -325,6 +326,7 @@ export function PageHero({
   tone = 'light',
   children,
   className,
+  containerClassName,
 }: PageHeroProps) {
   const isDark = tone === 'dark';
 
@@ -358,7 +360,12 @@ export function PageHero({
         )}
       />
 
-      <div className="relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:pb-24 lg:pt-24">
+      <div
+        className={cn(
+          'relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:pb-24 lg:pt-24',
+          containerClassName
+        )}
+      >
         <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10">
           <div className="max-w-2xl">
             {eyebrow ? (
