@@ -95,3 +95,29 @@ The following old home components are NOT deleted because they may be used elsew
 - Removed TrustedBy section from home (logo strip now only in hero footer)
 - Removed all Supabase data fetching from home page (now fully static - FAQs and case studies are hardcoded)
 - Old home components kept in codebase for potential reuse elsewhere (safe to delete later if confirmed unused)
+
+---
+
+## Review Delivery Section Replacement
+
+### Task
+Replace the existing "Keep every review calm and every deadline visible" section on the Home page with a new, self-contained review/delivery section placed directly after `ThreeWaysSection`.
+
+### Files Created
+1. `components/marketing/home/review-delivery-section.tsx` - Server component with typed card data, inline SVG media for progress rings, timecoded notes, and delivery dashboard
+2. `components/marketing/home/review-delivery-section.module.css` - Scoped styles for the diagonal teal/purple/blue section, responsive grid, media mockups, ring draw animation, and reduced-motion handling
+
+### Files Modified
+1. `app/(marketing)/page.tsx` - Swapped `KeepCalmSection` for `ReviewDeliverySection` in the same position (after `ThreeWaysSection`, before `UseCasesCarousel`)
+
+### Files Deleted
+1. `components/marketing/home/keep-calm-section.tsx` - Confirmed unused elsewhere before deletion
+
+### Build Results
+- `npx tsc --noEmit`: Passed
+- `npm run build`: Passed (53 static pages generated)
+
+### Notes
+- No external images, fonts, videos, or new dependencies
+- All visuals are inline SVG or CSS; section CSS is scoped via a CSS module
+- Uses only existing site facts: 24-48h first cut, 4.9/5 average review, 1,200+ videos shipped, 87% reorder, 300+ deliveries

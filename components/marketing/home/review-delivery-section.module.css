@@ -1,0 +1,493 @@
+.section {
+  background:
+    radial-gradient(ellipse 60% 70% at 100% 0%, rgba(103, 96, 160, 0.95) 0%, rgba(103, 96, 160, 0) 70%),
+    radial-gradient(ellipse 55% 60% at 100% 100%, rgba(18, 128, 178, 0.95) 0%, rgba(18, 128, 178, 0) 70%),
+    linear-gradient(135deg, #021F2D 0%, #03293B 40%, #0A3A55 70%, #11506F 100%);
+  padding: clamp(64px, 8vw, 120px) 0;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 5vw, 64px);
+  padding-right: clamp(20px, 5vw, 64px);
+  box-sizing: border-box;
+}
+
+.intro {
+  max-width: 760px;
+  text-align: left;
+}
+
+.heading {
+  margin: 0;
+  max-width: 20ch;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: clamp(2.25rem, 4.2vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.introText {
+  margin: 28px 0 0;
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 44px);
+  margin-top: clamp(48px, 7vw, 104px);
+}
+
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.cardMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+  overflow: hidden;
+  transform: translateY(0);
+}
+
+.cardTitle {
+  margin: 28px 0 0;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cardDescription {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.5;
+}
+
+/* Card 1: progress dashboard */
+.progressFrame {
+  width: 100%;
+  height: 100%;
+  padding: 14px;
+  border-radius: 22px;
+  background: #04202D;
+  box-sizing: border-box;
+}
+
+.progressPanel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 2.4%, 12px);
+  padding: clamp(10px, 4%, 18px);
+  border-radius: 12px;
+  background: linear-gradient(45deg, #EE5A2B 0%, #A855D6 100%);
+  text-align: center;
+}
+
+.progressTitle {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 2.2vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.progressSubtitle {
+  margin: 4px 0 0;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.35;
+  opacity: 0.8;
+}
+
+.ringRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(18px, 6%, 36px);
+  width: 100%;
+}
+
+.ringItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.ringItem svg {
+  display: block;
+  width: clamp(54px, 22%, 84px);
+  height: auto;
+  overflow: visible;
+}
+
+.ringTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+}
+
+.ringStroke {
+  fill: none;
+  stroke: #ffffff;
+}
+
+.ringFull {
+  stroke-dashoffset: 0;
+}
+
+.ringPartial {
+  stroke-dashoffset: 70.37;
+  opacity: 0.45;
+}
+
+.ringNumber {
+  fill: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ringLabel {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.55rem, 1.1vw, 0.68rem);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Card 2: timecoded notes */
+.notesMedia {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #05060F;
+}
+
+.notesBackdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.notesContent {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(14px, 5%, 32px);
+  padding-bottom: clamp(32px, 12%, 56px);
+}
+
+.notesLabel {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.notesTitle {
+  margin: 6px 0 0;
+  max-width: 92%;
+  color: #ffffff;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.notesAvatar {
+  position: absolute;
+  left: 6%;
+  bottom: 18%;
+  z-index: 3;
+  width: 15.75%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38);
+}
+
+.notesAvatar svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.notesTimeline {
+  position: absolute;
+  bottom: 9%;
+  left: 54%;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 4.5vw, 26px);
+}
+
+.notePin {
+  position: relative;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+}
+
+.notePin::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: clamp(10px, 4vw, 20px);
+  background: rgba(255, 255, 255, 0.6);
+  transform: translateX(-50%);
+}
+
+.pinOrange {
+  background: #FF7A18;
+}
+
+.pinPink {
+  background: #FF2E88;
+}
+
+.pinViolet {
+  background: #7B3FF2;
+}
+
+/* Card 3: delivery dashboard */
+.deliveryFrame {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border-radius: 22px;
+  background: #1FA7E8;
+  box-sizing: border-box;
+}
+
+.deliveryPanel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1.25fr) auto minmax(0, 0.8fr);
+  gap: clamp(3px, 1.2%, 6px);
+  width: 100%;
+  height: 100%;
+  padding: clamp(4px, 1.6%, 8px);
+  border-radius: 12px;
+  background: #2A2F36;
+  box-sizing: border-box;
+}
+
+.deliveryHeader {
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2A2F36;
+  font-size: clamp(0.24rem, 0.55vw, 0.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-align: left;
+}
+
+.deliveryTop {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  gap: clamp(3px, 1.2%, 6px);
+}
+
+.turnaroundTile {
+  display: flex;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 5px;
+  background: #1CB4F2;
+  box-sizing: border-box;
+}
+
+.turnaroundValue {
+  color: #ffffff;
+  font-size: clamp(0.64rem, 1.75vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.turnaroundLabel {
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(0.22rem, 0.55vw, 0.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.chartPanel {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding: 3px 4px;
+  border-radius: 5px;
+  background: #22272E;
+  box-sizing: border-box;
+}
+
+.chartPanel svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(2px, 0.9%, 4px);
+}
+
+.statTile {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 3px;
+  border-radius: 4px;
+  background: #30363F;
+  text-align: center;
+  overflow: hidden;
+}
+
+.statValue {
+  color: #ffffff;
+  font-size: clamp(0.46rem, 1.05vw, 0.72rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.statLabel {
+  margin-top: 1px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: clamp(0.24rem, 0.62vw, 0.42rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.donutTile {
+  display: grid;
+  place-items: center;
+}
+
+.donut {
+  display: block;
+  width: clamp(16px, 1.6vw, 24px);
+  height: auto;
+}
+
+.barPanel {
+  min-height: 0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #262B31;
+  box-sizing: border-box;
+}
+
+.barPanel svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rv-ring-draw-full {
+    from {
+      stroke-dashoffset: 251.33;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes rv-ring-draw-partial {
+    from {
+      stroke-dashoffset: 251.33;
+    }
+    to {
+      stroke-dashoffset: 70.37;
+    }
+  }
+
+  .cardMedia {
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+
+  .card:hover .cardMedia,
+  .card:focus-within .cardMedia {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+  }
+
+  .ringFull {
+    animation: rv-ring-draw-full 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .ringPartial {
+    animation: rv-ring-draw-partial 1.3s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}

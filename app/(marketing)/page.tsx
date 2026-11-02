@@ -3,7 +3,7 @@ import { BRAND_NAME } from '@/lib/config';
 import { Hero } from '@/components/marketing/home/hero';
 import { CreateVideosSection } from '@/components/marketing/home/create-videos-section';
 import { ThreeWaysSection } from '@/components/marketing/home/three-ways-section';
-import { KeepCalmSection } from '@/components/marketing/home/keep-calm-section';
+import { ReviewDeliverySection } from '@/components/marketing/home/review-delivery-section';
 import { UseCasesCarousel } from '@/components/marketing/home/use-cases-carousel';
 import { FeaturesSection } from '@/components/marketing/home/features-section';
 import { CaseStudiesSection } from '@/components/marketing/home/case-studies-section';
@@ -22,7 +22,7 @@ export default function MarketingHomePage() {
       <Hero />
       <CreateVideosSection />
       <ThreeWaysSection />
-      <KeepCalmSection />
+      <ReviewDeliverySection />
       <UseCasesCarousel />
       <FeaturesSection />
       <CaseStudiesSection />
