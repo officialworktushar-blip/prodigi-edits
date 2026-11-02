@@ -70,8 +70,6 @@ export default async function CaseStudyPage({
         title={caseStudy.title}
         description={caseStudy.summary ?? undefined}
         visual={<CaseStudyHeroMockup title={caseStudy.title} />}
-        tone="dark"
-        pill={null}
       >
         <Link
           href="/case-studies"

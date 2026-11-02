@@ -80,3 +80,14 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 ### Anything left undone
 - Production build and browser checks were not run because the project instructions prohibit shell commands and server runs; the user runs `npm run build`.
 - Homepage and backend files were not modified.
+
+## Task: Fix case study PageHero TypeScript props
+
+### Files modified
+- `app/(marketing)/case-studies/[slug]/page.tsx` - Removed `tone` and `pill` props that belong to the separate sections PageHero API. The imported marketing PageHero is already dark by default and renders no pill.
+- `PROGRESS.md` - Recorded this targeted fix.
+
+### Verification
+- `npm run build` - Passed (Next.js 14.2.35; 53 static pages generated).
+- Confirmed `pill={null}` was also unsupported by the marketing PageHero props and was removed from that usage.
+- No backend or routing behavior changed.
