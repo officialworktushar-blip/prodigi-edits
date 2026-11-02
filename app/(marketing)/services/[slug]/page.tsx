@@ -108,7 +108,7 @@ export default function ServiceDetailPage({
         visual={getHeroVisual(page.slug)}
         tone="dark"
         pill={null}
-        containerClassName="pb-[4.4rem] pt-[4.4rem] sm:pb-[5.5rem] sm:pt-[5.5rem] lg:pb-[6.6rem] lg:pt-[6.6rem]"
+        containerClassName="pb-[5rem] pt-[5rem] sm:pb-[6.25rem] sm:pt-[6.25rem] lg:pb-[7.5rem] lg:pt-[7.5rem]"
       />
 
       <PainSection

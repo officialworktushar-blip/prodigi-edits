@@ -192,3 +192,10 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 ### Anything left undone
 - Build and browser checks were not run; the project instructions prohibit shell commands and server runs.
 - Homepage hero remains unchanged.
+## Task: Increase all non-homepage hero vertical spacing by 25%
+
+- Updated top and bottom hero padding for service pages and all shared inner-page hero variants to 25% above their original baseline values at each breakpoint.
+- Left the homepage hero unchanged.
+- Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `components/marketing/page-hero.tsx`, `components/marketing/use-cases/use-case-hero.tsx`, `PROGRESS.md`.
+- Build/browser checks were not run; project instructions prohibit shell commands and server runs.
+
