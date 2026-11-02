@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeroProductWindow } from './hero-product-window';
+import { HomeVideoFrameMotion } from './home-video-frame-motion';
 
 export function Hero() {
   return (
@@ -53,7 +53,7 @@ export function Hero() {
           className="mt-14 animate-hero-rise sm:mt-16"
           style={{ animationDelay: '0.4s' }}
         >
-          <HeroProductWindow />
+          <HomeVideoFrameMotion />
         </div>
 
         <div className="mt-14 pb-16">

@@ -156,6 +156,56 @@
     box-shadow: 0 40px 120px -20px rgba(34, 170, 235, 0.45);
   }
 
+  .home-video-frame-scene {
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+
+  .home-video-frame-motion {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .home-video-frame-border {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    background: linear-gradient(
+      115deg,
+      #8b5cf6 0%,
+      #a855f7 24%,
+      #ec4899 48%,
+      #22d3ee 72%,
+      #3b82f6 100%
+    );
+    background-size: 220% 220%;
+    animation: home-video-border-drift 9s ease-in-out infinite alternate;
+    box-shadow:
+      0 0 26px rgba(139, 92, 246, 0.2),
+      0 0 42px rgba(34, 211, 238, 0.12);
+  }
+
+  @keyframes home-video-border-drift {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-video-frame-motion {
+      transform: none !important;
+      will-change: auto;
+    }
+
+    .home-video-frame-border {
+      animation: none;
+      background-position: 50% 50%;
+    }
+  }
+
   .bg-hero-mesh {
     background-color: #fbfcff;
     background-image:
