@@ -7,6 +7,7 @@ import { getPublishedCaseStudyBySlug } from '@/lib/data/marketing';
 import { FinalCta } from '@/components/marketing/home/final-cta';
 import { PageHero } from '@/components/marketing/page-hero';
 import { MediaPlaceholder } from '@/components/shared/media-placeholder';
+import { CaseStudyHeroMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 function formatDate(value: string) {
   const date = new Date(value);
@@ -68,6 +69,9 @@ export default async function CaseStudyPage({
         eyebrow={`Case study · ${formatDate(caseStudy.created_at)}`}
         title={caseStudy.title}
         description={caseStudy.summary ?? undefined}
+        visual={<CaseStudyHeroMockup title={caseStudy.title} />}
+        tone="dark"
+        pill={null}
       >
         <Link
           href="/case-studies"

@@ -54,3 +54,29 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Each mockup has unique accent color via CSS variable `--pem-accent`
 - Cursor animation only runs when reduced-motion is not preferred
 - No external images, fonts, or dependencies - all inline SVG + CSS
+
+## Task: Inner page hero mockup integration
+
+### Files created
+- `components/marketing/inner-page-hero-mockups.tsx` - Original page-specific visual compositions for About, case studies, Contact, Examples, Platform, Pricing, privacy, and terms heroes.
+
+### Files modified
+- `components/marketing/marketing-page-shell.tsx` - Added an optional page-specific hero visual slot.
+- `components/marketing/page-hero.tsx` - Added a responsive visual slot for legal page heroes.
+- `app/(marketing)/about/page.tsx`
+- `app/(marketing)/case-studies/page.tsx`
+- `app/(marketing)/case-studies/[slug]/page.tsx`
+- `app/(marketing)/contact/page.tsx`
+- `app/(marketing)/examples/page.tsx`
+- `app/(marketing)/platform/page.tsx`
+- `app/(marketing)/pricing/page.tsx`
+- `app/(marketing)/privacy/page.tsx`
+- `app/(marketing)/terms/page.tsx`
+
+### Existing unique mockups retained
+- Service heroes: long-form editing, short-form editing, and channel management.
+- Use-case heroes: YouTubers, businesses, podcasters, realtors, course creators, doctors, and lawyers.
+
+### Anything left undone
+- Production build and browser checks were not run because the project instructions prohibit shell commands and server runs; the user runs `npm run build`.
+- Homepage and backend files were not modified.

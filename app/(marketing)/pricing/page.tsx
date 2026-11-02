@@ -9,6 +9,7 @@ import { getMarketingPageContent } from '@/lib/data/marketing-pages';
 import { FaqAccordion } from '@/components/marketing/faq';
 import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
 import { PricingBoard } from '@/components/marketing/pricing/pricing-board';
+import { PricingPlanMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `Pricing — ${BRAND_NAME}`,
@@ -27,6 +28,7 @@ export default async function PricingPage() {
   return (
     <MarketingPageShell
       content={content}
+      heroVisual={<PricingPlanMockup />}
       afterWay={
         <PricingBoard
           packages={packages ?? []}

@@ -13,6 +13,7 @@ import type { MarketingPageContent } from '@/lib/data/marketing-pages';
 
 export interface MarketingPageShellProps {
   content: MarketingPageContent;
+  heroVisual?: ReactNode;
   afterHero?: ReactNode;
   afterPain?: ReactNode;
   afterWay?: ReactNode;
@@ -21,6 +22,7 @@ export interface MarketingPageShellProps {
 
 export function MarketingPageShell({
   content,
+  heroVisual,
   afterHero,
   afterPain,
   afterWay,
@@ -45,7 +47,7 @@ export function MarketingPageShell({
         description={content.description}
         primaryAction={content.primaryAction}
         secondaryAction={content.secondaryAction}
-        visual={<UseCaseHeroMockup mockup={content.heroMockup} />}
+        visual={heroVisual ?? <UseCaseHeroMockup mockup={content.heroMockup} />}
         tone="dark"
         pill={null}
       />

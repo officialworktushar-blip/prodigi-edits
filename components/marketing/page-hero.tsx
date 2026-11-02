@@ -7,6 +7,7 @@ export interface PageHeroProps {
   highlight?: string;
   description?: string;
   actions?: ReactNode;
+  visual?: ReactNode;
   children?: ReactNode;
   size?: 'default' | 'compact';
   className?: string;
@@ -57,6 +58,7 @@ export function PageHero({
   highlight,
   description,
   actions,
+  visual,
   children,
   size = 'default',
   className,
@@ -85,52 +87,79 @@ export function PageHero({
 
       <div
         className={cn(
-          'relative mx-auto max-w-screen-1200 px-4 text-center sm:px-6 lg:px-8',
+          'relative mx-auto max-w-screen-1200 px-4 sm:px-6 lg:px-8',
           padding
         )}
       >
-        {eyebrow ? (
-          <p className="animate-hero-fade-up text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">
-            {eyebrow}
-          </p>
-        ) : null}
-
-        <h1
-          className={cn(
-            'animate-hero-fade-up font-semibold leading-[1.06] tracking-[-0.03em] text-white',
-            eyebrow ? 'mt-4' : '',
-            size === 'compact'
-              ? 'text-3xl sm:text-4xl lg:text-5xl'
-              : 'text-4xl sm:text-5xl lg:text-6xl'
-          )}
-          style={{ animationDelay: '0.08s' }}
+        <div
+          className={
+            visual
+              ? 'grid items-center gap-10 text-center lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:text-left'
+              : 'text-center'
+          }
         >
-          {renderTitle(title, highlight)}
-        </h1>
+          <div>
+            {eyebrow ? (
+              <p className="animate-hero-fade-up text-xs font-semibold uppercase tracking-[0.2em] text-sky-300">
+                {eyebrow}
+              </p>
+            ) : null}
 
-        {description ? (
-          <p
-            className="mx-auto mt-5 max-w-2xl animate-hero-fade-up text-base leading-7 text-slate-200/90 sm:text-lg"
-            style={{ animationDelay: '0.16s' }}
-          >
-            {description}
-          </p>
-        ) : null}
+            <h1
+              className={cn(
+                'animate-hero-fade-up font-semibold leading-[1.06] tracking-[-0.03em] text-white',
+                eyebrow ? 'mt-4' : '',
+                size === 'compact'
+                  ? 'text-3xl sm:text-4xl lg:text-5xl'
+                  : 'text-4xl sm:text-5xl lg:text-6xl'
+              )}
+              style={{ animationDelay: '0.08s' }}
+            >
+              {renderTitle(title, highlight)}
+            </h1>
 
-        {actions ? (
-          <div
-            className="mt-8 flex animate-hero-fade-up flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center"
-            style={{ animationDelay: '0.24s' }}
-          >
-            {actions}
+            {description ? (
+              <p
+                className={cn(
+                  'mx-auto mt-5 max-w-2xl animate-hero-fade-up text-base leading-7 text-slate-200/90 sm:text-lg',
+                  visual ? 'lg:mx-0' : ''
+                )}
+                style={{ animationDelay: '0.16s' }}
+              >
+                {description}
+              </p>
+            ) : null}
+
+            {actions ? (
+              <div
+                className={cn(
+                  'mt-8 flex animate-hero-fade-up flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center',
+                  visual ? 'lg:justify-start' : ''
+                )}
+                style={{ animationDelay: '0.24s' }}
+              >
+                {actions}
+              </div>
+            ) : null}
+
+            {children ? (
+              <div
+                className="mt-8 animate-hero-fade-up"
+                style={{ animationDelay: '0.32s' }}
+              >
+                {children}
+              </div>
+            ) : null}
           </div>
-        ) : null}
-
-        {children ? (
-          <div className="mt-8 animate-hero-fade-up" style={{ animationDelay: '0.32s' }}>
-            {children}
-          </div>
-        ) : null}
+          {visual ? (
+            <div
+              className="animate-hero-fade-up"
+              style={{ animationDelay: '0.2s' }}
+            >
+              {visual}
+            </div>
+          ) : null}
+        </div>
       </div>
     </section>
   );

@@ -7,6 +7,7 @@ import { getMarketingPageContent } from '@/lib/data/marketing-pages';
 import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
 import { EmptyState } from '@/components/shared/empty-state';
 import { FadeIn } from '@/components/shared/fade-in';
+import { CaseStudiesHeroMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `Case studies — ${BRAND_NAME}`,
@@ -119,6 +120,7 @@ export default async function CaseStudiesPage() {
   return (
     <MarketingPageShell
       content={content}
+      heroVisual={<CaseStudiesHeroMockup />}
       afterWay={<CaseStudiesGrid />}
     />
   );

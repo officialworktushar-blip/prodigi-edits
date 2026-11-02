@@ -5,6 +5,7 @@ import { AlertCircle, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-rea
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
 import { getMarketingPageContent } from '@/lib/data/marketing-pages';
 import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
+import { ContactInboxMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 type ContactValues = {
   name: string;
@@ -240,6 +241,7 @@ export default function ContactPage() {
   return (
     <MarketingPageShell
       content={content}
+      heroVisual={<ContactInboxMockup />}
       afterHero={<ContactFormSection />}
     />
   );

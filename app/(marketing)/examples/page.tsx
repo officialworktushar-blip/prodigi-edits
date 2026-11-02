@@ -3,6 +3,7 @@ import { BRAND_NAME } from '@/lib/config';
 import { getMarketingPageContent } from '@/lib/data/marketing-pages';
 import { ExamplesGallery } from '@/components/marketing/examples/examples-gallery';
 import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
+import { ExamplesReelMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `Examples — ${BRAND_NAME}`,
@@ -16,6 +17,7 @@ export default function ExamplesPage() {
   return (
     <MarketingPageShell
       content={content}
+      heroVisual={<ExamplesReelMockup />}
       afterWay={<ExamplesGallery />}
     />
   );

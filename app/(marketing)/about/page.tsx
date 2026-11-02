@@ -7,6 +7,7 @@ import { getMarketingPageContent } from '@/lib/data/marketing-pages';
 import { MarketingPageShell } from '@/components/marketing/marketing-page-shell';
 import { FadeIn } from '@/components/shared/fade-in';
 import { FeatureSplit } from '@/components/sections';
+import { AboutTeamMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `About — ${BRAND_NAME}`,
@@ -147,6 +148,7 @@ export default function AboutPage() {
   return (
     <MarketingPageShell
       content={content}
+      heroVisual={<AboutTeamMockup />}
       afterPain={
         <>
           <ValuesSection />

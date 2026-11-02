@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
 import { PageHero } from '@/components/marketing/page-hero';
+import { PrivacyHeroMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `Privacy — ${BRAND_NAME}`,
@@ -38,6 +39,7 @@ export default function PrivacyPage() {
         title="Privacy, without the fog"
         highlight="fog"
         description="What we collect, why we need it, and the choices you have over your information and project files."
+        visual={<PrivacyHeroMockup />}
       />
 
       <section className="bg-white">

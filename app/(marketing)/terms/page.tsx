@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { BRAND_NAME, SUPPORT_EMAIL } from '@/lib/config';
 import { PageHero } from '@/components/marketing/page-hero';
+import { TermsHeroMockup } from '@/components/marketing/inner-page-hero-mockups';
 
 export const metadata: Metadata = {
   title: `Terms — ${BRAND_NAME}`,
@@ -38,6 +39,7 @@ export default function TermsPage() {
         title="Terms that keep the work clear"
         highlight="clear"
         description="The rules for using the platform, placing orders, reviewing edits, and receiving final files."
+        visual={<TermsHeroMockup />}
       />
 
       <section className="bg-white">
