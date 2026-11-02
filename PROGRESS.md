@@ -215,6 +215,13 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/sections/page-hero.tsx`, `app/(marketing)/services/[slug]/page.tsx`, `PROGRESS.md`.
 - Build and browser checks were not run per project instructions.
 
+## Task: Increase Use Case hero vertical spacing by 30%
+
+- Increased top and bottom padding in the shared Use Case hero component by 30% at mobile, small, and desktop breakpoints. All seven Use Case routes share this component.
+- Changed padding from 4.375rem/5rem/6.25rem to 5.6875rem/6.5rem/8.125rem. Content sizing and styling remain unchanged.
+- Files modified: `components/marketing/use-cases/use-case-hero.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
 ## Task: Increase service hero text left margin by 25%
 
 - Increased the service hero text column's left margin to 125% of its prior values: 15px on mobile, 20px at small breakpoints, and 25px on desktop.
