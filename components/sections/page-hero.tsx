@@ -452,7 +452,10 @@ export function PageHero({
           </div>
 
           <div
-            className={cn('animate-hero-fade-up min-w-0', visualClassName)}
+            className={cn(
+              'hero-mockup-glow animate-hero-fade-up min-w-0',
+              visualClassName
+            )}
             style={{ animationDelay: '0.2s' }}
           >
             {visual ?? <ProductMockup mockup={mockup ?? {}} />}

@@ -153,7 +153,7 @@ export function PageHero({
           </div>
           {visual ? (
             <div
-              className="animate-hero-fade-up"
+              className="hero-mockup-glow animate-hero-fade-up"
               style={{ animationDelay: '0.2s' }}
             >
               {visual}

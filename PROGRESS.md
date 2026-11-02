@@ -231,6 +231,19 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 - Files modified: `components/marketing/home/home-video-frame-motion.tsx`, `app/globals.css`, `PROGRESS.md`.
 - Build and two-direction desktop/mobile browser verification were not run because project instructions prohibit shell commands and server runs.
 
+## Task: Enlarge Use Case hero mockups by 14% on desktop
+
+- Scaled only the shared Use Case hero mockup images to 1.14 from the right edge at 1440px and wider. This keeps the image aligned to the desktop right edge without changing the left text column or tablet/mobile sizing.
+- Files modified: `components/marketing/use-cases/use-case-hero-visuals.tsx`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
+## Task: Add background glow behind non-home hero mockups
+
+- Added a soft purple, violet, magenta, and cyan radial glow behind the right-side visual in each shared non-homepage hero component. Applied only to the visual wrapper; mockup art and the homepage are untouched.
+- Reduced blur and opacity on mobile to keep the effect controlled.
+- Files modified: `components/sections/page-hero.tsx`, `components/marketing/page-hero.tsx`, `components/marketing/use-cases/use-case-hero.tsx`, `app/globals.css`, `PROGRESS.md`.
+- Build and browser checks were not run per project instructions.
+
 ## Task: Increase Use Case hero text left margin by 400%
 
 - Increased the total left offset for the Use Case hero text to four times the existing container gutter: 64px on mobile and 96px from the small breakpoint upward. The offset applies to text only; mockup position and page gutter remain unchanged.

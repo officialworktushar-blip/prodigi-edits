@@ -65,6 +65,34 @@
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-indigo;
   }
+
+  .hero-mockup-glow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .hero-mockup-glow::before {
+    position: absolute;
+    z-index: -1;
+    inset: 8% -5%;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse at 42% 42%, rgba(139, 92, 246, 0.36), transparent 56%),
+      radial-gradient(ellipse at 66% 58%, rgba(217, 70, 239, 0.24), transparent 58%),
+      radial-gradient(ellipse at 54% 70%, rgba(34, 211, 238, 0.24), transparent 58%);
+    filter: blur(34px);
+    opacity: 0.9;
+    content: '';
+    pointer-events: none;
+  }
+
+  @media (max-width: 767px) {
+    .hero-mockup-glow::before {
+      inset: 12% -3%;
+      filter: blur(24px);
+      opacity: 0.72;
+    }
+  }
 }
 
 @layer utilities {

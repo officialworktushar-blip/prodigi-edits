@@ -102,7 +102,7 @@ export function UseCaseHero({
               </Link>
             </div>
           </div>
-          <div className="use-case-hero-visual min-w-0 md:pl-1 lg:pl-0">
+          <div className="hero-mockup-glow use-case-hero-visual min-w-0 md:pl-1 lg:pl-0">
             {visual}
           </div>
         </div>

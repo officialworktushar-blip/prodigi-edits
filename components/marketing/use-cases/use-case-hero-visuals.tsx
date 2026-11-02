@@ -15,13 +15,13 @@ function UploadedMockup({
   alt: string;
 }) {
   return (
-    <div className="relative mx-auto w-full min-[1440px]:-mr-12 min-[1440px]:w-[calc(100%+3rem)]">
+    <div className="relative mx-auto w-full min-[1440px]:-mr-6 min-[1440px]:w-[calc(100%+1.5rem)]">
       <Image
         src={image}
         alt={alt}
         priority
         sizes="(max-width: 767px) 100vw, (max-width: 1439px) 52vw, 56vw"
-        className="block h-auto w-full object-contain"
+        className="block h-auto w-full object-contain min-[1440px]:origin-right min-[1440px]:scale-[1.14]"
       />
     </div>
   );
