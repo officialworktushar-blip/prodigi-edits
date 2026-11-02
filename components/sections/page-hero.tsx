@@ -362,7 +362,7 @@ export function PageHero({
 
       <div
         className={cn(
-          'relative mx-auto max-w-screen-1200 px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:pb-24 lg:pt-24',
+          'relative mx-auto max-w-screen-1200 px-4 pb-[5.2rem] pt-[5.2rem] sm:px-6 sm:pb-[6.5rem] sm:pt-[6.5rem] lg:px-8 lg:pb-[7.8rem] lg:pt-[7.8rem]',
           containerClassName
         )}
       >

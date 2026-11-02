@@ -77,7 +77,7 @@ export function UseCaseHero({
             'radial-gradient(ellipse at 70% 50%, rgba(0,180,220,.16), transparent 50%), radial-gradient(ellipse at 10% 90%, rgba(110,65,255,.2), transparent 45%)',
         }}
       />
-      <div className="relative mx-auto max-w-screen-1200 px-4 pb-14 pt-14 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8 lg:pb-20 lg:pt-20">
+      <div className="relative mx-auto max-w-screen-1200 px-4 pb-[4.55rem] pt-[4.55rem] sm:px-6 sm:pb-[5.2rem] sm:pt-[5.2rem] lg:px-8 lg:pb-[6.5rem] lg:pt-[6.5rem]">
         <div className="grid items-center gap-9 md:grid-cols-[0.96fr_1.04fr] md:gap-7 lg:grid-cols-[48fr_52fr] lg:gap-9 xl:gap-10">
           <div className="use-case-hero-copy min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">

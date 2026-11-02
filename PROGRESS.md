@@ -179,3 +179,16 @@ Created hero mockups for 10 pages (3 services + 7 use cases) with a shared dark 
 
 ### Anything left undone
 - Build and browser checks were not run; the project instructions prohibit shell commands and server runs.
+
+## Task: Increase inner-page hero vertical spacing
+
+### Files modified
+- `components/sections/page-hero.tsx` - Increased default top and bottom padding by 30% for inner pages using the shared section hero.
+- `app/(marketing)/services/[slug]/page.tsx` - Set service hero top and bottom padding to 10% above the original values.
+- `components/marketing/page-hero.tsx` - Increased compact and default legal/case-study hero padding by 30%.
+- `components/marketing/use-cases/use-case-hero.tsx` - Increased use case hero padding by 30%.
+- `PROGRESS.md` - Recorded this task.
+
+### Anything left undone
+- Build and browser checks were not run; the project instructions prohibit shell commands and server runs.
+- Homepage hero remains unchanged.

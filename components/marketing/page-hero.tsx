@@ -65,8 +65,8 @@ export function PageHero({
 }: PageHeroProps) {
   const padding =
     size === 'compact'
-      ? 'pt-12 pb-12 sm:pt-14 sm:pb-14'
-      : 'pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24';
+      ? 'pt-[3.9rem] pb-[3.9rem] sm:pt-[4.55rem] sm:pb-[4.55rem]'
+      : 'pt-[5.2rem] pb-[5.2rem] sm:pt-[6.5rem] sm:pb-[6.5rem] lg:pt-[7.8rem] lg:pb-[7.8rem]';
 
   return (
     <section
